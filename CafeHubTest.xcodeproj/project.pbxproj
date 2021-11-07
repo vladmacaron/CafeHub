@@ -9,21 +9,29 @@
 /* Begin PBXBuildFile section */
 		864592272738059100222B6D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864592262738059100222B6D /* AppDelegate.swift */; };
 		864592292738059100222B6D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864592282738059100222B6D /* SceneDelegate.swift */; };
-		8645922B2738059100222B6D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8645922A2738059100222B6D /* ViewController.swift */; };
 		8645922E2738059100222B6D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8645922C2738059100222B6D /* Main.storyboard */; };
 		864592302738059300222B6D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8645922F2738059300222B6D /* Assets.xcassets */; };
 		864592332738059300222B6D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 864592312738059300222B6D /* LaunchScreen.storyboard */; };
+		8645923B27381E3F00222B6D /* HomeScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8645923A27381E3F00222B6D /* HomeScreenController.swift */; };
+		8645923E27382A3F00222B6D /* CafeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8645923D27382A3F00222B6D /* CafeModel.swift */; };
+		8645924227382CDF00222B6D /* CollectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8645924027382CDF00222B6D /* CollectionTableViewCell.swift */; };
+		86459246273834BB00222B6D /* IndexedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86459244273834BB00222B6D /* IndexedCollectionViewCell.swift */; };
+		86459247273834BB00222B6D /* IndexedCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86459245273834BB00222B6D /* IndexedCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		864592232738059100222B6D /* CafeHubTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CafeHubTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		864592262738059100222B6D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		864592282738059100222B6D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		8645922A2738059100222B6D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8645922D2738059100222B6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8645922F2738059300222B6D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		864592322738059300222B6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		864592342738059300222B6D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8645923A27381E3F00222B6D /* HomeScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenController.swift; sourceTree = "<group>"; };
+		8645923D27382A3F00222B6D /* CafeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeModel.swift; sourceTree = "<group>"; };
+		8645924027382CDF00222B6D /* CollectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionTableViewCell.swift; sourceTree = "<group>"; };
+		86459244273834BB00222B6D /* IndexedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexedCollectionViewCell.swift; sourceTree = "<group>"; };
+		86459245273834BB00222B6D /* IndexedCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IndexedCollectionViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +64,35 @@
 		864592252738059100222B6D /* CafeHubTest */ = {
 			isa = PBXGroup;
 			children = (
+				8645923F27382C9400222B6D /* Cells */,
+				8645923C27382A2F00222B6D /* Models */,
 				864592262738059100222B6D /* AppDelegate.swift */,
 				864592282738059100222B6D /* SceneDelegate.swift */,
-				8645922A2738059100222B6D /* ViewController.swift */,
+				8645923A27381E3F00222B6D /* HomeScreenController.swift */,
 				8645922C2738059100222B6D /* Main.storyboard */,
 				8645922F2738059300222B6D /* Assets.xcassets */,
 				864592312738059300222B6D /* LaunchScreen.storyboard */,
 				864592342738059300222B6D /* Info.plist */,
 			);
 			path = CafeHubTest;
+			sourceTree = "<group>";
+		};
+		8645923C27382A2F00222B6D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8645923D27382A3F00222B6D /* CafeModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		8645923F27382C9400222B6D /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				8645924027382CDF00222B6D /* CollectionTableViewCell.swift */,
+				86459244273834BB00222B6D /* IndexedCollectionViewCell.swift */,
+				86459245273834BB00222B6D /* IndexedCollectionViewCell.xib */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,6 +155,7 @@
 			files = (
 				864592332738059300222B6D /* LaunchScreen.storyboard in Resources */,
 				864592302738059300222B6D /* Assets.xcassets in Resources */,
+				86459247273834BB00222B6D /* IndexedCollectionViewCell.xib in Resources */,
 				8645922E2738059100222B6D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -138,9 +167,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8645922B2738059100222B6D /* ViewController.swift in Sources */,
+				8645924227382CDF00222B6D /* CollectionTableViewCell.swift in Sources */,
 				864592272738059100222B6D /* AppDelegate.swift in Sources */,
 				864592292738059100222B6D /* SceneDelegate.swift in Sources */,
+				8645923E27382A3F00222B6D /* CafeModel.swift in Sources */,
+				86459246273834BB00222B6D /* IndexedCollectionViewCell.swift in Sources */,
+				8645923B27381E3F00222B6D /* HomeScreenController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
