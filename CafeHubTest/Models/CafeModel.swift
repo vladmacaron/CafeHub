@@ -6,9 +6,22 @@
 //
 
 import Foundation
+import UIKit
 
-struct Cafe {
+struct Cafe: Codable {
     let name: String
     let address: String
     let zip: String
+    let image: String
+    let type: String
+    let rating: Double
+    //let description: String
+    //let openingHours: String
+    
+    //TODO: image downloader from link
+    
+    //TODO: func for fetching rating from Google Maps?
+    
+    //TODO: function for calculating "match"
+    //func calculateMatch(input??) -> Int {}
 }
