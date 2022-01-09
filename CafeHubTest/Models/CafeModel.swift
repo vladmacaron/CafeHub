@@ -12,9 +12,9 @@ struct Cafe: Codable {
     let name: String
     let address: String
     let zip: String
-    let image: String
-    let type: String
-    let rating: Double
+    let imageLink: String
+    let type: [String]
+    //let rating: Double
     //let description: String
     //let openingHours: String
     

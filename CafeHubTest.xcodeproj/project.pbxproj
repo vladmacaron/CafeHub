@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1473055837596C646568915F /* Pods_CafeHubTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 022D22E5B7EDEF38B1CF4493 /* Pods_CafeHubTest.framework */; };
 		864592272738059100222B6D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864592262738059100222B6D /* AppDelegate.swift */; };
 		864592292738059100222B6D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864592282738059100222B6D /* SceneDelegate.swift */; };
 		8645922E2738059100222B6D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8645922C2738059100222B6D /* Main.storyboard */; };
@@ -23,6 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		022D22E5B7EDEF38B1CF4493 /* Pods_CafeHubTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CafeHubTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		065A571227B406A8A53F0B90 /* Pods-CafeHubTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CafeHubTest.release.xcconfig"; path = "Target Support Files/Pods-CafeHubTest/Pods-CafeHubTest.release.xcconfig"; sourceTree = "<group>"; };
+		7AA27D4E9AE18D59E468B055 /* Pods-CafeHubTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CafeHubTest.debug.xcconfig"; path = "Target Support Files/Pods-CafeHubTest/Pods-CafeHubTest.debug.xcconfig"; sourceTree = "<group>"; };
 		864592232738059100222B6D /* CafeHubTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CafeHubTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		864592262738059100222B6D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		864592282738059100222B6D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,17 +49,38 @@
 			files = (
 				8651D7D6278A0B0B0004FE8D /* FirebaseAuth in Frameworks */,
 				8651D7D8278A0B0B0004FE8D /* FirebaseFirestore in Frameworks */,
+				1473055837596C646568915F /* Pods_CafeHubTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5F27CD72C85EFC22228C7FD0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				022D22E5B7EDEF38B1CF4493 /* Pods_CafeHubTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5FB507DAE86B194E0290B22F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7AA27D4E9AE18D59E468B055 /* Pods-CafeHubTest.debug.xcconfig */,
+				065A571227B406A8A53F0B90 /* Pods-CafeHubTest.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		8645921A2738059100222B6D = {
 			isa = PBXGroup;
 			children = (
 				864592252738059100222B6D /* CafeHubTest */,
 				864592242738059100222B6D /* Products */,
+				5FB507DAE86B194E0290B22F /* Pods */,
+				5F27CD72C85EFC22228C7FD0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -117,9 +142,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 864592372738059300222B6D /* Build configuration list for PBXNativeTarget "CafeHubTest" */;
 			buildPhases = (
+				B7A57B84BACA867841FF36A3 /* [CP] Check Pods Manifest.lock */,
 				8645921F2738059100222B6D /* Sources */,
 				864592202738059100222B6D /* Frameworks */,
 				864592212738059100222B6D /* Resources */,
+				164D880C03CC69F50B1A3C45 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -184,6 +211,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		164D880C03CC69F50B1A3C45 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CafeHubTest/Pods-CafeHubTest-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CafeHubTest/Pods-CafeHubTest-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CafeHubTest/Pods-CafeHubTest-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B7A57B84BACA867841FF36A3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CafeHubTest-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8645921F2738059100222B6D /* Sources */ = {
@@ -339,6 +408,7 @@
 		};
 		864592382738059300222B6D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AA27D4E9AE18D59E468B055 /* Pods-CafeHubTest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -367,6 +437,7 @@
 		};
 		864592392738059300222B6D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 065A571227B406A8A53F0B90 /* Pods-CafeHubTest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

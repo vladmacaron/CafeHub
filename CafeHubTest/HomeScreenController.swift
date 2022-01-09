@@ -6,27 +6,31 @@
 //
 
 import UIKit
+import Firebase
 
 class HomeScreenController: UIViewController {
 
-    let cafes: [[Cafe]] = [[Cafe(name: "Name1", address: "address street one city name", zip: "1010", image: "Cafe_Menta_index", type: "Asian", rating: 4.1),
-                            Cafe(name: "Name2", address: "address street one city name", zip: "1010", image: "Cafe_Menta_index", type: "Asian", rating: 3.5),
-                            Cafe(name: "Name3", address: "address street one city name", zip: "1010", image: "Cafe_Menta_index", type: "Asian", rating: 4.1),
-                            Cafe(name: "Name4", address: "address street one city name", zip: "1010", image: "Cafe_Menta_index", type: "Russian", rating: 4.1),
-                            Cafe(name: "Name5", address: "address street one city name", zip: "1010", image: "Cafe_Menta_index", type: "Asian", rating: 4.1),
-                            Cafe(name: "Name6", address: "address street one city name", zip: "1010", image: "Cafe_Menta_index", type: "Asian", rating: 4.1)],
-                           [Cafe(name: "differentName1", address: "address street one city name", zip: "1010", image: "Cafe_Menta_index", type: "Asian", rating: 4.1),
-                            Cafe(name: "differentName2", address: "address street one city name", zip: "1010", image: "Cafe_Menta_index", type: "Asian", rating: 4.1),
-                            Cafe(name: "differentName3", address: "address street one city name", zip: "1010", image: "Cafe_Menta_index", type: "Asian", rating: 4.1)]]
+    let db = Firestore.firestore()
+    var places: [[Cafe]] = [[]]
+    var trendingList: [String] = []
+    
+    let cafes: [[Cafe]] = [[Cafe(name: "Name1", address: "address street one city name", zip: "1010", imageLink: "Cafe_Menta_index", type: ["Asian"]),
+                            Cafe(name: "Name1", address: "address street one city name", zip: "1010", imageLink: "Cafe_Menta_index", type: ["Asian"]),
+                            Cafe(name: "Name1", address: "address street one city name", zip: "1010", imageLink: "Cafe_Menta_index", type: ["Asian"]),
+                            Cafe(name: "Name1", address: "address street one city name", zip: "1010", imageLink: "Cafe_Menta_index", type: ["Asian"]),
+                            Cafe(name: "Name1", address: "address street one city name", zip: "1010", imageLink: "Cafe_Menta_index", type: ["Asian"])],
+                           [Cafe(name: "Name1", address: "address street one city name", zip: "1010", imageLink: "Cafe_Menta_index", type: ["Asian"]),
+                            Cafe(name: "Name1", address: "address street one city name", zip: "1010", imageLink: "Cafe_Menta_index", type: ["Asian"]),
+                            Cafe(name: "Name1", address: "address street one city name", zip: "1010", imageLink: "Cafe_Menta_index", type: ["Asian"])]]
     
     static let tableCellID: String = "tableViewCellID_section_#"
     @IBOutlet weak var tableView: UITableView!
     
-    let numberOfSections: Int = 2
+    //let numberOfSections: Int = 2
     //let numberOfCollectionsForRow: Int = 1
     let numberOfCollectionItems: Int = 20
     
-    /// Set true to enable UICollectionViews scroll pagination
+    // Set true to enable UICollectionViews scroll pagination
     var paginationEnabled: Bool = true
     
     //parameters for FlowLayout
@@ -40,6 +44,53 @@ class HomeScreenController: UIViewController {
 
         tableView.dataSource = self
         tableView.delegate = self
+        //self.loadData()
+        
+        self.loadTrendingPlaces()
+    }
+    
+    func loadTrendingPlaces() {
+        let trendingList = db.collection("categories").document("trending")
+        trendingList.getDocument { document, err in
+            if let document = document, document.exists {
+                let trendingPlaces = document.data()!["placesID"] as? [Any]
+                for place in trendingPlaces! {
+                    self.trendingList.append(place as! String)
+                }
+                self.db.collection("places").whereField(FieldPath.documentID(), in: self.trendingList).getDocuments { querySnapshot, err in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        for document in querySnapshot!.documents {
+                            let place = document.data()
+                            self.places[0].append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String]))
+                            DispatchQueue.main.async {
+                                self.tableView.reloadData()
+                            }
+                        }
+                    }
+                }
+                
+            } else {
+                print("Trending document does not exist")
+            }
+        }
+    }
+    
+    func loadData() {
+        db.collection("places").limit(to: 10).getDocuments { (querySnapshot, err) in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        for document in querySnapshot!.documents {
+                            let place = document.data()
+                            self.places[0].append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String]))
+                            DispatchQueue.main.async {
+                                self.tableView.reloadData()
+                            }
+                        }
+                    }
+                }
     }
     
     /*
@@ -57,7 +108,8 @@ class HomeScreenController: UIViewController {
 extension HomeScreenController: UITableViewDataSource {
     
     func numberOfSections(in _: UITableView) -> Int {
-        return numberOfSections
+        //return numberOfSections
+        return cafes.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -100,11 +152,13 @@ extension HomeScreenController: UITableViewDataSource {
         case 0:
             return "Trending:"
         case 1:
-            return "Recently Visited:"
+            return "You may like:"
         case 2:
+            return "Recently Visited:"
+        case 3:
             return "Saved Places:"
         default:
-            return "Default Section (FIX)"
+            return "ERROR"
         }
     }
 }
@@ -135,11 +189,8 @@ extension HomeScreenController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else { return }
         header.textLabel?.textColor = UIColor.black
-        //header.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        //header.textLabel?.font = UIFont.systemFont(ofSize: 18)
         header.textLabel?.font = UIFont.systemFont(ofSize: 22, weight: .heavy)
         header.textLabel?.frame = header.bounds
-        //header.textLabel?.textAlignment = .center
     }
     
 }
@@ -173,8 +224,12 @@ extension HomeScreenController: UICollectionViewDataSource {
         cell.imageView.backgroundColor = .yellow
         cell.titleLabel.text = cafe.name
         cell.zipLabel.text = cafe.zip
-        cell.typeLabel.text = cafe.type
-        cell.imageView.image = UIImage(named: cafe.image)
+        
+        //adding types as tags
+        cell.tagListView.removeAllTags()
+        cell.tagListView.addTags(cafe.type)
+        
+        cell.imageView.image = UIImage(named: cafe.imageLink)
         
         //TODO: find correct color for titles dependant in the image
         cell.titleLabel.textColor = .tertiarySystemBackground

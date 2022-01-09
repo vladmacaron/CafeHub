@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import TagListView
 
 class IndexedCollectionViewCell: UICollectionViewCell {
 
@@ -14,14 +15,15 @@ class IndexedCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var zipLabel: UILabel!
     @IBOutlet weak var ratingLabel: UILabel!
-    @IBOutlet weak var typeLabel: UILabel!
     @IBOutlet weak var matchLabel: UILabel!
+    @IBOutlet weak var tagListView: TagListView!
     @IBOutlet weak var imageView: UIImageView!
+    //var types: [String] = []
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        //imageView.image = UIImage(named: "Cafe_Menta_index")
+        //tagListView.addTags(types)
         imageView.layer.cornerRadius = 10
     }
 
