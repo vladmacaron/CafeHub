@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseStorage
 import UIKit
 
 struct Cafe: Codable {
@@ -14,13 +15,14 @@ struct Cafe: Codable {
     let zip: String
     let imageLink: String
     let type: [String]
-    //let rating: Double
+    let rating: Double
     //let description: String
     //let openingHours: String
     
-    //TODO: image downloader from link
-    
     //TODO: func for fetching rating from Google Maps?
+    func getRating() -> Int {
+        return name.hashValue
+    }
     
     //TODO: function for calculating "match"
     //func calculateMatch(input??) -> Int {}

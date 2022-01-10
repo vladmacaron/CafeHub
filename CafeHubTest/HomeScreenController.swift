@@ -6,22 +6,17 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseFirestore
+import FirebaseStorage
+import TagListView
+import SDWebImage
 
 class HomeScreenController: UIViewController {
-
     let db = Firestore.firestore()
-    var places: [[Cafe]] = [[]]
+    let storage = Storage.storage()
+
+    var places: [[Cafe]] = [[], []]
     var trendingList: [String] = []
-    
-    let cafes: [[Cafe]] = [[Cafe(name: "Name1", address: "address street one city name", zip: "1010", imageLink: "Cafe_Menta_index", type: ["Asian"]),
-                            Cafe(name: "Name1", address: "address street one city name", zip: "1010", imageLink: "Cafe_Menta_index", type: ["Asian"]),
-                            Cafe(name: "Name1", address: "address street one city name", zip: "1010", imageLink: "Cafe_Menta_index", type: ["Asian"]),
-                            Cafe(name: "Name1", address: "address street one city name", zip: "1010", imageLink: "Cafe_Menta_index", type: ["Asian"]),
-                            Cafe(name: "Name1", address: "address street one city name", zip: "1010", imageLink: "Cafe_Menta_index", type: ["Asian"])],
-                           [Cafe(name: "Name1", address: "address street one city name", zip: "1010", imageLink: "Cafe_Menta_index", type: ["Asian"]),
-                            Cafe(name: "Name1", address: "address street one city name", zip: "1010", imageLink: "Cafe_Menta_index", type: ["Asian"]),
-                            Cafe(name: "Name1", address: "address street one city name", zip: "1010", imageLink: "Cafe_Menta_index", type: ["Asian"])]]
     
     static let tableCellID: String = "tableViewCellID_section_#"
     @IBOutlet weak var tableView: UITableView!
@@ -41,12 +36,13 @@ class HomeScreenController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         tableView.dataSource = self
         tableView.delegate = self
         //self.loadData()
         
         self.loadTrendingPlaces()
+        self.loadData()
     }
     
     func loadTrendingPlaces() {
@@ -63,7 +59,7 @@ class HomeScreenController: UIViewController {
                     } else {
                         for document in querySnapshot!.documents {
                             let place = document.data()
-                            self.places[0].append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String]))
+                            self.places[0].append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double))
                             DispatchQueue.main.async {
                                 self.tableView.reloadData()
                             }
@@ -84,7 +80,7 @@ class HomeScreenController: UIViewController {
                     } else {
                         for document in querySnapshot!.documents {
                             let place = document.data()
-                            self.places[0].append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String]))
+                            self.places[1].append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double))
                             DispatchQueue.main.async {
                                 self.tableView.reloadData()
                             }
@@ -109,7 +105,7 @@ extension HomeScreenController: UITableViewDataSource {
     
     func numberOfSections(in _: UITableView) -> Int {
         //return numberOfSections
-        return cafes.count
+        return places.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -206,7 +202,7 @@ extension HomeScreenController: UICollectionViewDataSource {
         guard let indexedCollectionView: IndexedCollectionView = collectionView as? IndexedCollectionView else {
             fatalError("UICollectionView must be of GLIndexedCollectionView type")
         }
-        return cafes[indexedCollectionView.indexPath.section].count
+        return places[indexedCollectionView.indexPath.section].count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -218,24 +214,36 @@ extension HomeScreenController: UICollectionViewDataSource {
             fatalError("UICollectionView must be of GLIndexedCollectionView type")
         }
         
-        let cafe = cafes[indexedCollectionView.indexPath.section][indexPath.row]
+        let cafe = places[indexedCollectionView.indexPath.section][indexPath.row]
+        
+        let imageRef = storage.reference(forURL: cafe.imageLink)
+        imageRef.downloadURL { url, err in
+            if let err = err {
+                print("Failed generating url: \(err)")
+            } else {
+                cell.imageView.sd_setImage(with: url)
+            }
+        }
+        
         
         //TODO: add every label
-        cell.imageView.backgroundColor = .yellow
+        cell.imageView.backgroundColor = .gray
         cell.titleLabel.text = cafe.name
         cell.zipLabel.text = cafe.zip
         
-        //adding types as tags
-        cell.tagListView.removeAllTags()
-        cell.tagListView.addTags(cafe.type)
+        /*for index in 0...1 {
+            cell.tagListView.addTag(cafe.type[index])
+        }
         
-        cell.imageView.image = UIImage(named: cafe.imageLink)
-        
-        //TODO: find correct color for titles dependant in the image
-        cell.titleLabel.textColor = .tertiarySystemBackground
+        if(cell.tagListView.intrinsicContentSize.height>20) {
+            cell.tagListView.removeTag(cafe.type[0])
+        }*/
+        cell.tagListView.addTag(cafe.type[0])
+        cell.ratingView.rating = cafe.rating
         
         return cell
     }
+    
 }
 
 extension HomeScreenController: UICollectionViewDelegateFlowLayout {

@@ -22,30 +22,56 @@
                         <rect key="frame" x="0.0" y="0.0" width="448" height="225"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="27C-1N-dcq">
-                                <rect key="frame" x="0.0" y="0.0" width="448" height="160"/>
+                                <rect key="frame" x="0.0" y="0.0" width="448" height="194"/>
                             </imageView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="bottom" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Ohc-UG-eHm">
-                                <rect key="frame" x="10" y="133" width="428" height="17"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Ohc-UG-eHm">
+                                <rect key="frame" x="10" y="134" width="428" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jiU-1B-zuo">
-                                        <rect key="frame" x="0.0" y="0.0" width="32.5" height="17"/>
+                                        <rect key="frame" x="0.0" y="16.5" width="32.5" height="17"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rating" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3BC-LN-rnf">
-                                        <rect key="frame" x="386.5" y="0.0" width="41.5" height="17"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rP7-Ar-h9k" customClass="CosmosView" customModule="Cosmos">
+                                        <rect key="frame" x="42.5" y="0.0" width="385.5" height="50"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="rating">
+                                                <real key="value" value="3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="totalStars">
+                                                <integer key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="starSize">
+                                                <real key="value" value="15"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="filledColor">
+                                                <color key="value" name="AccentColor"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="fillMode">
+                                                <integer key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="emptyBorderColor">
+                                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="filledBorderColor">
+                                                <color key="value" name="AccentColor"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="emptyColor">
+                                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="starMargin">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
                                 </subviews>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="8WU-23-QAG">
-                                <rect key="frame" x="10" y="165" width="428" height="50"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="8WU-23-QAG">
+                                <rect key="frame" x="10" y="199" width="428" height="16"/>
                                 <subviews>
-                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VXr-Ns-IhB" customClass="TagListView" customModule="TagListView">
-                                        <rect key="frame" x="0.0" y="0.0" width="194" height="50"/>
+                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VXr-Ns-IhB" customClass="TagListView" customModule="TagListView">
+                                        <rect key="frame" x="0.0" y="0.0" width="354" height="16"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -57,16 +83,16 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="1Z3-s9-G1O">
-                                        <rect key="frame" x="364" y="0.0" width="64" height="50"/>
+                                        <rect key="frame" x="364" y="0.0" width="64" height="16"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zip" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EQI-B6-FMu">
-                                                <rect key="frame" x="0.0" y="0.0" width="18.5" height="50"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="18.5" height="16"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Match" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vuE-i7-YLb">
-                                                <rect key="frame" x="28.5" y="0.0" width="35.5" height="50"/>
+                                                <rect key="frame" x="28.5" y="0.0" width="35.5" height="16"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -102,8 +128,9 @@
             <size key="customSize" width="450" height="225"/>
             <connections>
                 <outlet property="imageView" destination="27C-1N-dcq" id="sbg-f7-s1c"/>
+                <outlet property="mainStackView" destination="Ohc-UG-eHm" id="5F3-Hp-dkp"/>
                 <outlet property="matchLabel" destination="vuE-i7-YLb" id="8Fg-dm-gjK"/>
-                <outlet property="ratingLabel" destination="3BC-LN-rnf" id="wiu-Ve-h97"/>
+                <outlet property="ratingView" destination="rP7-Ar-h9k" id="mxH-Zk-gOz"/>
                 <outlet property="tagListView" destination="VXr-Ns-IhB" id="EYH-yp-43c"/>
                 <outlet property="titleLabel" destination="jiU-1B-zuo" id="ZWT-Aj-ybk"/>
                 <outlet property="view" destination="dLT-MQ-uoB" id="zlM-r8-zii"/>
@@ -112,6 +139,11 @@
             <point key="canvasLocation" x="333.33333333333337" y="74.665178571428569"/>
         </collectionViewCell>
     </objects>
+    <designables>
+        <designable name="VXr-Ns-IhB">
+            <size key="intrinsicContentSize" width="354" height="16"/>
+        </designable>
+    </designables>
     <resources>
         <namedColor name="AccentColor">
             <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -6,6 +6,8 @@ target 'CafeHubTest' do
   use_frameworks!
 
   # Pods for CafeHubTest
-  pod 'TagListView', '~> 1.0'
+  pod 'TagListView'
+  pod 'SDWebImage'
+  pod 'Cosmos'
 
 end
