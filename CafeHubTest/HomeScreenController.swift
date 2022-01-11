@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 import FirebaseFirestore
 import FirebaseStorage
 import TagListView
@@ -42,7 +43,7 @@ class HomeScreenController: UIViewController {
         //self.loadData()
         
         self.loadTrendingPlaces()
-        self.loadData()
+        self.loadPlaces()
     }
     
     func loadTrendingPlaces() {
@@ -73,20 +74,34 @@ class HomeScreenController: UIViewController {
         }
     }
     
-    func loadData() {
+    func loadPlaces() {
         db.collection("places").limit(to: 10).getDocuments { (querySnapshot, err) in
-                    if let err = err {
-                        print("Error getting documents: \(err)")
-                    } else {
-                        for document in querySnapshot!.documents {
-                            let place = document.data()
-                            self.places[1].append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double))
-                            DispatchQueue.main.async {
-                                self.tableView.reloadData()
-                            }
-                        }
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    let place = document.data()
+                    self.places[1].append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double))
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
                     }
                 }
+            }
+        }
+    }
+
+    func loadSavedPlaces() {
+        if let savedPlaces = StorageManager.sharedManager.fetchAllSavedPlaces() {
+            //getting only first few places not to clutter home screen
+            let tempArray = Array(savedPlaces.prefix(10))
+            places.append(tempArray)
+        }
+    }
+    
+    //TODO: move to another ViewController when the button is ready
+    func savePlace(place: Cafe) {
+        StorageManager.sharedManager.addPlace(name: place.name, address: place.address, zip: place.zip,
+                                              imageLink: place.imageLink, rating: place.rating, type: place.type)
     }
     
     /*
@@ -104,7 +119,6 @@ class HomeScreenController: UIViewController {
 extension HomeScreenController: UITableViewDataSource {
     
     func numberOfSections(in _: UITableView) -> Int {
-        //return numberOfSections
         return places.count
     }
     
@@ -150,9 +164,9 @@ extension HomeScreenController: UITableViewDataSource {
         case 1:
             return "You may like:"
         case 2:
-            return "Recently Visited:"
-        case 3:
             return "Saved Places:"
+        case 3:
+            return "Recently Visited:"
         default:
             return "ERROR"
         }
@@ -224,7 +238,6 @@ extension HomeScreenController: UICollectionViewDataSource {
                 cell.imageView.sd_setImage(with: url)
             }
         }
-        
         
         //TODO: add every label
         cell.imageView.backgroundColor = .gray
