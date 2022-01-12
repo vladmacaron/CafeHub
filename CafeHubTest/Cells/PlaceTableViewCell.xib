@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="generalTableViewCell" rowHeight="281" id="KGk-i7-Jjw" customClass="PlaceTableViewCell" customModule="CafeHubTest" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="668" height="281"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="668" height="281"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="O76-v3-l6v">
+                        <rect key="frame" x="10" y="0.0" width="648" height="205"/>
+                    </imageView>
+                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="c4N-dM-LGy">
+                        <rect key="frame" x="30" y="178" width="608" height="17"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CGf-JG-eSu">
+                                <rect key="frame" x="0.0" y="0.0" width="608" height="17"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="IpX-MR-X72">
+                        <rect key="frame" x="30" y="210" width="608" height="50"/>
+                        <subviews>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tnu-o5-0hk" customClass="TagListView" customModule="TagListView">
+                                <rect key="frame" x="0.0" y="0.0" width="579.5" height="50"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="tagBackgroundColor">
+                                        <color key="value" name="AccentColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="gsj-fj-oln">
+                                <rect key="frame" x="589.5" y="0.0" width="18.5" height="50"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zip" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s6a-aX-wrQ">
+                                        <rect key="frame" x="0.0" y="0.0" width="18.5" height="50"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailingMargin" secondItem="c4N-dM-LGy" secondAttribute="trailing" constant="10" id="22M-Yd-ET7"/>
+                    <constraint firstAttribute="trailing" secondItem="O76-v3-l6v" secondAttribute="trailing" constant="10" id="KU7-ad-X7l"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="IpX-MR-X72" secondAttribute="trailing" constant="10" id="VOc-pY-iqO"/>
+                    <constraint firstItem="c4N-dM-LGy" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="bNm-e9-wZw"/>
+                    <constraint firstItem="O76-v3-l6v" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="cwl-rY-oAU"/>
+                    <constraint firstItem="IpX-MR-X72" firstAttribute="top" secondItem="O76-v3-l6v" secondAttribute="bottom" constant="5" id="fbP-Hp-gZC"/>
+                    <constraint firstItem="O76-v3-l6v" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="iPq-Ka-IRO"/>
+                    <constraint firstItem="IpX-MR-X72" firstAttribute="top" secondItem="c4N-dM-LGy" secondAttribute="bottom" constant="15" id="lbJ-ab-A3m"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="IpX-MR-X72" secondAttribute="bottom" constant="10" id="sFz-DK-G5V"/>
+                    <constraint firstItem="IpX-MR-X72" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="sVe-iX-aPI"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="placeImage" destination="O76-v3-l6v" id="Q9m-vv-HOr"/>
+                <outlet property="tagList" destination="Tnu-o5-0hk" id="ySZ-zG-ygQ"/>
+                <outlet property="titleLabel" destination="CGf-JG-eSu" id="wKp-Ir-9fs"/>
+                <outlet property="zipLabel" destination="s6a-aX-wrQ" id="d1l-S1-m0O"/>
+            </connections>
+            <point key="canvasLocation" x="197.10144927536234" y="-46.540178571428569"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <namedColor name="AccentColor">
+            <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

@@ -17,7 +17,9 @@ class ConciergeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         if LandscapeManager.shared.isFirstLaunch {
             performSegue(withIdentifier: "toOnboarding", sender: nil)
-            LandscapeManager.shared.isFirstLaunch = true
+            //LandscapeManager.shared.isFirstLaunch = true
+            //   TESTING
+            LandscapeManager.shared.isFirstLaunch = false
         } else {
             performSegue(withIdentifier: "toMain", sender: nil)
         }

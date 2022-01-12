@@ -8,6 +8,7 @@
 import UIKit
 import TagListView
 import Cosmos
+import SDWebImage
 
 class IndexedCollectionViewCell: UICollectionViewCell {
 
@@ -43,5 +44,6 @@ class IndexedCollectionViewCell: UICollectionViewCell {
 
     override func prepareForReuse() {
         tagListView.removeAllTags()
+        imageView.sd_cancelCurrentImageLoad()
     }
 }

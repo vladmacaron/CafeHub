@@ -22,19 +22,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="448" height="225"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="27C-1N-dcq">
-                                <rect key="frame" x="0.0" y="0.0" width="448" height="194"/>
+                                <rect key="frame" x="0.0" y="0.0" width="448" height="160"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Ohc-UG-eHm">
-                                <rect key="frame" x="10" y="134" width="428" height="50"/>
+                                <rect key="frame" x="10" y="100" width="428" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jiU-1B-zuo">
-                                        <rect key="frame" x="0.0" y="16.5" width="32.5" height="17"/>
+                                        <rect key="frame" x="0.0" y="16.5" width="33" height="17"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rP7-Ar-h9k" customClass="CosmosView" customModule="Cosmos">
-                                        <rect key="frame" x="42.5" y="0.0" width="385.5" height="50"/>
+                                        <rect key="frame" x="43" y="0.0" width="385" height="50"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="rating">
                                                 <real key="value" value="3"/>
@@ -68,10 +68,10 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="8WU-23-QAG">
-                                <rect key="frame" x="10" y="199" width="428" height="16"/>
+                                <rect key="frame" x="10" y="165" width="428" height="50"/>
                                 <subviews>
                                     <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VXr-Ns-IhB" customClass="TagListView" customModule="TagListView">
-                                        <rect key="frame" x="0.0" y="0.0" width="354" height="16"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="354" height="50"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -83,16 +83,16 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="1Z3-s9-G1O">
-                                        <rect key="frame" x="364" y="0.0" width="64" height="16"/>
+                                        <rect key="frame" x="364" y="0.0" width="64" height="50"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zip" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EQI-B6-FMu">
-                                                <rect key="frame" x="0.0" y="0.0" width="18.5" height="16"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="18.5" height="50"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Match" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vuE-i7-YLb">
-                                                <rect key="frame" x="28.5" y="0.0" width="35.5" height="16"/>
+                                                <rect key="frame" x="28.5" y="0.0" width="35.5" height="50"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -139,11 +139,6 @@
             <point key="canvasLocation" x="333.33333333333337" y="74.665178571428569"/>
         </collectionViewCell>
     </objects>
-    <designables>
-        <designable name="VXr-Ns-IhB">
-            <size key="intrinsicContentSize" width="354" height="16"/>
-        </designable>
-    </designables>
     <resources>
         <namedColor name="AccentColor">
             <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

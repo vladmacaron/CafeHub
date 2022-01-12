@@ -35,6 +35,8 @@
 		8651D7FC278CA2DD0004FE8D /* ThirdOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8651D7FB278CA2DD0004FE8D /* ThirdOnboardingViewController.swift */; };
 		8651D7FF278DECB60004FE8D /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8651D7FE278DECB50004FE8D /* StorageManager.swift */; };
 		8651D802278DED040004FE8D /* Places.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8651D800278DED040004FE8D /* Places.xcdatamodeld */; };
+		8651D805278F1A8A0004FE8D /* PlaceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8651D803278F1A8A0004FE8D /* PlaceTableViewCell.swift */; };
+		8651D806278F1A8A0004FE8D /* PlaceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8651D804278F1A8A0004FE8D /* PlaceTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +66,8 @@
 		8651D7FB278CA2DD0004FE8D /* ThirdOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdOnboardingViewController.swift; sourceTree = "<group>"; };
 		8651D7FE278DECB50004FE8D /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		8651D801278DED040004FE8D /* Places.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Places.xcdatamodel; sourceTree = "<group>"; };
+		8651D803278F1A8A0004FE8D /* PlaceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTableViewCell.swift; sourceTree = "<group>"; };
+		8651D804278F1A8A0004FE8D /* PlaceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +158,8 @@
 				8645924027382CDF00222B6D /* CollectionTableViewCell.swift */,
 				86459244273834BB00222B6D /* IndexedCollectionViewCell.swift */,
 				86459245273834BB00222B6D /* IndexedCollectionViewCell.xib */,
+				8651D803278F1A8A0004FE8D /* PlaceTableViewCell.swift */,
+				8651D804278F1A8A0004FE8D /* PlaceTableViewCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -259,6 +265,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8651D806278F1A8A0004FE8D /* PlaceTableViewCell.xib in Resources */,
 				864592332738059300222B6D /* LaunchScreen.storyboard in Resources */,
 				864592302738059300222B6D /* Assets.xcassets in Resources */,
 				8651D7D3278A06840004FE8D /* GoogleService-Info.plist in Resources */,
@@ -328,6 +335,7 @@
 				8651D7FC278CA2DD0004FE8D /* ThirdOnboardingViewController.swift in Sources */,
 				8651D7EE278C98330004FE8D /* OnboardingPageViewController.swift in Sources */,
 				8645923B27381E3F00222B6D /* HomeScreenController.swift in Sources */,
+				8651D805278F1A8A0004FE8D /* PlaceTableViewCell.swift in Sources */,
 				8651D802278DED040004FE8D /* Places.xcdatamodeld in Sources */,
 				8651D7F2278C9DA60004FE8D /* ConciergeViewController.swift in Sources */,
 				8651D7F4278C9F430004FE8D /* LandscapeManager.swift in Sources */,
