@@ -15,9 +15,11 @@ class SecondOnboardingViewController: UIViewController {
     let db = Firestore.firestore()
     let storage = Storage.storage()
 
+    private var initialPlaces: [Cafe] = [Cafe]()
     private var filterPlaces: [Cafe] = [Cafe]()
     private var placesNames: [String] = [String]()
     private var filterPlacesNames: [String] = [String]()
+    private var imageURLsArray: [URL] = [URL]()
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
@@ -33,6 +35,7 @@ class SecondOnboardingViewController: UIViewController {
         
         self.loadPlaces()
         self.loadPlacesNames()
+
         tableView.reloadData()
         searchBar.delegate = self
     }
@@ -50,6 +53,7 @@ class SecondOnboardingViewController: UIViewController {
             } else {
                 for document in querySnapshot!.documents {
                     let place = document.data()
+                    self.initialPlaces.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double))
                     self.filterPlaces.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double))
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
@@ -104,12 +108,15 @@ extension SecondOnboardingViewController: UITableViewDataSource {
         cell.tagList.addTags(place.type)
         cell.zipLabel.text = place.zip
         
+        cell.placeImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
+        cell.placeImage.sd_imageIndicator?.startAnimatingIndicator()
         let imageRef = storage.reference(forURL: place.imageLink)
         imageRef.downloadURL { url, err in
             if let err = err {
                 print("Failed generating url: \(err)")
             } else {
                 if cell.tag == indexPath.row {
+                    cell.placeImage.sd_imageIndicator?.stopAnimatingIndicator()
                     cell.placeImage.sd_setImage(with: url, placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground)
                 }
             }
@@ -128,7 +135,7 @@ extension SecondOnboardingViewController: UITableViewDelegate {
 
 extension SecondOnboardingViewController: UITableViewDataSourcePrefetching {
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        <#code#>
+         
     }
     
     
@@ -139,6 +146,8 @@ extension SecondOnboardingViewController: UISearchBarDelegate {
     
         if(searchText.isEmpty) {
             filterPlacesNames = placesNames
+            filterPlaces = initialPlaces
+            self.tableView.reloadData()
         } else {
             filterPlacesNames = placesNames.filter({ (dataString: String) -> Bool in
                 if dataString.range(of: searchText, options: .caseInsensitive) != nil {
@@ -165,8 +174,6 @@ extension SecondOnboardingViewController: UISearchBarDelegate {
                 }
             }
         }
-        
-        self.tableView.reloadData()
     }
     
     func savePlace(place: Cafe) {

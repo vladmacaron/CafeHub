@@ -129,16 +129,14 @@
 			isa = PBXGroup;
 			children = (
 				8651D7FD278CA8650004FE8D /* Onboarding */,
+				8645923C27382A2F00222B6D /* Models */,
 				864592482739B24300222B6D /* Helpers */,
 				8645923F27382C9400222B6D /* Cells */,
-				8645923C27382A2F00222B6D /* Models */,
-				864592262738059100222B6D /* AppDelegate.swift */,
-				864592282738059100222B6D /* SceneDelegate.swift */,
+				868DF1DD2790C78C00AB4598 /* Base */,
 				868DF1DA27909D1E00AB4598 /* Controllers */,
 				8651D7FE278DECB50004FE8D /* StorageManager.swift */,
 				8651D7EC278C91BF0004FE8D /* Storyboards */,
 				8645922F2738059300222B6D /* Assets.xcassets */,
-				864592312738059300222B6D /* LaunchScreen.storyboard */,
 				864592342738059300222B6D /* Info.plist */,
 				8651D7D2278A06840004FE8D /* GoogleService-Info.plist */,
 			);
@@ -203,6 +201,16 @@
 				868DF1DB27909DD100AB4598 /* SavedPlacesController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		868DF1DD2790C78C00AB4598 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				864592262738059100222B6D /* AppDelegate.swift */,
+				864592282738059100222B6D /* SceneDelegate.swift */,
+				864592312738059300222B6D /* LaunchScreen.storyboard */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

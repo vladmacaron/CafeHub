@@ -100,12 +100,15 @@ extension SavedPlacesController: UITableViewDataSource {
         cell.tagList.addTags(place.type!)
         cell.zipLabel.text = place.zip
         
+        cell.placeImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
+        cell.placeImage.sd_imageIndicator?.startAnimatingIndicator()
         let imageRef = storage.reference(forURL: place.imageLink!)
         imageRef.downloadURL { url, err in
             if let err = err {
                 print("Failed generating url: \(err)")
             } else {
                 if cell.tag == indexPath.row {
+                    cell.placeImage.sd_imageIndicator?.stopAnimatingIndicator()
                     cell.placeImage.sd_setImage(with: url, placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground)
                 }
             }

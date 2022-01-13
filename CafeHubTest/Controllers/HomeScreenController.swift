@@ -224,12 +224,15 @@ extension HomeScreenController: UICollectionViewDataSource {
         
         let cafe = places[indexedCollectionView.indexPath.section][indexPath.row]
         
+        cell.imageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
+        cell.imageView.sd_imageIndicator?.startAnimatingIndicator()
         let imageRef = storage.reference(forURL: cafe.imageLink)
         imageRef.downloadURL { url, err in
             if let err = err {
                 print("Failed generating url: \(err)")
             } else {
-                cell.imageView.sd_setImage(with: url)
+                cell.imageView.sd_imageIndicator?.stopAnimatingIndicator()
+                cell.imageView.sd_setImage(with: url, placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground)
             }
         }
         
