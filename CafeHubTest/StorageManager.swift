@@ -8,9 +8,10 @@
 import CoreData
 import UIKit
 
-class StorageManager: NSPersistentContainer {
+class StorageManager {
     
     static let sharedManager = StorageManager()
+    private init() {}
     
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Places")
@@ -84,41 +85,53 @@ class StorageManager: NSPersistentContainer {
         }
     }
     
-    func fetchAllSavedPlaces() -> [Cafe]?{
+    func fetchAllSavedPlaces() -> [SavedPlaces]?{
         let managedContext = StorageManager.sharedManager.persistentContainer.viewContext
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "SavedPlaces")
         
         do {
             let places = try managedContext.fetch(fetchRequest)
-            return places as? [Cafe]
+            return places as? [SavedPlaces]
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
             return nil
         }
     }
     
-    /*func delete(id: String) -> [Cafe]? {
+    func fetchAllSavedPlacesAsCafe() -> [Cafe]? {
+        var placesCafe: [Cafe] = [Cafe]()
+        if let places = self.fetchAllSavedPlaces() {
+            for place in places {
+                placesCafe.append(Cafe(name: place.name!, address: place.address!, zip: place.zip!,
+                                       imageLink: place.imageLink!, type: place.type!, rating: place.rating))
+            }
+            return placesCafe
+        } else {
+            return nil
+        }
+    }
+    
+    func delete(name: String) {
         
         let managedContext = StorageManager.sharedManager.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "SavedPlaces")
         
-        fetchRequest.predicate = NSPredicate(format: "id == %@" ,id)
+        fetchRequest.predicate = NSPredicate(format: "name == %@" ,name)
         do {
-            
             let item = try managedContext.fetch(fetchRequest)
-            var arrRemovedPlace = [Cafe]()
+            //var arrRemovedPlace = [SavedPlaces]()
             for i in item {
                 managedContext.delete(i)
                 try managedContext.save()
-                arrRemovedPlace.append(i as! Cafe)
+                //arrRemovedPlace.append(i as! SavedPlaces)
             }
-            return arrRemovedPlace
+            //return arrRemovedPlace
             
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
-            return nil
+            //return nil
         }
-    }*/
+    }
     
 }

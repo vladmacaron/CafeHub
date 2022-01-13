@@ -9,6 +9,6 @@
         <attribute name="zip" attributeType="String"/>
     </entity>
     <elements>
-        <element name="SavedPlaces" positionX="-63" positionY="-18" width="128" height="133"/>
+        <element name="SavedPlaces" positionX="-63" positionY="-18" width="128" height="119"/>
     </elements>
 </model>

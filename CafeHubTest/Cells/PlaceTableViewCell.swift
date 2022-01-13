@@ -9,12 +9,20 @@ import UIKit
 import TagListView
 import SDWebImage
 
+protocol PlaceTableViewCellDelegate: AnyObject {
+    func didPressButton(_ tag: Int)
+}
+
 class PlaceTableViewCell: UITableViewCell {
 
+    var cellDelegate: PlaceTableViewCellDelegate?
+    var checkButton = true
+    
     @IBOutlet weak var placeImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var tagList: TagListView!
     @IBOutlet weak var zipLabel: UILabel!
+    @IBOutlet weak var saveButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -34,4 +42,21 @@ class PlaceTableViewCell: UITableViewCell {
         //placeImage.sd_cancelCurrentImageLoad()
     }
     
+    @IBAction func didPressSaveButton(_ sender: UIButton) {
+        cellDelegate?.didPressButton(sender.tag)
+        
+        if checkButton {
+            UIView.transition(with: sender, duration: 0.5, options: .transitionFlipFromRight, animations: {
+                sender.setImage(UIImage(systemName: "checkmark"), for: .normal)
+                        }, completion: nil)
+            //saveButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
+            checkButton = false
+        } else {
+            //saveButton.setImage(UIImage(systemName: "plus"), for: .normal)
+            UIView.transition(with: sender, duration: 0.5, options: .transitionFlipFromLeft, animations: {
+                sender.setImage(UIImage(systemName: "plus"), for: .normal)
+                        }, completion: nil)
+            checkButton = true
+        }
+    }
 }

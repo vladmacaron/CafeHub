@@ -94,14 +94,8 @@ class HomeScreenController: UIViewController {
         if let savedPlaces = StorageManager.sharedManager.fetchAllSavedPlaces() {
             //getting only first few places not to clutter home screen
             let tempArray = Array(savedPlaces.prefix(10))
-            places.append(tempArray)
+            //places.append(tempArray)
         }
-    }
-    
-    //TODO: move to another ViewController when the button is ready
-    func savePlace(place: Cafe) {
-        StorageManager.sharedManager.addPlace(name: place.name, address: place.address, zip: place.zip,
-                                              imageLink: place.imageLink, rating: place.rating, type: place.type)
     }
     
     /*

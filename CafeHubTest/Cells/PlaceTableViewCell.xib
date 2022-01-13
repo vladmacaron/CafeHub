@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -60,16 +61,34 @@
                             </stackView>
                         </subviews>
                     </stackView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y73-e0-xje">
+                        <rect key="frame" x="598" y="10" width="50" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="50" id="ud0-in-A3N"/>
+                            <constraint firstAttribute="width" constant="50" id="xKH-fN-FkM"/>
+                        </constraints>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="filled" cornerStyle="large">
+                            <imageReference key="image" image="plus" catalog="system" symbolScale="large"/>
+                            <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="20" scale="large" weight="regular"/>
+                            <color key="baseBackgroundColor" name="AccentColor"/>
+                        </buttonConfiguration>
+                        <connections>
+                            <action selector="didPressSaveButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="nhF-fh-1dM"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailingMargin" secondItem="c4N-dM-LGy" secondAttribute="trailing" constant="10" id="22M-Yd-ET7"/>
                     <constraint firstAttribute="trailing" secondItem="O76-v3-l6v" secondAttribute="trailing" constant="10" id="KU7-ad-X7l"/>
                     <constraint firstAttribute="trailingMargin" secondItem="IpX-MR-X72" secondAttribute="trailing" constant="10" id="VOc-pY-iqO"/>
                     <constraint firstItem="c4N-dM-LGy" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="bNm-e9-wZw"/>
+                    <constraint firstItem="y73-e0-xje" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="blD-6H-YLH"/>
                     <constraint firstItem="O76-v3-l6v" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="cwl-rY-oAU"/>
                     <constraint firstItem="IpX-MR-X72" firstAttribute="top" secondItem="O76-v3-l6v" secondAttribute="bottom" constant="5" id="fbP-Hp-gZC"/>
                     <constraint firstItem="O76-v3-l6v" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="iPq-Ka-IRO"/>
                     <constraint firstItem="IpX-MR-X72" firstAttribute="top" secondItem="c4N-dM-LGy" secondAttribute="bottom" constant="15" id="lbJ-ab-A3m"/>
+                    <constraint firstAttribute="trailing" secondItem="y73-e0-xje" secondAttribute="trailing" constant="20" id="oGL-i9-YgO"/>
                     <constraint firstAttribute="bottomMargin" secondItem="IpX-MR-X72" secondAttribute="bottom" constant="10" id="sFz-DK-G5V"/>
                     <constraint firstItem="IpX-MR-X72" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="sVe-iX-aPI"/>
                 </constraints>
@@ -77,6 +96,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="placeImage" destination="O76-v3-l6v" id="Q9m-vv-HOr"/>
+                <outlet property="saveButton" destination="y73-e0-xje" id="hWz-0y-Yi0"/>
                 <outlet property="tagList" destination="Tnu-o5-0hk" id="ySZ-zG-ygQ"/>
                 <outlet property="titleLabel" destination="CGf-JG-eSu" id="wKp-Ir-9fs"/>
                 <outlet property="zipLabel" destination="s6a-aX-wrQ" id="d1l-S1-m0O"/>
@@ -85,6 +105,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <namedColor name="AccentColor">
             <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

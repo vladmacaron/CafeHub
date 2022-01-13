@@ -1,8 +1,8 @@
 //
-//  SecondOnboardingViewController.swift
+//  SavedPlacesController.swift
 //  CafeHubTest
 //
-//  Created by Vladislav Mazurov on 10.01.22.
+//  Created by Vladislav Mazurov on 13.01.22.
 //
 
 import UIKit
@@ -11,36 +11,32 @@ import SDWebImage
 import FirebaseFirestore
 import FirebaseStorage
 
-class SecondOnboardingViewController: UIViewController {
+class SavedPlacesController: UIViewController {
     let db = Firestore.firestore()
     let storage = Storage.storage()
 
     private var filterPlaces: [Cafe] = [Cafe]()
+    private var savedPlaces: [SavedPlaces] = [SavedPlaces]()
     private var placesNames: [String] = [String]()
     private var filterPlacesNames: [String] = [String]()
-
-    @IBOutlet weak var searchBar: UISearchBar!
+    
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         tableView.register(UINib(nibName: "PlaceTableViewCell", bundle: nil), forCellReuseIdentifier: "generalTableViewCell")
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.prefetchDataSource = self
+        //searchBar.delegate = self
+        //tableView.prefetchDataSource = self
+        if let tempSavedPlaces = self.loadAllSavedPlaces() {
+            savedPlaces = tempSavedPlaces
+        }
         
-        self.loadPlaces()
         self.loadPlacesNames()
         tableView.reloadData()
-        searchBar.delegate = self
-    }
-    
-    @IBAction func buttonPressed(_ sender: UIButton) {
-        if let pageController = parent as? OnboardingPageViewController {
-            pageController.pushNext()
-        }
     }
     
     func loadPlaces() {
@@ -60,51 +56,51 @@ class SecondOnboardingViewController: UIViewController {
     }
     
     func loadPlacesNames() {
-        db.collection("places").order(by: "name").getDocuments { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    let place = document.data()
-                    self.placesNames.append(place["name"] as! String)
-                }
+        if let places = StorageManager.sharedManager.fetchAllSavedPlaces() {
+            for place in places {
+                self.placesNames.append(place.name!)
             }
         }
     }
 
+    func loadAllSavedPlaces() -> [SavedPlaces]? {
+        if let places = StorageManager.sharedManager.fetchAllSavedPlaces() {
+            return places
+        } else {
+            return nil
+        }
+    }
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
 }
 
-extension SecondOnboardingViewController: UITableViewDataSource {
-    
+extension SavedPlacesController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filterPlaces.count
+        return savedPlaces.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "generalTableViewCell", for: indexPath) as! PlaceTableViewCell
         //let place = places[indexPath.row]
-        let place = filterPlaces[indexPath.row]
+        let place = savedPlaces[indexPath.row]
         
-        cell.saveButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        cell.saveButton.isHidden = true
         
-        cell.cellDelegate = self
         cell.tag = indexPath.row
-        cell.saveButton.tag = indexPath.row
-        
-        if let savedPlaces = loadAllSavedPlaces() {
-            for savedPlace in savedPlaces {
-                if (savedPlace.name == place.name) {
-                    cell.saveButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
-                    cell.checkButton = false
-                }
-            }
-        }
         
         cell.titleLabel.text = place.name
-        cell.tagList.addTags(place.type)
+        cell.tagList.addTags(place.type!)
         cell.zipLabel.text = place.zip
         
-        let imageRef = storage.reference(forURL: place.imageLink)
+        let imageRef = storage.reference(forURL: place.imageLink!)
         imageRef.downloadURL { url, err in
             if let err = err {
                 print("Failed generating url: \(err)")
@@ -117,24 +113,15 @@ extension SecondOnboardingViewController: UITableViewDataSource {
         
         return cell
     }
-    
 }
 
-extension SecondOnboardingViewController: UITableViewDelegate {
+extension SavedPlacesController: UITableViewDelegate {
     func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
         return 180
     }
 }
 
-extension SecondOnboardingViewController: UITableViewDataSourcePrefetching {
-    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        <#code#>
-    }
-    
-    
-}
-
-extension SecondOnboardingViewController: UISearchBarDelegate {
+/*extension SavedPlacesController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     
         if(searchText.isEmpty) {
@@ -177,34 +164,5 @@ extension SecondOnboardingViewController: UISearchBarDelegate {
     func deletePlace(name: String) {
         StorageManager.sharedManager.delete(name: name)
     }
-    
-    func loadAllSavedPlaces() -> [Cafe]? {
-        return StorageManager.sharedManager.fetchAllSavedPlacesAsCafe()
-    }
-}
 
-extension SecondOnboardingViewController: PlaceTableViewCellDelegate {
-    func didPressButton(_ tag: Int) {
-        let place = filterPlaces[tag]
-        
-        if let savedPlaces = loadAllSavedPlaces() {
-            if savedPlaces.isEmpty {
-                self.savePlace(place: place)
-                return
-            }
-            
-            for savedPlace in savedPlaces {
-                if (savedPlace.name != place.name) {
-                    self.savePlace(place: place)
-                    return
-                } else {
-                    self.deletePlace(name: place.name)
-                    return
-                }
-            }
-        }
-    }
-}
-
-//TODO: add prefetching, infintie scrolling
-
+}*/
