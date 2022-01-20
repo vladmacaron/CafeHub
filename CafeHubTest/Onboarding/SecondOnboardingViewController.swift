@@ -14,6 +14,7 @@ import FirebaseStorage
 class SecondOnboardingViewController: UIViewController {
     let db = Firestore.firestore()
     let storage = Storage.storage()
+    var lastDocument: QueryDocumentSnapshot?
 
     private var initialPlaces: [Cafe] = [Cafe]()
     private var filterPlaces: [Cafe] = [Cafe]()
@@ -33,7 +34,7 @@ class SecondOnboardingViewController: UIViewController {
         tableView.dataSource = self
         tableView.prefetchDataSource = self
         
-        self.loadPlaces()
+        self.loadPlaces(with: 4)
         self.loadPlacesNames()
 
         tableView.reloadData()
@@ -46,15 +47,34 @@ class SecondOnboardingViewController: UIViewController {
         }
     }
     
-    func loadPlaces() {
-        db.collection("places").limit(to: 20).getDocuments { (querySnapshot, err) in
+    /*func loadPlaces(with limit: Int) {
+        db.collection("places").limit(to: limit).getDocuments { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents {
                     let place = document.data()
-                    self.initialPlaces.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double))
                     self.filterPlaces.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double))
+                    self.initialPlaces.append(contentsOf: self.filterPlaces)
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+        }
+    }*/
+    
+    func loadPlaces(with limit: Int) {
+        db.collection("places").limit(to: limit).addSnapshotListener { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                self.lastDocument = querySnapshot?.documents.last
+                self.filterPlaces.removeAll()
+                for document in querySnapshot!.documents {
+                    let place = document.data()
+                    self.filterPlaces.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double))
+                    /*self.initialPlaces.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double))*/
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
                     }
@@ -135,10 +155,27 @@ extension SecondOnboardingViewController: UITableViewDelegate {
 
 extension SecondOnboardingViewController: UITableViewDataSourcePrefetching {
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-         
+        if let lastDocument = self.lastDocument {
+            self.db.collection("places")
+                .limit(to: indexPaths.count)
+                .start(afterDocument: lastDocument).addSnapshotListener { (querySnapshot, err) in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        self.lastDocument = querySnapshot?.documents.last
+                        for document in querySnapshot!.documents {
+                            let place = document.data()
+                            self.filterPlaces.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double))
+                        }
+                        //TODO: SHOULD BE FIXED
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
+                    }
+                }
+        }
+        
     }
-    
-    
 }
 
 extension SecondOnboardingViewController: UISearchBarDelegate {
@@ -146,8 +183,9 @@ extension SecondOnboardingViewController: UISearchBarDelegate {
     
         if(searchText.isEmpty) {
             filterPlacesNames = placesNames
-            filterPlaces = initialPlaces
-            self.tableView.reloadData()
+            //filterPlaces = initialPlaces
+            loadPlaces(with: 4)
+            //self.tableView.reloadData()
         } else {
             filterPlacesNames = placesNames.filter({ (dataString: String) -> Bool in
                 if dataString.range(of: searchText, options: .caseInsensitive) != nil {
