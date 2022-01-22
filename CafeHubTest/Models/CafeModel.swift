@@ -16,20 +16,8 @@ struct Cafe: Codable {
     let imageLink: String
     let type: [String]
     let rating: Double
-    //let description: String
-    //let openingHours: String
-    lazy var imageURL: URL? = {
-        var resURL: URL?
-        let imageRef = Storage.storage().reference(forURL: imageLink)
-        imageRef.downloadURL { url, err in
-            if let err = err {
-                print("Failed generating url: \(err)")
-            } else {
-                resURL = url
-            }
-        }
-        return resURL
-    }()
+    let placeDescription: String
+    let openingHours: String
     
     //TODO: func for fetching rating from Google Maps?
     func getRating() -> Int {

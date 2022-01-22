@@ -4,11 +4,13 @@
         <attribute name="address" attributeType="String"/>
         <attribute name="imageLink" attributeType="String"/>
         <attribute name="name" attributeType="String"/>
+        <attribute name="openingHours" attributeType="String"/>
+        <attribute name="placeDescription" attributeType="String"/>
         <attribute name="rating" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="type" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
         <attribute name="zip" attributeType="String"/>
     </entity>
     <elements>
-        <element name="SavedPlaces" positionX="-63" positionY="-18" width="128" height="119"/>
+        <element name="SavedPlaces" positionX="-63" positionY="-18" width="128" height="149"/>
     </elements>
 </model>

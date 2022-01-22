@@ -35,8 +35,19 @@ class StorageManager {
         }
     }
     
-    func addPlace(name: String, address: String, zip: String, imageLink: String, rating: Double, type: [String]) {
+    func addPlace(name: String, address: String, zip: String, imageLink: String, rating: Double, type: [String], placeDescription: String, openingHours: String) {
         let managedContext = StorageManager.sharedManager.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "SavedPlaces")
+        fetchRequest.predicate = NSPredicate(format: "name == %@" ,name)
+        
+        do {
+            let item = try managedContext.fetch(fetchRequest)
+            if item.count > 0 {
+                return
+            }
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
         
         let entity = NSEntityDescription.entity(forEntityName: "SavedPlaces", in: managedContext)!
         let place = NSManagedObject(entity: entity, insertInto: managedContext)
@@ -47,6 +58,8 @@ class StorageManager {
         place.setValue(imageLink, forKey: "imageLink")
         place.setValue(rating, forKey: "rating")
         place.setValue(type, forKey: "type")
+        place.setValue(placeDescription, forKey: "placeDescription")
+        place.setValue(openingHours, forKey: "openingHours")
         
         do {
             try managedContext.save()
@@ -104,7 +117,7 @@ class StorageManager {
         if let places = self.fetchAllSavedPlaces() {
             for place in places {
                 placesCafe.append(Cafe(name: place.name!, address: place.address!, zip: place.zip!,
-                                       imageLink: place.imageLink!, type: place.type!, rating: place.rating))
+                                       imageLink: place.imageLink!, type: place.type!, rating: place.rating, placeDescription: place.placeDescription!, openingHours: place.openingHours!))
             }
             return placesCafe
         } else {

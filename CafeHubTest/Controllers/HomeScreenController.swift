@@ -21,6 +21,7 @@ class HomeScreenController: UIViewController {
     
     static let tableCellID: String = "tableViewCellID_section_#"
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     //let numberOfSections: Int = 2
     //let numberOfCollectionsForRow: Int = 1
@@ -42,9 +43,13 @@ class HomeScreenController: UIViewController {
         tableView.delegate = self
         //self.loadData()
         
+        spinner.startAnimating()
+        tableView.isHidden = true
+        
         self.loadTrendingPlaces()
         self.loadPlaces()
-    }
+        
+        }
     
     func loadTrendingPlaces() {
         let trendingList = db.collection("categories").document("trending")
@@ -60,7 +65,7 @@ class HomeScreenController: UIViewController {
                     } else {
                         for document in querySnapshot!.documents {
                             let place = document.data()
-                            self.places[0].append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double))
+                            self.places[0].append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, placeDescription: place["description"] as! String, openingHours: place["openingHours"] as! String))
                             DispatchQueue.main.async {
                                 self.tableView.reloadData()
                             }
@@ -81,9 +86,11 @@ class HomeScreenController: UIViewController {
             } else {
                 for document in querySnapshot!.documents {
                     let place = document.data()
-                    self.places[1].append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double))
+                    self.places[1].append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, placeDescription: place["description"] as! String, openingHours: place["openingHours"] as! String))
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
+                        self.spinner.stopAnimating()
+                        self.tableView.isHidden = false
                     }
                 }
             }
@@ -96,6 +103,17 @@ class HomeScreenController: UIViewController {
             let tempArray = Array(savedPlaces.prefix(10))
             //places.append(tempArray)
         }
+    }
+    
+    func presentSecondViewController(with data: Cafe, image: UIImage) {
+        let secondViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailedViewController") as! DetailedViewController
+
+        //secondViewController.transitioningDelegate = self
+
+        secondViewController.modalPresentationStyle = .popover
+        secondViewController.firebasePlace = data
+        secondViewController.placeImage = image
+        present(secondViewController, animated: true)
     }
     
     /*
@@ -284,7 +302,11 @@ extension HomeScreenController: UICollectionViewDelegateFlowLayout {
 
 extension HomeScreenController: UICollectionViewDelegate {
     
-    func collectionView(_: UICollectionView, didSelectItemAt _: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedCell = collectionView.cellForItem(at: indexPath) as? IndexedCollectionViewCell
+        guard let indexedCollectionView: IndexedCollectionView = collectionView as? IndexedCollectionView else {
+            fatalError("UICollectionView must be of GLIndexedCollectionView type")
+        }
+        presentSecondViewController(with: places[indexedCollectionView.indexPath.section][indexPath.row], image: (selectedCell?.imageView.image)!)
     }
-    
 }

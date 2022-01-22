@@ -28,13 +28,13 @@
                                 <rect key="frame" x="10" y="100" width="428" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jiU-1B-zuo">
-                                        <rect key="frame" x="0.0" y="16.5" width="33" height="17"/>
+                                        <rect key="frame" x="0.0" y="16.5" width="40.5" height="17"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rP7-Ar-h9k" customClass="CosmosView" customModule="Cosmos">
-                                        <rect key="frame" x="43" y="0.0" width="385" height="50"/>
+                                        <rect key="frame" x="50.5" y="0.0" width="377.5" height="50"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="rating">
                                                 <real key="value" value="3"/>

@@ -20,6 +20,10 @@ class SavedPlacesController: UIViewController {
     private var placesNames: [String] = [String]()
     private var filterPlacesNames: [String] = [String]()
     
+    var animator: TransitionAnimator?
+    var selectedCell: PlaceTableViewCell?
+    var selectedCellImageViewSnapshot: UIView?
+    
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -39,7 +43,7 @@ class SavedPlacesController: UIViewController {
         tableView.reloadData()
     }
     
-    func loadPlaces() {
+    /*func loadPlaces() {
         db.collection("places").limit(to: 20).getDocuments { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -53,6 +57,17 @@ class SavedPlacesController: UIViewController {
                 }
             }
         }
+    }*/
+    
+    func presentSecondViewController(with data: SavedPlaces, image: UIImage) {
+        let secondViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailedViewController") as! DetailedViewController
+
+        //secondViewController.transitioningDelegate = self
+
+        secondViewController.modalPresentationStyle = .popover
+        secondViewController.savedPlace = data
+        secondViewController.placeImage = image
+        present(secondViewController, animated: true)
     }
     
     func loadPlacesNames() {
@@ -69,6 +84,10 @@ class SavedPlacesController: UIViewController {
         } else {
             return nil
         }
+    }
+    
+    func deletePlace(name: String) {
+        StorageManager.sharedManager.delete(name: name)
     }
 
     /*
@@ -116,13 +135,51 @@ extension SavedPlacesController: UITableViewDataSource {
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            savedPlaces.remove(at: indexPath.row)
+            self.deletePlace(name: savedPlaces[indexPath.row].name!)
+            self.tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
 }
 
 extension SavedPlacesController: UITableViewDelegate {
     func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
         return 180
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedCell = tableView.cellForRow(at: indexPath) as? PlaceTableViewCell
+        //selectedCellImageViewSnapshot = selectedCell?.placeImage.snapshotView(afterScreenUpdates: false)
+        presentSecondViewController(with: savedPlaces[indexPath.row], image: (selectedCell?.placeImage.image)!)
+    }
 }
+
+/*extension SavedPlacesController: UIViewControllerTransitioningDelegate {
+
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        guard let firstViewController = presenting as? SavedPlacesController,
+            let secondViewController = presented as? DetailedViewController,
+            let selectedCellImageViewSnapshot = selectedCellImageViewSnapshot
+            else { return nil }
+
+        animator = TransitionAnimator(type: .present, firstViewController: firstViewController, secondViewController: secondViewController, selectedCellImageViewSnapshot: selectedCellImageViewSnapshot)
+        return animator
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        guard let secondViewController = dismissed as? DetailedViewController,
+            let selectedCellImageViewSnapshot = selectedCellImageViewSnapshot
+            else { return nil }
+
+        animator = TransitionAnimator(type: .dismiss, firstViewController: self, secondViewController: secondViewController, selectedCellImageViewSnapshot: selectedCellImageViewSnapshot)
+        return animator
+    }
+}*/
 
 /*extension SavedPlacesController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

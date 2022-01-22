@@ -73,7 +73,7 @@ class SecondOnboardingViewController: UIViewController {
                 self.filterPlaces.removeAll()
                 for document in querySnapshot!.documents {
                     let place = document.data()
-                    self.filterPlaces.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double))
+                    self.filterPlaces.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, placeDescription: place["description"] as! String, openingHours: place["openingHours"] as! String))
                     /*self.initialPlaces.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double))*/
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
@@ -165,7 +165,7 @@ extension SecondOnboardingViewController: UITableViewDataSourcePrefetching {
                         self.lastDocument = querySnapshot?.documents.last
                         for document in querySnapshot!.documents {
                             let place = document.data()
-                            self.filterPlaces.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double))
+                            self.filterPlaces.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, placeDescription: place["description"] as! String, openingHours: place["openingHours"] as! String))
                         }
                         //TODO: SHOULD BE FIXED
                         DispatchQueue.main.async {
@@ -203,7 +203,7 @@ extension SecondOnboardingViewController: UISearchBarDelegate {
                         self.filterPlaces.removeAll()
                         for document in querySnapshot!.documents {
                             let place = document.data()
-                            self.filterPlaces.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double))
+                            self.filterPlaces.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, placeDescription: place["description"] as! String, openingHours: place["openingHours"] as! String))
                             DispatchQueue.main.async {
                                 self.tableView.reloadData()
                             }
@@ -216,7 +216,7 @@ extension SecondOnboardingViewController: UISearchBarDelegate {
     
     func savePlace(place: Cafe) {
         StorageManager.sharedManager.addPlace(name: place.name, address: place.address, zip: place.zip,
-                                              imageLink: place.imageLink, rating: place.rating, type: place.type)
+                                              imageLink: place.imageLink, rating: place.rating, type: place.type, placeDescription: place.placeDescription, openingHours: place.openingHours)
     }
     
     func deletePlace(name: String) {
