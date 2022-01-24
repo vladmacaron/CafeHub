@@ -104,6 +104,22 @@
             </objects>
             <point key="canvasLocation" x="1661" y="119"/>
         </scene>
+        <!--Map-->
+        <scene sceneID="Ps1-Ml-toj">
+            <objects>
+                <viewController id="srF-Cz-vbb" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="eoa-uL-zJ6">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="F03-4a-fUd"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Map" image="map.fill" catalog="system" id="Rj4-4h-FJW"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XHG-6Y-1EK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2421.739130434783" y="118.52678571428571"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ltP-gN-45A">
             <objects>
@@ -117,6 +133,7 @@
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="3iY-Ky-8t6"/>
                         <segue destination="OAP-kL-41H" kind="relationship" relationship="viewControllers" id="xS0-Ku-c9P"/>
+                        <segue destination="srF-Cz-vbb" kind="relationship" relationship="viewControllers" id="OeC-fe-K4j"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="brT-2V-Oll" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -189,9 +206,10 @@
                                     <imageReference key="image" image="xmark.app" catalog="system" symbolScale="large"/>
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="30" scale="large"/>
                                 </state>
-                                <buttonConfiguration key="configuration" style="filled" cornerStyle="medium">
+                                <buttonConfiguration key="configuration" style="tinted" cornerStyle="medium">
                                     <imageReference key="image" image="xmark.app" catalog="system" symbolScale="large"/>
                                     <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="30" scale="large"/>
+                                    <color key="baseBackgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="closeView:" destination="H5Y-NT-Qfn" eventType="touchUpInside" id="btf-He-fKl"/>
@@ -214,6 +232,23 @@
                                     </label>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iWO-SO-ZL5">
+                                <rect key="frame" x="10" y="54" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="eIA-Zn-mOe"/>
+                                    <constraint firstAttribute="width" constant="50" id="t25-99-O3u"/>
+                                </constraints>
+                                <color key="tintColor" name="AccentColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" cornerStyle="medium">
+                                    <imageReference key="image" image="heart" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="30" scale="large"/>
+                                    <color key="baseBackgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="didPressSave:" destination="H5Y-NT-Qfn" eventType="touchUpInside" id="Qtk-Q9-o49"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="5sG-mt-bu4"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -221,10 +256,12 @@
                             <constraint firstItem="zIj-5d-gsQ" firstAttribute="top" secondItem="1xT-Ly-C22" secondAttribute="bottom" constant="10" id="0wy-Ke-NeA"/>
                             <constraint firstItem="5sG-mt-bu4" firstAttribute="trailing" secondItem="1xT-Ly-C22" secondAttribute="trailing" constant="20" id="181-eU-x7S"/>
                             <constraint firstItem="E39-Py-a8A" firstAttribute="top" secondItem="5sG-mt-bu4" secondAttribute="top" constant="10" id="5uP-rN-pL3"/>
+                            <constraint firstItem="iWO-SO-ZL5" firstAttribute="leading" secondItem="5sG-mt-bu4" secondAttribute="leading" constant="10" id="B7L-Go-bxe"/>
                             <constraint firstItem="5sG-mt-bu4" firstAttribute="trailing" secondItem="GsS-it-Ei1" secondAttribute="trailing" constant="20" id="CSM-ay-O7L"/>
                             <constraint firstItem="1xT-Ly-C22" firstAttribute="leading" secondItem="5sG-mt-bu4" secondAttribute="leading" constant="20" id="Gse-RQ-MKF"/>
                             <constraint firstItem="5sG-mt-bu4" firstAttribute="bottom" secondItem="GsS-it-Ei1" secondAttribute="bottom" constant="10" id="KIZ-X7-Gdp"/>
                             <constraint firstItem="GsS-it-Ei1" firstAttribute="top" secondItem="zIj-5d-gsQ" secondAttribute="bottom" constant="10" id="NfF-Kr-ojq"/>
+                            <constraint firstItem="iWO-SO-ZL5" firstAttribute="top" secondItem="5sG-mt-bu4" secondAttribute="top" constant="10" id="Nzu-Xr-k1A"/>
                             <constraint firstItem="qen-1f-w52" firstAttribute="leading" secondItem="5sG-mt-bu4" secondAttribute="leading" id="OyZ-ea-U0M"/>
                             <constraint firstItem="zIj-5d-gsQ" firstAttribute="leading" secondItem="5sG-mt-bu4" secondAttribute="leading" constant="20" id="WIX-Wp-3Z7"/>
                             <constraint firstItem="qen-1f-w52" firstAttribute="top" secondItem="5sG-mt-bu4" secondAttribute="top" id="bSF-al-3Og"/>
@@ -241,6 +278,7 @@
                         <outlet property="descriptionLabel" destination="GsS-it-Ei1" id="zLq-VM-vvv"/>
                         <outlet property="mainImage" destination="qen-1f-w52" id="mKU-Tj-LY6"/>
                         <outlet property="openingHoursLabel" destination="USD-ya-JFt" id="wTa-t7-VHt"/>
+                        <outlet property="saveButton" destination="iWO-SO-ZL5" id="cdo-ne-WxP"/>
                         <outlet property="tagList" destination="cWF-R2-cju" id="4Me-e8-o8p"/>
                         <outlet property="titleLabel" destination="xoU-gs-ZU2" id="2uG-pn-7lp"/>
                     </connections>
@@ -251,8 +289,10 @@
         </scene>
     </scenes>
     <resources>
+        <image name="heart" catalog="system" width="128" height="109"/>
         <image name="heart.fill" catalog="system" width="128" height="109"/>
         <image name="house.fill" catalog="system" width="128" height="106"/>
+        <image name="map.fill" catalog="system" width="128" height="110"/>
         <image name="xmark.app" catalog="system" width="128" height="114"/>
         <namedColor name="AccentColor">
             <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

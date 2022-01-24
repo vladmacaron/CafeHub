@@ -147,4 +147,29 @@ class StorageManager {
         }
     }
     
+    func find(name: String) -> Bool? {
+        let managedContext = StorageManager.sharedManager.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "SavedPlaces")
+        
+        fetchRequest.predicate = NSPredicate(format: "name == %@" ,name)
+        do {
+            let item = try managedContext.fetch(fetchRequest)
+            //var arrRemovedPlace = [SavedPlaces]()
+            /*for i in item {
+                managedContext.delete(i)
+                try managedContext.save()
+                //arrRemovedPlace.append(i as! SavedPlaces)
+            }*/
+            if !item.isEmpty {
+                return true
+            } else {
+                return false
+            }
+            
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+            return nil
+        }
+    }
+    
 }

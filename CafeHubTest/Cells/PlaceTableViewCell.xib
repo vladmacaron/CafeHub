@@ -20,21 +20,28 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="O76-v3-l6v">
-                        <rect key="frame" x="10" y="0.0" width="648" height="205"/>
+                        <rect key="frame" x="10" y="0.0" width="648" height="215"/>
                     </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ypX-ni-8qW">
+                        <rect key="frame" x="10" y="190" width="648" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="HnF-dr-0vQ"/>
+                        </constraints>
+                    </view>
                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="c4N-dM-LGy">
-                        <rect key="frame" x="30" y="178" width="608" height="17"/>
+                        <rect key="frame" x="30" y="193" width="608" height="17"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CGf-JG-eSu">
                                 <rect key="frame" x="0.0" y="0.0" width="608" height="17"/>
                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
+                                <color key="highlightedColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <size key="shadowOffset" width="1" height="-1"/>
                             </label>
                         </subviews>
                     </stackView>
                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="IpX-MR-X72">
-                        <rect key="frame" x="30" y="210" width="608" height="50"/>
+                        <rect key="frame" x="30" y="220" width="608" height="50"/>
                         <subviews>
                             <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tnu-o5-0hk" customClass="TagListView" customModule="TagListView">
                                 <rect key="frame" x="0.0" y="0.0" width="579.5" height="50"/>
@@ -80,21 +87,25 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailingMargin" secondItem="c4N-dM-LGy" secondAttribute="trailing" constant="10" id="22M-Yd-ET7"/>
+                    <constraint firstItem="IpX-MR-X72" firstAttribute="top" secondItem="ypX-ni-8qW" secondAttribute="bottom" constant="5" id="GjD-Pa-MgB"/>
+                    <constraint firstItem="ypX-ni-8qW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="JpG-pi-1z0"/>
                     <constraint firstAttribute="trailing" secondItem="O76-v3-l6v" secondAttribute="trailing" constant="10" id="KU7-ad-X7l"/>
                     <constraint firstAttribute="trailingMargin" secondItem="IpX-MR-X72" secondAttribute="trailing" constant="10" id="VOc-pY-iqO"/>
+                    <constraint firstAttribute="trailing" secondItem="ypX-ni-8qW" secondAttribute="trailing" constant="10" id="Xof-bw-kpe"/>
                     <constraint firstItem="c4N-dM-LGy" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="bNm-e9-wZw"/>
                     <constraint firstItem="y73-e0-xje" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="blD-6H-YLH"/>
                     <constraint firstItem="O76-v3-l6v" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="cwl-rY-oAU"/>
                     <constraint firstItem="IpX-MR-X72" firstAttribute="top" secondItem="O76-v3-l6v" secondAttribute="bottom" constant="5" id="fbP-Hp-gZC"/>
                     <constraint firstItem="O76-v3-l6v" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="iPq-Ka-IRO"/>
-                    <constraint firstItem="IpX-MR-X72" firstAttribute="top" secondItem="c4N-dM-LGy" secondAttribute="bottom" constant="15" id="lbJ-ab-A3m"/>
+                    <constraint firstItem="IpX-MR-X72" firstAttribute="top" secondItem="c4N-dM-LGy" secondAttribute="bottom" constant="10" id="lbJ-ab-A3m"/>
                     <constraint firstAttribute="trailing" secondItem="y73-e0-xje" secondAttribute="trailing" constant="20" id="oGL-i9-YgO"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="IpX-MR-X72" secondAttribute="bottom" constant="10" id="sFz-DK-G5V"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="IpX-MR-X72" secondAttribute="bottom" id="sFz-DK-G5V"/>
                     <constraint firstItem="IpX-MR-X72" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="sVe-iX-aPI"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="blurView" destination="ypX-ni-8qW" id="JPk-Oz-BMX"/>
                 <outlet property="placeImage" destination="O76-v3-l6v" id="Q9m-vv-HOr"/>
                 <outlet property="saveButton" destination="y73-e0-xje" id="hWz-0y-Yi0"/>
                 <outlet property="tagList" destination="Tnu-o5-0hk" id="ySZ-zG-ygQ"/>

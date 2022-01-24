@@ -116,12 +116,22 @@ extension SecondOnboardingViewController: UITableViewDataSource {
         cell.saveButton.tag = indexPath.row
         
         if let savedPlaces = loadAllSavedPlaces() {
-            for savedPlace in savedPlaces {
+            if savedPlaces.contains(where: { cafe in
+                if cafe.name == place.name {
+                    return true
+                } else {
+                    return false
+                }
+            }) {
+                cell.saveButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
+                cell.checkButton = false
+            }
+            /*for savedPlace in savedPlaces {
                 if (savedPlace.name == place.name) {
                     cell.saveButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
                     cell.checkButton = false
                 }
-            }
+            }*/
         }
         
         cell.titleLabel.text = place.name

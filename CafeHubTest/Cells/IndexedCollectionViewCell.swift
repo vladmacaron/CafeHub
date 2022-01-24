@@ -21,29 +21,29 @@ class IndexedCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var tagListView: TagListView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var mainStackView: UIStackView!
+    @IBOutlet weak var blurView: UIView!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
         imageView.layer.cornerRadius = 10
         
-        //TODO: find better way to blur bottom of the imageview
-        /*let blurEffect = UIBlurEffect(style: .light)
-        let blurView = UIVisualEffectView(effect: blurEffect)
-        //blurView.frame = CGRect(x: mainStackView.bounds.minX, y: mainStackView.bounds.minY, width: mainStackView.bounds.width+10, height: mainStackView.bounds.height+1)
-        blurView.frame = mainStackView.bounds
-        blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        mainStackView.addSubview(blurView)
-        mainStackView.layer.masksToBounds = true
-        mainStackView.layer.cornerRadius = 5
-        mainStackView.addSubview(titleLabel)
-        mainStackView.addSubview(ratingView)*/
+        blurView.backgroundColor = .clear
+        let blurEffect = UIBlurEffect(style: .systemUltraThinMaterial)
+        let blurViewEffect = UIVisualEffectView(effect: blurEffect)
+        blurViewEffect.frame = blurView.bounds
+        blurViewEffect.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurView.addSubview(blurViewEffect)
+        blurView.layer.masksToBounds = true
+        blurView.layer.cornerRadius = 10
+        blurView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         
         titleLabel.textColor = .white
     }
 
     override func prepareForReuse() {
         tagListView.removeAllTags()
-        imageView.sd_cancelCurrentImageLoad()
+        imageView.image = nil
     }
 }

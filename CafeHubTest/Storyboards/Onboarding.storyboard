@@ -119,6 +119,7 @@
                             <constraint firstItem="zZU-5Z-LLk" firstAttribute="trailing" secondItem="hVd-md-gGg" secondAttribute="trailing" id="yk7-PN-dB1"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="5lk-jH-Q4D"/>
                     <connections>
                         <outlet property="searchBar" destination="wb9-Jt-xsx" id="t1F-ca-dqS"/>
                         <outlet property="tableView" destination="zZU-5Z-LLk" id="fRK-9J-t8y"/>

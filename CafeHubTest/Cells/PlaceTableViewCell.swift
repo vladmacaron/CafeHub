@@ -23,11 +23,23 @@ class PlaceTableViewCell: UITableViewCell {
     @IBOutlet weak var tagList: TagListView!
     @IBOutlet weak var zipLabel: UILabel!
     @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var blurView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
         placeImage.layer.cornerRadius = 10
+        
+        blurView.backgroundColor = .clear
+        let blurEffect = UIBlurEffect(style: .systemUltraThinMaterial)
+        let blurViewEffect = UIVisualEffectView(effect: blurEffect)
+        blurViewEffect.frame = blurView.bounds
+        blurViewEffect.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurView.addSubview(blurViewEffect)
+        blurView.layer.masksToBounds = true
+        blurView.layer.cornerRadius = 10
+        blurView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

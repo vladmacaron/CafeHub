@@ -18,6 +18,7 @@ class HomeScreenController: UIViewController {
 
     var places: [[Cafe]] = [[], []]
     var trendingList: [String] = []
+    private var count = 0
     
     static let tableCellID: String = "tableViewCellID_section_#"
     @IBOutlet weak var tableView: UITableView!
@@ -46,12 +47,14 @@ class HomeScreenController: UIViewController {
         spinner.startAnimating()
         tableView.isHidden = true
         
-        self.loadTrendingPlaces()
-        self.loadPlaces()
+        //self.loadTrendingPlaces()
+        //self.loadPlaces()
         
-        }
+        self.loadData()
+    }
     
-    func loadTrendingPlaces() {
+    func loadData() {
+        //downloadind data for trending places
         let trendingList = db.collection("categories").document("trending")
         trendingList.getDocument { document, err in
             if let document = document, document.exists {
@@ -66,9 +69,9 @@ class HomeScreenController: UIViewController {
                         for document in querySnapshot!.documents {
                             let place = document.data()
                             self.places[0].append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, placeDescription: place["description"] as! String, openingHours: place["openingHours"] as! String))
-                            DispatchQueue.main.async {
-                                self.tableView.reloadData()
-                            }
+                        }
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
                         }
                     }
                 }
@@ -77,9 +80,8 @@ class HomeScreenController: UIViewController {
                 print("Trending document does not exist")
             }
         }
-    }
-    
-    func loadPlaces() {
+        
+        //downloading data for "You may like" places
         db.collection("places").limit(to: 10).getDocuments { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -87,21 +89,14 @@ class HomeScreenController: UIViewController {
                 for document in querySnapshot!.documents {
                     let place = document.data()
                     self.places[1].append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, placeDescription: place["description"] as! String, openingHours: place["openingHours"] as! String))
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                        self.spinner.stopAnimating()
-                        self.tableView.isHidden = false
-                    }
+                }
+                DispatchQueue.main.async {
+               // DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+                    self.tableView.reloadData()
+                    //self.spinner.stopAnimating()
+                    //self.tableView.isHidden = false
                 }
             }
-        }
-    }
-
-    func loadSavedPlaces() {
-        if let savedPlaces = StorageManager.sharedManager.fetchAllSavedPlaces() {
-            //getting only first few places not to clutter home screen
-            let tempArray = Array(savedPlaces.prefix(10))
-            //places.append(tempArray)
         }
     }
     
@@ -176,9 +171,9 @@ extension HomeScreenController: UITableViewDataSource {
         case 1:
             return "You may like:"
         case 2:
-            return "Saved Places:"
+            return "Want to go:"
         case 3:
-            return "Recently Visited:"
+            return "Near me:"
         default:
             return "ERROR"
         }
@@ -250,7 +245,17 @@ extension HomeScreenController: UICollectionViewDataSource {
                 print("Failed generating url: \(err)")
             } else {
                 cell.imageView.sd_imageIndicator?.stopAnimatingIndicator()
-                cell.imageView.sd_setImage(with: url, placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground)
+                cell.imageView.sd_setImage(with: url, placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground) {
+                    _,_,_,_ in
+                    //check if the first row finished downloading to present the table view
+                    //TODO: improve
+                    self.count += 1
+                    if self.count == self.places.flatMap({ $0 }).count-1 {
+                        self.spinner.stopAnimating()
+                        self.tableView.isHidden = false
+                    }
+                    
+                }
             }
         }
         

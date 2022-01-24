@@ -43,6 +43,7 @@ class SavedPlacesController: UIViewController {
         tableView.reloadData()
     }
     
+    
     /*func loadPlaces() {
         db.collection("places").limit(to: 20).getDocuments { (querySnapshot, err) in
             if let err = err {
