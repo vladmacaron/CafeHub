@@ -26,27 +26,19 @@ class DetailedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         mainImage.image = placeImage
         
         if let savedPlace = savedPlace {
             firebasePlace = Cafe(name: savedPlace.name!, address: savedPlace.address!, zip: savedPlace.zip!, imageLink: savedPlace.imageLink!, type: savedPlace.type!, rating: savedPlace.rating, placeDescription: savedPlace.placeDescription!, openingHours: savedPlace.openingHours!)
-            /*titleLabel.text = savedPlace.name
-            addressLabel.text = savedPlace.address
-            openingHoursLabel.text = savedPlace.openingHours
-            descriptionLabel.text = savedPlace.placeDescription
-            tagList.textFont = UIFont.systemFont(ofSize: 15, weight: .regular)
-            tagList.addTags(savedPlace.type!)*/
         }
         
-        //if let firebasePlace = firebasePlace {
-            titleLabel.text = firebasePlace.name
-            addressLabel.text = firebasePlace.address
-            openingHoursLabel.text = firebasePlace.openingHours
-            descriptionLabel.text = firebasePlace.placeDescription
-            tagList.textFont = UIFont.systemFont(ofSize: 15, weight: .regular)
-            tagList.addTags(firebasePlace.type)
-        //}
+        titleLabel.text = firebasePlace.name
+        addressLabel.text = firebasePlace.address
+        openingHoursLabel.text = firebasePlace.openingHours
+        descriptionLabel.text = firebasePlace.placeDescription
+        tagList.textFont = UIFont.systemFont(ofSize: 15, weight: .regular)
+        tagList.addTags(firebasePlace.type)
         
         if let check = findPlace(name: firebasePlace!.name) {
             if check {
@@ -83,6 +75,8 @@ class DetailedViewController: UIViewController {
             })
             checkButton = true
         }
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "nameOfNotification"), object: nil)
     }
     
     func checkSavedPlace() -> Bool {

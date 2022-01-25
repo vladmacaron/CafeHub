@@ -39,10 +39,24 @@ class SavedPlacesController: UIViewController {
             savedPlaces = tempSavedPlaces
         }
         
-        self.loadPlacesNames()
+        NotificationCenter.default.addObserver(self, selector: #selector(ReloadData), name: NSNotification.Name(rawValue: "nameOfNotification"), object: nil)
+        
+        
+        //self.loadPlacesNames()
         tableView.reloadData()
     }
     
+    //reloading tableView when receiving notification from DetailedViewController
+    @objc func ReloadData(notification: NSNotification) {
+        // func
+        print ("FUNC TEST")
+        DispatchQueue.main.async {
+            if let tempSavedPlaces = self.loadAllSavedPlaces() {
+                self.savedPlaces = tempSavedPlaces
+            }
+            self.tableView.reloadData()
+        }
+    }
     
     /*func loadPlaces() {
         db.collection("places").limit(to: 20).getDocuments { (querySnapshot, err) in
@@ -64,7 +78,6 @@ class SavedPlacesController: UIViewController {
         let secondViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailedViewController") as! DetailedViewController
 
         //secondViewController.transitioningDelegate = self
-
         secondViewController.modalPresentationStyle = .popover
         secondViewController.savedPlace = data
         secondViewController.placeImage = image
@@ -104,12 +117,19 @@ class SavedPlacesController: UIViewController {
 
 extension SavedPlacesController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        /*if let places = StorageManager.sharedManager.fetchAllSavedPlaces() {
+            print(places.count)
+            return places.count
+        } else {
+            return 0
+        }*/
         return savedPlaces.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "generalTableViewCell", for: indexPath) as! PlaceTableViewCell
-        //let place = places[indexPath.row]
+        //if let places = StorageManager.sharedManager.fetchAllSavedPlaces() {
+        //    let place = places[indexPath.row]
         let place = savedPlaces[indexPath.row]
         
         cell.saveButton.isHidden = true
@@ -139,8 +159,8 @@ extension SavedPlacesController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            savedPlaces.remove(at: indexPath.row)
             self.deletePlace(name: savedPlaces[indexPath.row].name!)
+            savedPlaces.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }

@@ -12,13 +12,9 @@ class TabViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.delegate = self
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-            super.viewWillAppear(animated)
-            
-        }
-
     /*
     // MARK: - Navigation
 
@@ -32,7 +28,7 @@ class TabViewController: UITabBarController {
 }
 
 extension TabViewController: UITabBarControllerDelegate {
-    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         
     }
 }

@@ -53,6 +53,10 @@ class HomeScreenController: UIViewController {
         self.loadData()
     }
     
+    func refreshView() {
+        tableView.reloadData()
+    }
+    
     func loadData() {
         //downloadind data for trending places
         let trendingList = db.collection("categories").document("trending")

@@ -40,6 +40,7 @@
 		86721C4F2799D0340019157E /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86721C4E2799D0340019157E /* TabViewController.swift */; };
 		86721C512799E2840019157E /* DetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86721C502799E2840019157E /* DetailedViewController.swift */; };
 		86721C532799E9110019157E /* TransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86721C522799E9110019157E /* TransitionAnimator.swift */; };
+		86721C5527A0714F0019157E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86721C5427A0714F0019157E /* MapViewController.swift */; };
 		868DF1DC27909DD100AB4598 /* SavedPlacesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868DF1DB27909DD100AB4598 /* SavedPlacesController.swift */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +76,7 @@
 		86721C4E2799D0340019157E /* TabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
 		86721C502799E2840019157E /* DetailedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedViewController.swift; sourceTree = "<group>"; };
 		86721C522799E9110019157E /* TransitionAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionAnimator.swift; sourceTree = "<group>"; };
+		86721C5427A0714F0019157E /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		868DF1DB27909DD100AB4598 /* SavedPlacesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPlacesController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -207,6 +209,7 @@
 				86721C4E2799D0340019157E /* TabViewController.swift */,
 				8645923A27381E3F00222B6D /* HomeScreenController.swift */,
 				868DF1DB27909DD100AB4598 /* SavedPlacesController.swift */,
+				86721C5427A0714F0019157E /* MapViewController.swift */,
 				86721C502799E2840019157E /* DetailedViewController.swift */,
 			);
 			path = Controllers;
@@ -365,6 +368,7 @@
 				8651D7FC278CA2DD0004FE8D /* ThirdOnboardingViewController.swift in Sources */,
 				8651D7EE278C98330004FE8D /* OnboardingPageViewController.swift in Sources */,
 				8645923B27381E3F00222B6D /* HomeScreenController.swift in Sources */,
+				86721C5527A0714F0019157E /* MapViewController.swift in Sources */,
 				8651D805278F1A8A0004FE8D /* PlaceTableViewCell.swift in Sources */,
 				8651D802278DED040004FE8D /* Places.xcdatamodeld in Sources */,
 				8651D7F2278C9DA60004FE8D /* ConciergeViewController.swift in Sources */,
