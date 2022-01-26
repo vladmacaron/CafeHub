@@ -115,19 +115,40 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Lf4-RY-JN4">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="COc-1k-fSH">
+                                <rect key="frame" x="344" y="64" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="OBO-2X-Uh7"/>
+                                    <constraint firstAttribute="width" constant="50" id="x1E-X1-GvY"/>
+                                </constraints>
+                                <color key="tintColor" name="AccentColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" cornerStyle="medium">
+                                    <imageReference key="image" image="heart" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="30" scale="large"/>
+                                    <color key="baseBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="didPressSave:" destination="H5Y-NT-Qfn" eventType="touchUpInside" id="n1C-4D-Ob3"/>
+                                    <action selector="showSavedPlaces:" destination="28H-X2-2w5" eventType="touchUpInside" id="np4-je-w9t"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="XF3-x8-Eox"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Lf4-RY-JN4" firstAttribute="trailing" secondItem="XF3-x8-Eox" secondAttribute="trailing" id="HCy-cg-Xby"/>
                             <constraint firstItem="Lf4-RY-JN4" firstAttribute="leading" secondItem="XF3-x8-Eox" secondAttribute="leading" id="My5-ad-2uj"/>
+                            <constraint firstItem="XF3-x8-Eox" firstAttribute="trailing" secondItem="COc-1k-fSH" secondAttribute="trailing" constant="20" id="NZs-Zb-ok3"/>
                             <constraint firstItem="Lf4-RY-JN4" firstAttribute="bottom" secondItem="XF3-x8-Eox" secondAttribute="bottom" id="OMi-CT-hgh"/>
                             <constraint firstItem="Lf4-RY-JN4" firstAttribute="top" secondItem="jxX-Xx-9LP" secondAttribute="top" id="fe5-xY-S7N"/>
+                            <constraint firstItem="COc-1k-fSH" firstAttribute="top" secondItem="XF3-x8-Eox" secondAttribute="top" constant="20" id="hqP-bO-Mxo"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" image="map.fill" catalog="system" id="W72-Ac-VEo"/>
                     <connections>
                         <outlet property="mapView" destination="Lf4-RY-JN4" id="VEL-AB-Rxm"/>
+                        <outlet property="savedPlacesButton" destination="COc-1k-fSH" id="vCD-pd-H7D"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6aZ-IQ-hnO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

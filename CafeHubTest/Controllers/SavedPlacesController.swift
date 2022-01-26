@@ -39,7 +39,7 @@ class SavedPlacesController: UIViewController {
             savedPlaces = tempSavedPlaces
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(ReloadData), name: NSNotification.Name(rawValue: "nameOfNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ReloadData), name: NSNotification.Name(rawValue: "savedPlaceChangeValue"), object: nil)
         
         
         //self.loadPlacesNames()
@@ -168,7 +168,7 @@ extension SavedPlacesController: UITableViewDataSource {
 
 extension SavedPlacesController: UITableViewDelegate {
     func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
-        return 180
+        return 200
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

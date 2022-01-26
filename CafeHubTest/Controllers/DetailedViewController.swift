@@ -52,10 +52,7 @@ class DetailedViewController: UIViewController {
     }
     
     @IBAction func closeView(_ sender: UIButton) {
-        dismiss(animated: true) {
-            //TODO: add reload to the views
-            
-        }
+        dismiss(animated: true)
     }
     
     @IBAction func didPressSave(_ sender: UIButton) {
@@ -76,7 +73,7 @@ class DetailedViewController: UIViewController {
             checkButton = true
         }
         
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "nameOfNotification"), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "savedPlaceChangeValue"), object: nil)
     }
     
     func checkSavedPlace() -> Bool {

@@ -11,14 +11,17 @@ import FirebaseFirestore
 import FirebaseStorage
 import TagListView
 import SDWebImage
+import MapKit
 
 class HomeScreenController: UIViewController {
     let db = Firestore.firestore()
     let storage = Storage.storage()
+    let locationManager = CLLocationManager()
 
-    var places: [[Cafe]] = [[], []]
+    var places: [[Cafe]] = [[], [], []]
     var trendingList: [String] = []
     private var count = 0
+    private var placeDistance: [Cafe: CLLocationDistance] = [Cafe: CLLocationDistance]()
     
     static let tableCellID: String = "tableViewCellID_section_#"
     @IBOutlet weak var tableView: UITableView!
@@ -40,6 +43,9 @@ class HomeScreenController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        locationManager.requestWhenInUseAuthorization()
+        
+        
         tableView.dataSource = self
         tableView.delegate = self
         //self.loadData()
@@ -49,12 +55,33 @@ class HomeScreenController: UIViewController {
         
         //self.loadTrendingPlaces()
         //self.loadPlaces()
-        
         self.loadData()
+        
     }
     
-    func refreshView() {
-        tableView.reloadData()
+    func checkLocationServices() {
+        if CLLocationManager.locationServicesEnabled() {
+            checkLocationAuthorization()
+        } else {
+            // Show alert letting the user know they have to turn this on.
+        }
+    }
+    
+    func checkLocationAuthorization() {
+        switch locationManager.authorizationStatus {
+        case .authorizedWhenInUse:
+            //mapView.showsUserLocation = true
+            break
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+            //mapView.showsUserLocation = true
+        case .restricted, .denied: // Show an alert letting them know what’s up
+            break
+        case .authorizedAlways:
+            break
+        @unknown default:
+            fatalError("location access error")
+        }
     }
     
     func loadData() {
@@ -97,11 +124,31 @@ class HomeScreenController: UIViewController {
                 DispatchQueue.main.async {
                // DispatchQueue.main.asyncAfter(deadline: .now()+1) {
                     self.tableView.reloadData()
-                    //self.spinner.stopAnimating()
-                    //self.tableView.isHidden = false
+                    //self.checkLocationServices()
                 }
             }
         }
+        
+        //downloading for nearby places
+        db.collection("places").getDocuments { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    let place = document.data()
+                    
+                    self.places[2].append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, placeDescription: place["description"] as! String, openingHours: place["openingHours"] as! String))
+                }
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    //self.checkLocationServices()
+                }
+            }
+        }
+        
+        
+        
     }
     
     func presentSecondViewController(with data: Cafe, image: UIImage) {
@@ -175,9 +222,9 @@ extension HomeScreenController: UITableViewDataSource {
         case 1:
             return "You may like:"
         case 2:
-            return "Want to go:"
-        case 3:
             return "Near me:"
+        case 3:
+            return "Want to go:"
         default:
             return "ERROR"
         }
@@ -254,7 +301,9 @@ extension HomeScreenController: UICollectionViewDataSource {
                     //check if the first row finished downloading to present the table view
                     //TODO: improve
                     self.count += 1
-                    if self.count == self.places.flatMap({ $0 }).count-1 {
+                    //print(self.count)
+                    //print(self.places.flatMap({ $0 }).count-self.places.count)
+                    if self.count == self.places.flatMap({ $0 }).count-self.places.count {
                         self.spinner.stopAnimating()
                         self.tableView.isHidden = false
                     }

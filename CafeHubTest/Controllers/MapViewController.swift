@@ -12,14 +12,20 @@ import FirebaseFirestore
 class MapViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var savedPlacesButton: UIButton!
     let locationManager = CLLocationManager()
     let db = Firestore.firestore()
-    var allPlacesLocation: [String: String] = [String: String]()
+    
+    private var checkButton = true
+    var allPlacesLocation: [Cafe] = [Cafe]()
+    var savedPlacesLocation: [Cafe] = [Cafe]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         checkLocationServices()
+        loadPlaces()
+        
         //TODO: fix getting correct current location
         if let currentLocation = locationManager.location {
             mapView.centerToLocation(currentLocation)
@@ -27,21 +33,38 @@ class MapViewController: UIViewController {
             mapView.centerToLocation(CLLocation(latitude: 48, longitude: 16))
         }
         
-        loadPlacesNames()
+        //TODO: change "center" to the center of Vienna
+        let region = MKCoordinateRegion(center: locationManager.location!.coordinate, latitudinalMeters: 25000, longitudinalMeters: 25000)
+        mapView.setCameraBoundary(MKMapView.CameraBoundary(coordinateRegion: region), animated: true)
         
-        let region = MKCoordinateRegion(
-            center: locationManager.location!.coordinate,
-            latitudinalMeters: 25000,
-            longitudinalMeters: 25000)
-        mapView.setCameraBoundary(
-            MKMapView.CameraBoundary(coordinateRegion: region),
-            animated: true)
-        
-        let zoomRange = MKMapView.CameraZoomRange(maxCenterCoordinateDistance: 200000)
-        mapView.setCameraZoomRange(zoomRange, animated: true)
-        
-        
-        locationManager.delegate = self
+        mapView.showAnnotations(mapView.annotations, animated: true)
+        mapView.delegate = self
+        //locationManager.delegate = self
+    }
+    
+    @objc func ReloadData(notification: NSNotification) {
+        // func
+        print ("FUNC TEST")
+        /*DispatchQueue.main.async {
+            if let tempSavedPlaces = self.loadAllSavedPlaces() {
+                self.savedPlaces = tempSavedPlaces
+            }
+            self.tableView.reloadData()
+        }*/
+    }
+    
+    @IBAction func showSavedPlaces(_ sender: UIButton) {
+        if checkButton {
+            savedPlacesButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            self.mapView.removeAnnotations(self.mapView.annotations)
+            self.loadAllSavedPlaces()
+            self.checkButton = false
+        } else {
+            savedPlacesButton.setImage(UIImage(systemName: "heart"), for: .normal)
+            self.mapView.removeAnnotations(self.mapView.annotations)
+            self.loadPlaces()
+            self.checkButton = true
+        }
     }
     
     func checkLocationServices() {
@@ -68,15 +91,15 @@ class MapViewController: UIViewController {
         }
     }
     
-    func fetchAddressesOnMap(_ addresses: [String: String]) {
-        for (name, address) in addresses {
+    func fetchAddressesOnMap(_ places: [Cafe]) {
+        
+        for place in places {
             let annotations = MKPointAnnotation()
-            annotations.title = name
-            self.getCoordinate(addressString: address) { coordinates, err in
+            annotations.title = place.name
+            self.getCoordinate(addressString: place.address) { coordinates, err in
                 annotations.coordinate = coordinates
             }
-            //annotations.coordinate = CLLocationCoordinate2D(latitude:
-            //                                                    stadium.lattitude, longitude: stadium.longtitude)
+            
             mapView.addAnnotation(annotations)
         }
     }
@@ -93,20 +116,19 @@ class MapViewController: UIViewController {
                     return
                 }
             }
-                
+            
             completionHandler(kCLLocationCoordinate2DInvalid, error as NSError?)
         }
     }
     
-    func loadPlacesNames() {
+    func loadPlaces() {
         db.collection("places").order(by: "name").getDocuments { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents {
                     let place = document.data()
-                    self.allPlacesLocation[place["name"] as! String] = (place["address"] as! String)
-                    //print(self.allPlacesLocation[place["name"] as! String])
+                    self.allPlacesLocation.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, placeDescription: place["description"] as! String, openingHours: place["openingHours"] as! String))
                 }
                 DispatchQueue.main.async {
                     self.fetchAddressesOnMap(self.allPlacesLocation)
@@ -114,22 +136,27 @@ class MapViewController: UIViewController {
             }
         }
     }
-
+    
+    func loadAllSavedPlaces() {
+        if let places = StorageManager.sharedManager.fetchAllSavedPlacesAsCafe() {
+            savedPlacesLocation = places
+            DispatchQueue.main.async {
+                self.fetchAddressesOnMap(self.savedPlacesLocation)
+            }
+        }
+    }
+    
 }
 
-extension MapViewController: CLLocationManagerDelegate {
+extension MapViewController: MKMapViewDelegate {
+   
+    
     
 }
 
 private extension MKMapView {
-  func centerToLocation(
-    _ location: CLLocation,
-    regionRadius: CLLocationDistance = 1000
-  ) {
-    let coordinateRegion = MKCoordinateRegion(
-      center: location.coordinate,
-      latitudinalMeters: regionRadius,
-      longitudinalMeters: regionRadius)
-    setRegion(coordinateRegion, animated: true)
-  }
+    func centerToLocation(_ location: CLLocation, regionRadius: CLLocationDistance = 1500) {
+        let coordinateRegion = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
+        setRegion(coordinateRegion, animated: true)
+    }
 }

@@ -8,8 +8,9 @@
 import Foundation
 import UIKit
 import FirebaseStorage
+import CoreLocation
 
-struct Cafe: Codable {
+struct Cafe: Hashable {
     let name: String
     let address: String
     let zip: String
@@ -18,11 +19,9 @@ struct Cafe: Codable {
     let rating: Double
     let placeDescription: String
     let openingHours: String
+    var location: CLLocation? = nil
     
     //TODO: func for fetching rating from Google Maps?
-    func getRating() -> Int {
-        return name.hashValue
-    }
     
     //TODO: function for calculating "match"
     //func calculateMatch(input??) -> Int {}
