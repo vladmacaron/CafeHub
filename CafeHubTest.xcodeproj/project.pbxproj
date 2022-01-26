@@ -41,6 +41,7 @@
 		86721C512799E2840019157E /* DetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86721C502799E2840019157E /* DetailedViewController.swift */; };
 		86721C532799E9110019157E /* TransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86721C522799E9110019157E /* TransitionAnimator.swift */; };
 		86721C5527A0714F0019157E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86721C5427A0714F0019157E /* MapViewController.swift */; };
+		86721C5727A1A91E0019157E /* PlaceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86721C5627A1A91E0019157E /* PlaceManager.swift */; };
 		868DF1DC27909DD100AB4598 /* SavedPlacesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868DF1DB27909DD100AB4598 /* SavedPlacesController.swift */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +78,7 @@
 		86721C502799E2840019157E /* DetailedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedViewController.swift; sourceTree = "<group>"; };
 		86721C522799E9110019157E /* TransitionAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionAnimator.swift; sourceTree = "<group>"; };
 		86721C5427A0714F0019157E /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		86721C5627A1A91E0019157E /* PlaceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceManager.swift; sourceTree = "<group>"; };
 		868DF1DB27909DD100AB4598 /* SavedPlacesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPlacesController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -175,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				8651D7FE278DECB50004FE8D /* StorageManager.swift */,
+				86721C5627A1A91E0019157E /* PlaceManager.swift */,
 				8651D7F3278C9F430004FE8D /* LandscapeManager.swift */,
 				8651D7F5278CA1AE0004FE8D /* Storyboard+Ext.swift */,
 				86721C522799E9110019157E /* TransitionAnimator.swift */,
@@ -374,6 +377,7 @@
 				8651D7F2278C9DA60004FE8D /* ConciergeViewController.swift in Sources */,
 				8651D7F4278C9F430004FE8D /* LandscapeManager.swift in Sources */,
 				86721C532799E9110019157E /* TransitionAnimator.swift in Sources */,
+				86721C5727A1A91E0019157E /* PlaceManager.swift in Sources */,
 				86721C512799E2840019157E /* DetailedViewController.swift in Sources */,
 				8651D7F6278CA1AE0004FE8D /* Storyboard+Ext.swift in Sources */,
 			);

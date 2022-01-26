@@ -26,3 +26,4 @@ struct Cafe: Hashable {
     //TODO: function for calculating "match"
     //func calculateMatch(input??) -> Int {}
 }
+

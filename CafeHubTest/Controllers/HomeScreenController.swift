@@ -17,11 +17,11 @@ class HomeScreenController: UIViewController {
     let db = Firestore.firestore()
     let storage = Storage.storage()
     let locationManager = CLLocationManager()
+    let sharedPlaces = PlaceManager.shared
 
     var places: [[Cafe]] = [[], [], []]
     var trendingList: [String] = []
     private var count = 0
-    private var placeDistance: [Cafe: CLLocationDistance] = [Cafe: CLLocationDistance]()
     
     static let tableCellID: String = "tableViewCellID_section_#"
     @IBOutlet weak var tableView: UITableView!
@@ -84,7 +84,7 @@ class HomeScreenController: UIViewController {
         }
     }
     
-    func loadData() {
+    /*func loadData() {
         //downloadind data for trending places
         let trendingList = db.collection("categories").document("trending")
         trendingList.getDocument { document, err in
@@ -147,7 +147,39 @@ class HomeScreenController: UIViewController {
             }
         }
         
+    }*/
+    func loadData() {
+        DispatchQueue.main.async {
+            self.places[1].append(contentsOf: self.sharedPlaces.places)
+            self.places[2].append(contentsOf: self.sharedPlaces.places)
+            self.tableView.reloadData()
+        }
         
+        let trendingList = db.collection("categories").document("trending")
+        trendingList.getDocument { document, err in
+            if let document = document, document.exists {
+                let trendingPlaces = document.data()!["placesID"] as? [Any]
+                for place in trendingPlaces! {
+                    self.trendingList.append(place as! String)
+                }
+                self.db.collection("places").whereField(FieldPath.documentID(), in: self.trendingList).getDocuments { querySnapshot, err in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        for document in querySnapshot!.documents {
+                            let place = document.data()
+                            self.places[0].append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, placeDescription: place["description"] as! String, openingHours: place["openingHours"] as! String))
+                        }
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
+                    }
+                }
+                
+            } else {
+                print("Trending document does not exist")
+            }
+        }
         
     }
     
