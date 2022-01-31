@@ -82,71 +82,7 @@ class HomeScreenController: UIViewController {
             fatalError("location access error")
         }
     }
-    
-    /*func loadData() {
-        //downloadind data for trending places
-        let trendingList = db.collection("categories").document("trending")
-        trendingList.getDocument { document, err in
-            if let document = document, document.exists {
-                let trendingPlaces = document.data()!["placesID"] as? [Any]
-                for place in trendingPlaces! {
-                    self.trendingList.append(place as! String)
-                }
-                self.db.collection("places").whereField(FieldPath.documentID(), in: self.trendingList).getDocuments { querySnapshot, err in
-                    if let err = err {
-                        print("Error getting documents: \(err)")
-                    } else {
-                        for document in querySnapshot!.documents {
-                            let place = document.data()
-                            self.places[0].append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, placeDescription: place["description"] as! String, openingHours: place["openingHours"] as! String))
-                        }
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
-                    }
-                }
-                
-            } else {
-                print("Trending document does not exist")
-            }
-        }
-        
-        //downloading data for "You may like" places
-        db.collection("places").limit(to: 10).getDocuments { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    let place = document.data()
-                    self.places[1].append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, placeDescription: place["description"] as! String, openingHours: place["openingHours"] as! String))
-                }
-                DispatchQueue.main.async {
-               // DispatchQueue.main.asyncAfter(deadline: .now()+1) {
-                    self.tableView.reloadData()
-                    //self.checkLocationServices()
-                }
-            }
-        }
-        
-        //downloading for nearby places
-        db.collection("places").getDocuments { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    let place = document.data()
-                    
-                    self.places[2].append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, placeDescription: place["description"] as! String, openingHours: place["openingHours"] as! String))
-                }
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                    //self.checkLocationServices()
-                }
-            }
-        }
-        
-    }*/
+
     func loadData() {
         DispatchQueue.main.async {
             self.places[1].append(contentsOf: self.sharedPlaces.places)
@@ -299,11 +235,27 @@ extension HomeScreenController: UITableViewDelegate {
     //custom Header View for Sections in TableView
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else { return }
+        //configure title for section
         header.textLabel?.textColor = UIColor.black
         header.textLabel?.font = UIFont.systemFont(ofSize: 22, weight: .heavy)
         header.textLabel?.frame = header.bounds
+        //configure button for seaction
+        let DoneBut: UIButton = UIButton(frame: CGRect(x: view.frame.maxX-50, y: 0, width: 50, height: 25))
+        //let DoneBut: UIButton = UIButton(frame: CGRect(x: 200, y: 0, width: 150, height: 25))
+        //TODO: change the color and the title
+        DoneBut.setTitle("Button", for: .normal)
+        DoneBut.titleLabel?.backgroundColor = .black
+        DoneBut.backgroundColor = .blue
+        DoneBut.tag = section
+        DoneBut.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
+        header.addSubview(DoneBut)
     }
     
+    @objc func buttonTapped(_ sender: UIButton) {
+        //TODO: add segue for sections
+        print("CHECK \(sender.tag)")
+    }
+   
 }
 
 extension HomeScreenController: UICollectionViewDataSource {

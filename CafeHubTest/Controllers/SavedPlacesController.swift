@@ -105,11 +105,11 @@ extension SavedPlacesController: UITableViewDataSource {
         case false:
             return savedPlaces.count
         }
-        
-        //return savedPlaces.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        //TODO: add cell for empty View
         let cell = tableView.dequeueReusableCell(withIdentifier: "generalTableViewCell", for: indexPath) as! PlaceTableViewCell
         //if let places = StorageManager.sharedManager.fetchAllSavedPlaces() {
         //    let place = places[indexPath.row]
