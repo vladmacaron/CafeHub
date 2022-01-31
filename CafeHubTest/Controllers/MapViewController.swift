@@ -59,6 +59,7 @@ class MapViewController: UIViewController {
     func checkLocationServices() {
         if CLLocationManager.locationServicesEnabled() {
             checkLocationAuthorization()
+            //locationManager.startUpdatingLocation()
         } else {
             // Show alert letting the user know they have to turn this on.
         }

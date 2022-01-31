@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseFirestore
+import CoreLocation
 
 class ConciergeViewController: UIViewController {
 
@@ -31,6 +32,7 @@ class ConciergeViewController: UIViewController {
     
     func loadData() {
         //needs limit?
+        let group = DispatchGroup()
         db.collection("places").getDocuments { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -39,8 +41,35 @@ class ConciergeViewController: UIViewController {
                     let place = document.data()
                     self.sharedPlaces.places.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, placeDescription: place["description"] as! String, openingHours: place["openingHours"] as! String))
                 }
-                DispatchQueue.main.async {
-                    self.performSegue(withIdentifier: "toMain", sender: nil)
+                
+                self.sharedPlaces.places.forEach { cafe in
+                    group.enter()
+                    cafe.getCoordinate { locationCL, err in
+                        cafe.location = locationCL
+                        group.leave()
+                    }
+                }
+            }
+            group.notify(queue: .main) {
+                self.performSegue(withIdentifier: "toMain", sender: nil)
+            }
+            
+            /*DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "toMain", sender: nil)
+            }*/
+                
+        }
+        
+    }
+    
+    func getCoordinate(_ address: String, completionHandler: @escaping(CLLocation, NSError?) -> Void ) {
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(address) { (placemarks, error) in
+            if error == nil {
+                if let placemark = placemarks?.first {
+                    let locationCL = placemark.location!
+                    completionHandler(locationCL, nil)
+                    return
                 }
             }
         }

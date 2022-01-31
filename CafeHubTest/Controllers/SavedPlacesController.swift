@@ -33,14 +33,12 @@ class SavedPlacesController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        //searchBar.delegate = self
         //tableView.prefetchDataSource = self
         if let tempSavedPlaces = self.loadAllSavedPlaces() {
             savedPlaces = tempSavedPlaces
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(ReloadData), name: NSNotification.Name(rawValue: "savedPlaceChangeValue"), object: nil)
-        
         
         //self.loadPlacesNames()
         tableView.reloadData()
@@ -57,22 +55,6 @@ class SavedPlacesController: UIViewController {
             self.tableView.reloadData()
         }
     }
-    
-    /*func loadPlaces() {
-        db.collection("places").limit(to: 20).getDocuments { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    let place = document.data()
-                    self.filterPlaces.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double))
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                    }
-                }
-            }
-        }
-    }*/
     
     func presentSecondViewController(with data: SavedPlaces, image: UIImage) {
         let secondViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailedViewController") as! DetailedViewController
@@ -117,13 +99,14 @@ class SavedPlacesController: UIViewController {
 
 extension SavedPlacesController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        /*if let places = StorageManager.sharedManager.fetchAllSavedPlaces() {
-            print(places.count)
-            return places.count
-        } else {
-            return 0
-        }*/
-        return savedPlaces.count
+        switch savedPlaces.count == 0 {
+        case true:
+            return 1
+        case false:
+            return savedPlaces.count
+        }
+        
+        //return savedPlaces.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -131,27 +114,10 @@ extension SavedPlacesController: UITableViewDataSource {
         //if let places = StorageManager.sharedManager.fetchAllSavedPlaces() {
         //    let place = places[indexPath.row]
         let place = savedPlaces[indexPath.row]
-        
-        cell.saveButton.isHidden = true
-        
         cell.tag = indexPath.row
         
-        cell.titleLabel.text = place.name
-        cell.tagList.addTags(place.type!)
-        cell.zipLabel.text = place.zip
-        
-        cell.placeImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
-        cell.placeImage.sd_imageIndicator?.startAnimatingIndicator()
-        let imageRef = storage.reference(forURL: place.imageLink!)
-        imageRef.downloadURL { url, err in
-            if let err = err {
-                print("Failed generating url: \(err)")
-            } else {
-                if cell.tag == indexPath.row {
-                    cell.placeImage.sd_imageIndicator?.stopAnimatingIndicator()
-                    cell.placeImage.sd_setImage(with: url, placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground)
-                }
-            }
+        if cell.tag == indexPath.row {
+            cell.configureCellforSavedPlaces(place: place)
         }
         
         return cell

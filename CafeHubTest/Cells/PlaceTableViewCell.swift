@@ -8,6 +8,7 @@
 import UIKit
 import TagListView
 import SDWebImage
+import FirebaseStorage
 
 protocol PlaceTableViewCellDelegate: AnyObject {
     func didPressButton(_ tag: Int)
@@ -15,6 +16,9 @@ protocol PlaceTableViewCellDelegate: AnyObject {
 
 class PlaceTableViewCell: UITableViewCell {
 
+    let storage = Storage.storage()
+    var item: SavedPlaces?
+    
     var cellDelegate: PlaceTableViewCellDelegate?
     var checkButton = true
     
@@ -40,6 +44,31 @@ class PlaceTableViewCell: UITableViewCell {
         blurView.layer.cornerRadius = 10
         blurView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         
+        if let place = item {
+            configureCellforSavedPlaces(place: place)
+        }
+    }
+    
+    func configureCellforSavedPlaces(place: SavedPlaces) {
+        saveButton.isHidden = true
+        
+        titleLabel.text = place.name
+        tagList.addTags(place.type!)
+        zipLabel.text = place.zip
+        
+        placeImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
+        placeImage.sd_imageIndicator?.startAnimatingIndicator()
+        let imageRef = storage.reference(forURL: place.imageLink!)
+        imageRef.downloadURL { url, err in
+            if let err = err {
+                print("Failed generating url: \(err)")
+            } else {
+                //if cell.tag == indexPath.row {
+                self.placeImage.sd_imageIndicator?.stopAnimatingIndicator()
+                self.placeImage.sd_setImage(with: url, placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground)
+                //}
+            }
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

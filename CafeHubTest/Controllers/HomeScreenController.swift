@@ -27,8 +27,7 @@ class HomeScreenController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     
-    //let numberOfSections: Int = 2
-    //let numberOfCollectionsForRow: Int = 1
+    let defaultLocation = CLLocation(latitude: 48.209131857255954, longitude: 16.37417610826001)
     let numberOfCollectionItems: Int = 20
     
     // Set true to enable UICollectionViews scroll pagination
@@ -44,7 +43,7 @@ class HomeScreenController: UIViewController {
         super.viewDidLoad()
         
         locationManager.requestWhenInUseAuthorization()
-        
+        checkLocationServices()
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -70,12 +69,12 @@ class HomeScreenController: UIViewController {
     func checkLocationAuthorization() {
         switch locationManager.authorizationStatus {
         case .authorizedWhenInUse:
-            //mapView.showsUserLocation = true
             break
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
             //mapView.showsUserLocation = true
-        case .restricted, .denied: // Show an alert letting them know what’s up
+        case .restricted, .denied:
+            // Show an alert letting them know what’s up
             break
         case .authorizedAlways:
             break
@@ -152,8 +151,20 @@ class HomeScreenController: UIViewController {
         DispatchQueue.main.async {
             self.places[1].append(contentsOf: self.sharedPlaces.places)
             self.places[2].append(contentsOf: self.sharedPlaces.places)
+            
+            if self.locationManager.location != nil {
+                self.places[2].sort { lhs, rhs in
+                    self.locationManager.location!.distance(from: lhs.location!) < self.locationManager.location!.distance(from: rhs.location!)
+                }
+            } else {
+                self.places[2].sort { lhs, rhs in
+                    self.defaultLocation.distance(from: lhs.location!) < self.defaultLocation.distance(from: rhs.location!)
+                }
+            }
+            
             self.tableView.reloadData()
         }
+        
         
         let trendingList = db.collection("categories").document("trending")
         trendingList.getDocument { document, err in
@@ -250,7 +261,7 @@ extension HomeScreenController: UITableViewDataSource {
     func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
-            return "Trending:"
+            return "New Places in the City:"
         case 1:
             return "You may like:"
         case 2:

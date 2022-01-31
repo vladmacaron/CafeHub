@@ -10,7 +10,7 @@ import UIKit
 import FirebaseStorage
 import CoreLocation
 
-struct Cafe: Hashable {
+/*struct Cafe: Hashable {
     let name: String
     let address: String
     let zip: String
@@ -19,10 +19,61 @@ struct Cafe: Hashable {
     let rating: Double
     let placeDescription: String
     let openingHours: String
-    var location: CLLocation? = nil
+    var location: CLLocation? 
     
     //TODO: func for fetching rating from Google Maps?
+    func getCoordinate(completionHandler: @escaping(CLLocation, NSError?) -> Void ) {
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(address) { (placemarks, error) in
+            if error == nil {
+                if let placemark = placemarks?.first {
+                    let locationCL = placemark.location!
+                    completionHandler(locationCL, nil)
+                    return
+                }
+            }
+        }
+    }
+    //TODO: function for calculating "match"
+    //func calculateMatch(input??) -> Int {}
+}*/
+
+
+class Cafe {
+    let name: String
+    let address: String
+    let zip: String
+    let imageLink: String
+    let type: [String]
+    let rating: Double
+    let placeDescription: String
+    let openingHours: String
+    var location: CLLocation?
     
+    init(name: String, address: String, zip: String, imageLink: String, type: [String], rating: Double, placeDescription: String, openingHours: String) {
+        self.name = name
+        self.address = address
+        self.zip = zip
+        self.imageLink = imageLink
+        self.type = type
+        self.rating = rating
+        self.placeDescription = placeDescription
+        self.openingHours = openingHours
+    }
+    
+    //TODO: func for fetching rating from Google Maps?
+    func getCoordinate(completionHandler: @escaping(CLLocation, NSError?) -> Void ) {
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(address) { (placemarks, error) in
+            if error == nil {
+                if let placemark = placemarks?.first {
+                    let locationCL = placemark.location!
+                    completionHandler(locationCL, nil)
+                    return
+                }
+            }
+        }
+    }
     //TODO: function for calculating "match"
     //func calculateMatch(input??) -> Int {}
 }

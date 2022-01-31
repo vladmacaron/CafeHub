@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 class PlaceManager {
     static let shared = PlaceManager()
