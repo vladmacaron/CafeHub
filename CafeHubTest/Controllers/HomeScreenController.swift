@@ -42,11 +42,12 @@ class HomeScreenController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        locationManager.requestWhenInUseAuthorization()
+        //locationManager.requestWhenInUseAuthorization()
         checkLocationServices()
         
         tableView.dataSource = self
         tableView.delegate = self
+        locationManager.delegate = self
         //self.loadData()
         
         spinner.startAnimating()
@@ -55,7 +56,6 @@ class HomeScreenController: UIViewController {
         //self.loadTrendingPlaces()
         //self.loadPlaces()
         self.loadData()
-        
     }
     
     func checkLocationServices() {
@@ -72,7 +72,6 @@ class HomeScreenController: UIViewController {
             break
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
-            //mapView.showsUserLocation = true
         case .restricted, .denied:
             // Show an alert letting them know what’s up
             break
@@ -82,22 +81,25 @@ class HomeScreenController: UIViewController {
             fatalError("location access error")
         }
     }
+    
+    func sortPlacesByLocation() {
+        if self.locationManager.location != nil {
+            self.places[2].sort { lhs, rhs in
+                self.locationManager.location!.distance(from: lhs.location!) < self.locationManager.location!.distance(from: rhs.location!)
+            }
+        } else {
+            self.places[2].sort { lhs, rhs in
+                self.defaultLocation.distance(from: lhs.location!) < self.defaultLocation.distance(from: rhs.location!)
+            }
+        }
+    }
 
     func loadData() {
         DispatchQueue.main.async {
             self.places[1].append(contentsOf: self.sharedPlaces.places)
             self.places[2].append(contentsOf: self.sharedPlaces.places)
-            
-            if self.locationManager.location != nil {
-                self.places[2].sort { lhs, rhs in
-                    self.locationManager.location!.distance(from: lhs.location!) < self.locationManager.location!.distance(from: rhs.location!)
-                }
-            } else {
-                self.places[2].sort { lhs, rhs in
-                    self.defaultLocation.distance(from: lhs.location!) < self.defaultLocation.distance(from: rhs.location!)
-                }
-            }
-            
+            self.sortPlacesByLocation()
+            //self.tableView.reloadSections(IndexSet(integersIn: 0...1), with: .fade)
             self.tableView.reloadData()
         }
         
@@ -263,10 +265,10 @@ extension HomeScreenController: UITableViewDelegate {
         //adding button to the view
         let buttonWidth = CGFloat(100)
         let DoneBut: UIButton = UIButton(frame: CGRect(x: header.frame.maxX-buttonWidth, y: 0, width: buttonWidth, height: 25))
-        //TODO: change the color and the title
         DoneBut.setTitle("See all", for: .normal)
         DoneBut.setTitleColor(.blue, for: .normal)
-        //DoneBut.setTitleColor(.lightGray, for: .highlighted)
+        DoneBut.setTitleColor(.lightGray, for: .selected)
+        DoneBut.isSelected = !DoneBut.isSelected
         DoneBut.backgroundColor = .clear
         DoneBut.tag = section
         
@@ -394,5 +396,12 @@ extension HomeScreenController: UICollectionViewDelegate {
             fatalError("UICollectionView must be of GLIndexedCollectionView type")
         }
         presentDetailedViewController(with: places[indexedCollectionView.indexPath.section][indexPath.row], image: (selectedCell?.imageView.image)!)
+    }
+}
+
+extension HomeScreenController: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        self.sortPlacesByLocation()
+        self.tableView.reloadSections(IndexSet(integer: 2), with: .fade)
     }
 }
