@@ -107,7 +107,7 @@
         <!--Map-->
         <scene sceneID="Vjs-fh-mDW">
             <objects>
-                <viewController id="28H-X2-2w5" customClass="MapViewController" customModule="CafeHubTest" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MapViewController" id="28H-X2-2w5" customClass="MapViewController" customModule="CafeHubTest" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jxX-Xx-9LP">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -158,7 +158,7 @@
         <!--Tab View Controller-->
         <scene sceneID="ltP-gN-45A">
             <objects>
-                <tabBarController id="00P-Zo-Mse" customClass="TabViewController" customModule="CafeHubTest" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabViewController" id="00P-Zo-Mse" customClass="TabViewController" customModule="CafeHubTest" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="LKT-12-a2f">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>

@@ -130,7 +130,7 @@ class HomeScreenController: UIViewController {
         
     }
     
-    func presentSecondViewController(with data: Cafe, image: UIImage) {
+    func presentDetailedViewController(with data: Cafe, image: UIImage) {
         let secondViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailedViewController") as! DetailedViewController
 
         //secondViewController.transitioningDelegate = self
@@ -232,6 +232,50 @@ extension HomeScreenController: UITableViewDelegate {
         cell.setCollectionView(dataSource: self, delegate: self, indexPath: indexPath)
     }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 2 {
+            return addHeaderViewWithButton(for: section)
+        } else {
+            return nil
+        }
+    }
+    
+    func addHeaderViewWithButton(for section: Int) -> UIView {
+        let header = UIView()
+        header.frame = tableView.bounds
+        
+        //adding blur to background
+        header.backgroundColor = .clear
+        let blurEffect = UIBlurEffect(style: .light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = header.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        header.addSubview(blurEffectView)
+        
+        //adding label to the view
+        let label = UILabel(frame: CGRect(x: 20, y: 0, width: 200, height: 25))
+        label.text = "Near me"
+        label.textColor = UIColor.black
+        label.backgroundColor = .clear
+        label.font = UIFont.systemFont(ofSize: 22, weight: .heavy)
+        header.addSubview(label)
+        
+        //adding button to the view
+        let buttonWidth = CGFloat(100)
+        let DoneBut: UIButton = UIButton(frame: CGRect(x: header.frame.maxX-buttonWidth, y: 0, width: buttonWidth, height: 25))
+        //TODO: change the color and the title
+        DoneBut.setTitle("See all", for: .normal)
+        DoneBut.setTitleColor(.blue, for: .normal)
+        //DoneBut.setTitleColor(.lightGray, for: .highlighted)
+        DoneBut.backgroundColor = .clear
+        DoneBut.tag = section
+        
+        //adding target to button for execution of a segue
+        DoneBut.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
+        header.addSubview(DoneBut)
+        return header
+    }
+    
     //custom Header View for Sections in TableView
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else { return }
@@ -239,21 +283,10 @@ extension HomeScreenController: UITableViewDelegate {
         header.textLabel?.textColor = UIColor.black
         header.textLabel?.font = UIFont.systemFont(ofSize: 22, weight: .heavy)
         header.textLabel?.frame = header.bounds
-        //configure button for seaction
-        let DoneBut: UIButton = UIButton(frame: CGRect(x: view.frame.maxX-50, y: 0, width: 50, height: 25))
-        //let DoneBut: UIButton = UIButton(frame: CGRect(x: 200, y: 0, width: 150, height: 25))
-        //TODO: change the color and the title
-        DoneBut.setTitle("Button", for: .normal)
-        DoneBut.titleLabel?.backgroundColor = .black
-        DoneBut.backgroundColor = .blue
-        DoneBut.tag = section
-        DoneBut.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
-        header.addSubview(DoneBut)
     }
     
     @objc func buttonTapped(_ sender: UIButton) {
-        //TODO: add segue for sections
-        print("CHECK \(sender.tag)")
+        self.tabBarController?.selectedIndex = 2
     }
    
 }
@@ -360,6 +393,6 @@ extension HomeScreenController: UICollectionViewDelegate {
         guard let indexedCollectionView: IndexedCollectionView = collectionView as? IndexedCollectionView else {
             fatalError("UICollectionView must be of GLIndexedCollectionView type")
         }
-        presentSecondViewController(with: places[indexedCollectionView.indexPath.section][indexPath.row], image: (selectedCell?.imageView.image)!)
+        presentDetailedViewController(with: places[indexedCollectionView.indexPath.section][indexPath.row], image: (selectedCell?.imageView.image)!)
     }
 }
