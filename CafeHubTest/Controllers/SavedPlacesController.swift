@@ -15,8 +15,9 @@ class SavedPlacesController: UIViewController {
     let db = Firestore.firestore()
     let storage = Storage.storage()
 
-    private var filterPlaces: [Cafe] = [Cafe]()
+    private var toGoPlaces: [SavedPlaces] = [SavedPlaces]()
     private var savedPlaces: [SavedPlaces] = [SavedPlaces]()
+    private var mainData: [SavedPlaces] = [SavedPlaces]()
     private var placesNames: [String] = [String]()
     private var filterPlacesNames: [String] = [String]()
     
@@ -25,18 +26,18 @@ class SavedPlacesController: UIViewController {
     var selectedCellImageViewSnapshot: UIView?
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var filterLabel: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.register(UINib(nibName: "PlaceTableViewCell", bundle: nil), forCellReuseIdentifier: "generalTableViewCell")
+        tableView.register(UINib(nibName: "EmptyTableViewCell", bundle: nil), forCellReuseIdentifier: "emptyTableViewCell")
         
         tableView.delegate = self
         tableView.dataSource = self
         //tableView.prefetchDataSource = self
-        if let tempSavedPlaces = self.loadAllSavedPlaces() {
-            savedPlaces = tempSavedPlaces
-        }
+        loadData()
         
         NotificationCenter.default.addObserver(self, selector: #selector(ReloadData), name: NSNotification.Name(rawValue: "savedPlaceChangeValue"), object: nil)
         
@@ -46,12 +47,8 @@ class SavedPlacesController: UIViewController {
     
     //reloading tableView when receiving notification from DetailedViewController
     @objc func ReloadData(notification: NSNotification) {
-        // func
-        print ("FUNC TEST")
         DispatchQueue.main.async {
-            if let tempSavedPlaces = self.loadAllSavedPlaces() {
-                self.savedPlaces = tempSavedPlaces
-            }
+            self.loadData()
             self.tableView.reloadData()
         }
     }
@@ -64,6 +61,18 @@ class SavedPlacesController: UIViewController {
         secondViewController.savedPlace = data
         secondViewController.placeImage = image
         present(secondViewController, animated: true)
+    }
+    
+    func loadData() {
+        if let tempSavedPlaces = self.loadAllSavedPlaces() {
+            savedPlaces = tempSavedPlaces
+            mainData = tempSavedPlaces
+            tempSavedPlaces.forEach { place in
+                if place.wantToGo {
+                    self.toGoPlaces.append(place)
+                }
+            }
+        }
     }
     
     func loadPlacesNames() {
@@ -85,49 +94,66 @@ class SavedPlacesController: UIViewController {
     func deletePlace(name: String) {
         StorageManager.sharedManager.delete(name: name)
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    //TODO: add buttons for 2 filters: by default "Saved Placs" and another filter "Want to go"
+    @IBAction func pressSegmentedControl(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            mainData = savedPlaces
+            self.tableView.reloadData()
+            break
+        case 1:
+            mainData = toGoPlaces
+            self.tableView.reloadData()
+            break
+        default:
+            fatalError("cant find SelectedSegment Index")
+        }
     }
-    */
+    
 }
 
 extension SavedPlacesController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch savedPlaces.count == 0 {
+        switch mainData.count == 0 {
         case true:
+            print("CHECK \(mainData.count)")
             return 1
         case false:
-            return savedPlaces.count
+            return mainData.count
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         //TODO: add cell for empty View
-        let cell = tableView.dequeueReusableCell(withIdentifier: "generalTableViewCell", for: indexPath) as! PlaceTableViewCell
-        //if let places = StorageManager.sharedManager.fetchAllSavedPlaces() {
-        //    let place = places[indexPath.row]
-        let place = savedPlaces[indexPath.row]
-        cell.tag = indexPath.row
-        
-        if cell.tag == indexPath.row {
-            cell.configureCellforSavedPlaces(place: place)
+        if mainData.count == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "emptyTableViewCell", for: indexPath) as! EmptyTableViewCell
+            cell.configureCell()
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "generalTableViewCell", for: indexPath) as! PlaceTableViewCell
+            let place = mainData[indexPath.row]
+            cell.tag = indexPath.row
+            
+            if cell.tag == indexPath.row {
+                cell.configureCellforSavedPlaces(place: place)
+            }
+            return cell
         }
         
-        return cell
+        //return cell
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            self.deletePlace(name: savedPlaces[indexPath.row].name!)
+            self.deletePlace(name: mainData[indexPath.row].name!)
+            mainData.remove(at: indexPath.row)
             savedPlaces.remove(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .fade)
+            if mainData.isEmpty {
+                self.tableView.reloadData()
+            } else {
+                self.tableView.deleteRows(at: [indexPath], with: .fade)
+            }
         }
     }
 }
@@ -140,7 +166,7 @@ extension SavedPlacesController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedCell = tableView.cellForRow(at: indexPath) as? PlaceTableViewCell
         //selectedCellImageViewSnapshot = selectedCell?.placeImage.snapshotView(afterScreenUpdates: false)
-        presentSecondViewController(with: savedPlaces[indexPath.row], image: (selectedCell?.placeImage.image)!)
+        presentSecondViewController(with: mainData[indexPath.row], image: (selectedCell?.placeImage.image)!)
     }
 }
 

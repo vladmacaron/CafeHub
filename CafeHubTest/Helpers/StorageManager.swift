@@ -35,7 +35,7 @@ class StorageManager {
         }
     }
     
-    func addPlace(name: String, address: String, zip: String, imageLink: String, rating: Double, type: [String], placeDescription: String, openingHours: String) {
+    func addPlace(name: String, address: String, zip: String, imageLink: String, rating: Double, type: [String], placeDescription: String, openingHours: String, wantToGo: Bool) {
         let managedContext = StorageManager.sharedManager.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "SavedPlaces")
         fetchRequest.predicate = NSPredicate(format: "name == %@" ,name)
@@ -60,6 +60,7 @@ class StorageManager {
         place.setValue(type, forKey: "type")
         place.setValue(placeDescription, forKey: "placeDescription")
         place.setValue(openingHours, forKey: "openingHours")
+        place.setValue(wantToGo, forKey: "wantToGo")
         
         do {
             try managedContext.save()
@@ -69,15 +70,10 @@ class StorageManager {
         }
     }
     
-    func update(name: String, address: String, zip: String, imageLink: String, rating: Double, type: [String], place: SavedPlaces) {
+    func update(wantToGo: Bool, place: SavedPlaces) {
         let context = StorageManager.sharedManager.persistentContainer.viewContext
         
-        place.setValue(name, forKeyPath: "name")
-        place.setValue(address, forKeyPath: "address")
-        place.setValue(zip, forKey: "zip")
-        place.setValue(imageLink, forKey: "imageLink")
-        place.setValue(rating, forKey: "rating")
-        place.setValue(type, forKey: "type")
+        place.setValue(wantToGo, forKeyPath: "wantToGo")
         
         do {
             try context.save()
@@ -148,25 +144,24 @@ class StorageManager {
         }
     }
     
-    func find(name: String) -> Bool? {
+    func find(name: String) -> SavedPlaces? {
         let managedContext = StorageManager.sharedManager.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "SavedPlaces")
         
         fetchRequest.predicate = NSPredicate(format: "name == %@" ,name)
         do {
             let item = try managedContext.fetch(fetchRequest)
-            //var arrRemovedPlace = [SavedPlaces]()
-            /*for i in item {
-                managedContext.delete(i)
-                try managedContext.save()
-                //arrRemovedPlace.append(i as! SavedPlaces)
-            }*/
-            if !item.isEmpty {
+            var foundPlaces = [SavedPlaces]()
+            for i in item {
+                foundPlaces.append(i as! SavedPlaces)
+            }
+            return foundPlaces.first
+            
+            /*if !item.isEmpty {
                 return true
             } else {
                 return false
-            }
-            
+            }*/
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
             return nil

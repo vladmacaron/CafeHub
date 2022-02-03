@@ -226,7 +226,7 @@ extension SecondOnboardingViewController: UISearchBarDelegate {
     
     func savePlace(place: Cafe) {
         StorageManager.sharedManager.addPlace(name: place.name, address: place.address, zip: place.zip,
-                                              imageLink: place.imageLink, rating: place.rating, type: place.type, placeDescription: place.placeDescription, openingHours: place.openingHours)
+                                              imageLink: place.imageLink, rating: place.rating, type: place.type, placeDescription: place.placeDescription, openingHours: place.openingHours, wantToGo: false)
     }
     
     func deletePlace(name: String) {

@@ -8,9 +8,10 @@
         <attribute name="placeDescription" attributeType="String"/>
         <attribute name="rating" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="type" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
+        <attribute name="wantToGo" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="zip" attributeType="String"/>
     </entity>
     <elements>
-        <element name="SavedPlaces" positionX="-63" positionY="-18" width="128" height="149"/>
+        <element name="SavedPlaces" positionX="-63" positionY="-18" width="128" height="164"/>
     </elements>
 </model>

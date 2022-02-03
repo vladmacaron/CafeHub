@@ -223,7 +223,7 @@ extension HomeScreenController: UITableViewDelegate {
     }
 
     func tableView(_: UITableView, heightForFooterInSection _: Int) -> CGFloat {
-        return 0.0001
+        return 0
     }
 
     func tableView(_: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -369,12 +369,12 @@ extension HomeScreenController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        //let tableViewCellHeight: CGFloat = tableView.rowHeight
-        //let collectionItemWidth: CGFloat = tableViewCellHeight - (collectionLeftInset + collectionRightInset)
-        //let collectionViewHeight: CGFloat = tableViewCellHeight
-        let tableViewCellHeight: CGFloat = 180
         let collectionItemWidth: CGFloat = 250
-        let collectionViewHeight: CGFloat = tableViewCellHeight - (collectionLeftInset + collectionRightInset)
+        //let collectionViewHeight: CGFloat = tableView.rowHeight
+        let collectionViewHeight: CGFloat = 165
+        //let tableViewCellHeight: CGFloat = 180
+        //let collectionItemWidth: CGFloat = 250
+        //let collectionViewHeight: CGFloat = tableViewCellHeight - (collectionLeftInset + collectionRightInset)
         
         return CGSize(width: collectionItemWidth, height: collectionViewHeight)
     }

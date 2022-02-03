@@ -35,18 +35,16 @@ class DetailedViewController: UIViewController {
         
         titleLabel.text = firebasePlace.name
         addressLabel.text = firebasePlace.address
-        openingHoursLabel.text = firebasePlace.openingHours
+        openingHoursLabel.text = firebasePlace.openingHours.replacingOccurrences(of: ", ", with: "\n")
         descriptionLabel.text = firebasePlace.placeDescription
         tagList.textFont = UIFont.systemFont(ofSize: 15, weight: .regular)
         tagList.addTags(firebasePlace.type)
         
-        if let check = findPlace(name: firebasePlace!.name) {
-            if check {
-                saveButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                self.checkButton = false
-            } else {
-                saveButton.setImage(UIImage(systemName: "heart"), for: .normal)
-            }
+        if findPlace(name: firebasePlace!.name) != nil {
+            saveButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            self.checkButton = false
+        } else {
+            saveButton.setImage(UIImage(systemName: "heart"), for: .normal)
         }
         
     }
@@ -88,11 +86,9 @@ class DetailedViewController: UIViewController {
                 for savedPlace in savedPlaces {
                     if (savedPlace.name != place.name) {
                         self.checkButton = false
-                        //self.savePlace(place: place)
                         return false
                     } else {
                         self.checkButton = true
-                        //self.deletePlace(name: place.name)
                         return true
                     }
                 }
@@ -103,14 +99,14 @@ class DetailedViewController: UIViewController {
     
     func savePlace(place: Cafe) {
         StorageManager.sharedManager.addPlace(name: place.name, address: place.address, zip: place.zip,
-                                              imageLink: place.imageLink, rating: place.rating, type: place.type, placeDescription: place.placeDescription, openingHours: place.openingHours)
+                                              imageLink: place.imageLink, rating: place.rating, type: place.type, placeDescription: place.placeDescription, openingHours: place.openingHours, wantToGo: false)
     }
     
     func deletePlace(name: String) {
         StorageManager.sharedManager.delete(name: name)
     }
     
-    func findPlace(name: String) -> Bool? {
+    func findPlace(name: String) -> SavedPlaces? {
         return StorageManager.sharedManager.find(name: name)
     }
     

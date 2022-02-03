@@ -42,6 +42,8 @@
 		86721C532799E9110019157E /* TransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86721C522799E9110019157E /* TransitionAnimator.swift */; };
 		86721C5527A0714F0019157E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86721C5427A0714F0019157E /* MapViewController.swift */; };
 		86721C5727A1A91E0019157E /* PlaceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86721C5627A1A91E0019157E /* PlaceManager.swift */; };
+		86721C5A27AC24DB0019157E /* EmptyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86721C5827AC24DA0019157E /* EmptyTableViewCell.swift */; };
+		86721C5B27AC24DB0019157E /* EmptyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86721C5927AC24DA0019157E /* EmptyTableViewCell.xib */; };
 		868DF1DC27909DD100AB4598 /* SavedPlacesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868DF1DB27909DD100AB4598 /* SavedPlacesController.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +81,8 @@
 		86721C522799E9110019157E /* TransitionAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionAnimator.swift; sourceTree = "<group>"; };
 		86721C5427A0714F0019157E /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		86721C5627A1A91E0019157E /* PlaceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceManager.swift; sourceTree = "<group>"; };
+		86721C5827AC24DA0019157E /* EmptyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTableViewCell.swift; sourceTree = "<group>"; };
+		86721C5927AC24DA0019157E /* EmptyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmptyTableViewCell.xib; sourceTree = "<group>"; };
 		868DF1DB27909DD100AB4598 /* SavedPlacesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPlacesController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -169,6 +173,8 @@
 				86459245273834BB00222B6D /* IndexedCollectionViewCell.xib */,
 				8651D803278F1A8A0004FE8D /* PlaceTableViewCell.swift */,
 				8651D804278F1A8A0004FE8D /* PlaceTableViewCell.xib */,
+				86721C5827AC24DA0019157E /* EmptyTableViewCell.swift */,
+				86721C5927AC24DA0019157E /* EmptyTableViewCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -300,6 +306,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8651D806278F1A8A0004FE8D /* PlaceTableViewCell.xib in Resources */,
+				86721C5B27AC24DB0019157E /* EmptyTableViewCell.xib in Resources */,
 				864592332738059300222B6D /* LaunchScreen.storyboard in Resources */,
 				864592302738059300222B6D /* Assets.xcassets in Resources */,
 				8651D7D3278A06840004FE8D /* GoogleService-Info.plist in Resources */,
@@ -365,6 +372,7 @@
 				8651D7FF278DECB60004FE8D /* StorageManager.swift in Sources */,
 				864592272738059100222B6D /* AppDelegate.swift in Sources */,
 				86721C4F2799D0340019157E /* TabViewController.swift in Sources */,
+				86721C5A27AC24DB0019157E /* EmptyTableViewCell.swift in Sources */,
 				864592292738059100222B6D /* SceneDelegate.swift in Sources */,
 				8645923E27382A3F00222B6D /* CafeModel.swift in Sources */,
 				86459246273834BB00222B6D /* IndexedCollectionViewCell.swift in Sources */,
