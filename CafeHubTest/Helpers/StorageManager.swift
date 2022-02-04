@@ -77,7 +77,6 @@ class StorageManager {
         
         do {
             try context.save()
-            print("saved!")
         } catch let error as NSError  {
             print("Could not save \(error), \(error.userInfo)")
         } //catch {

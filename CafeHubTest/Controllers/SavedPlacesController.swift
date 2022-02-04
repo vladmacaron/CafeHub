@@ -30,7 +30,7 @@ class SavedPlacesController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         tableView.register(UINib(nibName: "PlaceTableViewCell", bundle: nil), forCellReuseIdentifier: "generalTableViewCell")
         tableView.register(UINib(nibName: "EmptyTableViewCell", bundle: nil), forCellReuseIdentifier: "emptyTableViewCell")
         
@@ -64,6 +64,9 @@ class SavedPlacesController: UIViewController {
     }
     
     func loadData() {
+        savedPlaces.removeAll()
+        mainData.removeAll()
+        toGoPlaces.removeAll()
         if let tempSavedPlaces = self.loadAllSavedPlaces() {
             savedPlaces = tempSavedPlaces
             mainData = tempSavedPlaces
@@ -95,15 +98,21 @@ class SavedPlacesController: UIViewController {
         StorageManager.sharedManager.delete(name: name)
     }
     
+    func changeValueWantToGo(wantToGo: Bool, place: SavedPlaces) {
+        StorageManager.sharedManager.update(wantToGo: true, place: place)
+    }
+    
     //TODO: add buttons for 2 filters: by default "Saved Placs" and another filter "Want to go"
     @IBAction func pressSegmentedControl(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
             mainData = savedPlaces
+            //self.loadData()
             self.tableView.reloadData()
             break
         case 1:
             mainData = toGoPlaces
+            //self.loadData()
             self.tableView.reloadData()
             break
         default:
@@ -113,11 +122,12 @@ class SavedPlacesController: UIViewController {
     
 }
 
+//MARK: - TableView DataSource
+
 extension SavedPlacesController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch mainData.count == 0 {
         case true:
-            print("CHECK \(mainData.count)")
             return 1
         case false:
             return mainData.count
@@ -136,7 +146,7 @@ extension SavedPlacesController: UITableViewDataSource {
             cell.tag = indexPath.row
             
             if cell.tag == indexPath.row {
-                cell.configureCellforSavedPlaces(place: place)
+                cell.configureCellforSavedPlacesController(place: place)
             }
             return cell
         }
@@ -144,19 +154,78 @@ extension SavedPlacesController: UITableViewDataSource {
         //return cell
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            self.deletePlace(name: mainData[indexPath.row].name!)
-            mainData.remove(at: indexPath.row)
-            savedPlaces.remove(at: indexPath.row)
-            if mainData.isEmpty {
-                self.tableView.reloadData()
-            } else {
-                self.tableView.deleteRows(at: [indexPath], with: .fade)
-            }
+    //MARK: Swipe Actions
+
+    //TODO: add custom colors and notification on screen about success of action
+    func tableView(_ tableView: UITableView,
+                   leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+    {
+        switch filterLabel.selectedSegmentIndex {
+        case 0:
+            let addAction = UIContextualAction(style: .normal, title: nil, handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+                self.changeValueWantToGo(wantToGo: true, place: self.mainData[indexPath.row])
+                self.toGoPlaces.append(self.mainData[indexPath.row])
+                success(true)
+            })
+            addAction.image = UIImage(systemName: "plus.square.on.square")
+            addAction.backgroundColor = .systemGreen
+            
+            return UISwipeActionsConfiguration(actions: [addAction])
+        case 1:
+            return nil
+        default:
+            fatalError("cant find SelectedSegment Index")
         }
     }
+    
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+    {
+        switch filterLabel.selectedSegmentIndex {
+        case 0:
+            let deleteAction = UIContextualAction(style: .destructive, title: nil, handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+                self.deletePlace(name: self.mainData[indexPath.row].name!)
+                self.mainData.remove(at: indexPath.row)
+                self.savedPlaces.remove(at: indexPath.row)
+                if self.mainData.isEmpty {
+                    self.tableView.reloadData()
+                } else {
+                    self.tableView.deleteRows(at: [indexPath], with: .none)
+                }
+                success(true)
+            })
+            deleteAction.image = UIImage(systemName: "trash")
+            deleteAction.backgroundColor = .red
+            
+            return UISwipeActionsConfiguration(actions: [deleteAction])
+        case 1:
+            let deleteAction = UIContextualAction(style: .destructive, title: nil, handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+                self.changeValueWantToGo(wantToGo: false, place: self.mainData[indexPath.row])
+                self.mainData.remove(at: indexPath.row)
+                self.toGoPlaces.remove(at: indexPath.row)
+                if self.mainData.isEmpty {
+                    self.tableView.reloadData()
+                } else {
+                    self.tableView.deleteRows(at: [indexPath], with: .none)
+                }
+                success(true)
+            })
+            deleteAction.image = UIImage(systemName: "trash")
+            deleteAction.backgroundColor = .red
+            
+            return UISwipeActionsConfiguration(actions: [deleteAction])
+        default:
+            fatalError("cant find SelectedSegment Index")
+        }
+        
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
 }
+
+//MARK: - TableView Delegate
 
 extension SavedPlacesController: UITableViewDelegate {
     func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {

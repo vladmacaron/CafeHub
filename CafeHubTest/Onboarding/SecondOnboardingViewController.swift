@@ -109,7 +109,24 @@ extension SecondOnboardingViewController: UITableViewDataSource {
         //let place = places[indexPath.row]
         let place = filterPlaces[indexPath.row]
         
-        cell.saveButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        cell.cellDelegate = self
+        cell.tag = indexPath.row
+        cell.saveButton.tag = indexPath.row
+        
+        if let savedPlaces = loadAllSavedPlaces() {
+            if savedPlaces.contains(where: { cafe in
+                if cafe.name == place.name {
+                    return true
+                } else {
+                    return false
+                }
+            }) {
+                cell.saveButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
+                cell.checkButton = false
+            }
+        }
+        
+        /*cell.saveButton.setImage(UIImage(systemName: "plus"), for: .normal)
         
         cell.cellDelegate = self
         cell.tag = indexPath.row
@@ -150,8 +167,9 @@ extension SecondOnboardingViewController: UITableViewDataSource {
                     cell.placeImage.sd_setImage(with: url, placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground)
                 }
             }
-        }
+        }*/
         
+        cell.configureCellForOnboardingController(place: place)
         return cell
     }
     
