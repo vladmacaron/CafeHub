@@ -99,7 +99,7 @@ class SavedPlacesController: UIViewController {
     }
     
     func changeValueWantToGo(wantToGo: Bool, place: SavedPlaces) {
-        StorageManager.sharedManager.update(wantToGo: true, place: place)
+        StorageManager.sharedManager.update(wantToGo: wantToGo, place: place)
     }
     
     //TODO: add buttons for 2 filters: by default "Saved Placs" and another filter "Want to go"

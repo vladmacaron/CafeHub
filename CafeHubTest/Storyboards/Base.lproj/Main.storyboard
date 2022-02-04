@@ -206,17 +206,17 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="1xT-Ly-C22">
                                 <rect key="frame" x="20" y="304" width="384" height="162"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="nDM-38-gXj">
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="nDM-38-gXj">
                                         <rect key="frame" x="0.0" y="0.0" width="384" height="131.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xoU-gs-ZU2">
-                                                <rect key="frame" x="0.0" y="0.0" width="374" height="131.5"/>
+                                                <rect key="frame" x="0.0" y="52.5" width="374" height="26.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="22"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iWO-SO-ZL5">
-                                                <rect key="frame" x="384" y="0.0" width="0.0" height="131.5"/>
+                                                <rect key="frame" x="384" y="47" width="0.0" height="38"/>
                                                 <color key="tintColor" name="AccentColor"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="tinted" cornerStyle="medium">
