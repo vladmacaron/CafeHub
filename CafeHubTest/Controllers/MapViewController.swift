@@ -130,9 +130,7 @@ class MapViewController: UIViewController {
 }
 
 extension MapViewController: MKMapViewDelegate {
-   
-    
-    
+
 }
 
 private extension MKMapView {

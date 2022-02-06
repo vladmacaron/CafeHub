@@ -94,8 +94,8 @@ class SavedPlacesController: UIViewController {
         }
     }
     
-    func deletePlace(name: String) {
-        StorageManager.sharedManager.delete(name: name)
+    func deletePlace(id: Int16) {
+        StorageManager.sharedManager.delete(id: id)
     }
     
     func changeValueWantToGo(wantToGo: Bool, place: SavedPlaces) {
@@ -184,7 +184,7 @@ extension SavedPlacesController: UITableViewDataSource {
         switch filterLabel.selectedSegmentIndex {
         case 0:
             let deleteAction = UIContextualAction(style: .destructive, title: nil, handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
-                self.deletePlace(name: self.mainData[indexPath.row].name!)
+                self.deletePlace(id: self.mainData[indexPath.row].id)
                 self.mainData.remove(at: indexPath.row)
                 self.savedPlaces.remove(at: indexPath.row)
                 if self.mainData.isEmpty {

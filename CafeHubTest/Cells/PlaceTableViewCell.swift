@@ -98,6 +98,7 @@ class PlaceTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         tagList.removeAllTags()
         placeImage.image = nil
+        saveButton.setImage(UIImage(systemName: "heart"), for: .normal)
         //placeImage.sd_cancelCurrentImageLoad()
     }
     

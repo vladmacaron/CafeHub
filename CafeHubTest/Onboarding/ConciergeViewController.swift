@@ -22,9 +22,9 @@ class ConciergeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         if LandscapeManager.shared.isFirstLaunch {
             performSegue(withIdentifier: "toOnboarding", sender: nil)
-            //LandscapeManager.shared.isFirstLaunch = true
+            LandscapeManager.shared.isFirstLaunch = true
             //   TESTING
-            LandscapeManager.shared.isFirstLaunch = false
+            //LandscapeManager.shared.isFirstLaunch = false
         } else {
             loadData()
         }
@@ -39,7 +39,7 @@ class ConciergeViewController: UIViewController {
             } else {
                 for document in querySnapshot!.documents {
                     let place = document.data()
-                    self.sharedPlaces.places.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, placeDescription: place["description"] as! String, openingHours: place["openingHours"] as! String))
+                    self.sharedPlaces.places.append(Cafe(id: place["id"] as! Int16, name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, openingHours: place["openingHours"] as! String))
                 }
                 
                 self.sharedPlaces.places.forEach { cafe in

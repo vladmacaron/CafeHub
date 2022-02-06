@@ -13,7 +13,7 @@ class ThirdOnboardingViewController: UIViewController {
 
     let db = Firestore.firestore()
     let defaults = UserDefaults.standard
-    var tags: [String] = [String]()
+    private var tags: [String] = [String]()
     var selectedTags: [String] = [String]()
     
     @IBOutlet weak var tagList: TagListView!
@@ -23,7 +23,7 @@ class ThirdOnboardingViewController: UIViewController {
 
         tagList.textFont = UIFont.systemFont(ofSize: 20)
         tagList.delegate = self
-        
+    
         loadTags()
         
     }

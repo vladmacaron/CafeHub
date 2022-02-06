@@ -34,7 +34,7 @@ class SecondOnboardingViewController: UIViewController {
         tableView.dataSource = self
         tableView.prefetchDataSource = self
         
-        self.loadPlaces(with: 4)
+        self.loadPlaces(with: 10)
         self.loadPlacesNames()
 
         tableView.reloadData()
@@ -73,7 +73,7 @@ class SecondOnboardingViewController: UIViewController {
                 self.filterPlaces.removeAll()
                 for document in querySnapshot!.documents {
                     let place = document.data()
-                    self.filterPlaces.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, placeDescription: place["description"] as! String, openingHours: place["openingHours"] as! String))
+                    self.filterPlaces.append(Cafe(id: place["id"] as! Int16, name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, openingHours: place["openingHours"] as! String))
                     /*self.initialPlaces.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double))*/
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
@@ -121,35 +121,13 @@ extension SecondOnboardingViewController: UITableViewDataSource {
                     return false
                 }
             }) {
-                cell.saveButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
+                cell.saveButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
                 cell.checkButton = false
             }
         }
         
-        /*cell.saveButton.setImage(UIImage(systemName: "plus"), for: .normal)
         
-        cell.cellDelegate = self
-        cell.tag = indexPath.row
-        cell.saveButton.tag = indexPath.row
-        
-        if let savedPlaces = loadAllSavedPlaces() {
-            if savedPlaces.contains(where: { cafe in
-                if cafe.name == place.name {
-                    return true
-                } else {
-                    return false
-                }
-            }) {
-                cell.saveButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
-                cell.checkButton = false
-            }
-            /*for savedPlace in savedPlaces {
-                if (savedPlace.name == place.name) {
-                    cell.saveButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
-                    cell.checkButton = false
-                }
-            }*/
-        }
+        //cell.configureCellForOnboardingController(place: place)
         
         cell.titleLabel.text = place.name
         cell.tagList.addTags(place.type)
@@ -167,9 +145,9 @@ extension SecondOnboardingViewController: UITableViewDataSource {
                     cell.placeImage.sd_setImage(with: url, placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground)
                 }
             }
-        }*/
+        }
         
-        cell.configureCellForOnboardingController(place: place)
+        
         return cell
     }
     
@@ -193,7 +171,7 @@ extension SecondOnboardingViewController: UITableViewDataSourcePrefetching {
                         self.lastDocument = querySnapshot?.documents.last
                         for document in querySnapshot!.documents {
                             let place = document.data()
-                            self.filterPlaces.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, placeDescription: place["description"] as! String, openingHours: place["openingHours"] as! String))
+                            self.filterPlaces.append(Cafe(id: place["id"] as! Int16, name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, openingHours: place["openingHours"] as! String))
                         }
                         //TODO: SHOULD BE FIXED
                         DispatchQueue.main.async {
@@ -231,7 +209,7 @@ extension SecondOnboardingViewController: UISearchBarDelegate {
                         self.filterPlaces.removeAll()
                         for document in querySnapshot!.documents {
                             let place = document.data()
-                            self.filterPlaces.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, placeDescription: place["description"] as! String, openingHours: place["openingHours"] as! String))
+                            self.filterPlaces.append(Cafe(id: place["id"] as! Int16, name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, openingHours: place["openingHours"] as! String))
                             DispatchQueue.main.async {
                                 self.tableView.reloadData()
                             }
@@ -243,12 +221,12 @@ extension SecondOnboardingViewController: UISearchBarDelegate {
     }
     
     func savePlace(place: Cafe) {
-        StorageManager.sharedManager.addPlace(name: place.name, address: place.address, zip: place.zip,
-                                              imageLink: place.imageLink, rating: place.rating, type: place.type, placeDescription: place.placeDescription, openingHours: place.openingHours, wantToGo: false)
+        StorageManager.sharedManager.addPlace(id: place.id, name: place.name, address: place.address, zip: place.zip,
+                                              imageLink: place.imageLink, rating: place.rating, type: place.type, openingHours: place.openingHours, wantToGo: false)
     }
     
-    func deletePlace(name: String) {
-        StorageManager.sharedManager.delete(name: name)
+    func deletePlace(id: Int16) {
+        StorageManager.sharedManager.delete(id: id)
     }
     
     func loadAllSavedPlaces() -> [Cafe]? {
@@ -259,6 +237,7 @@ extension SecondOnboardingViewController: UISearchBarDelegate {
 extension SecondOnboardingViewController: PlaceTableViewCellDelegate {
     func didPressButton(_ tag: Int) {
         let place = filterPlaces[tag]
+        var check = false
         
         if let savedPlaces = loadAllSavedPlaces() {
             if savedPlaces.isEmpty {
@@ -267,17 +246,18 @@ extension SecondOnboardingViewController: PlaceTableViewCellDelegate {
             }
             
             for savedPlace in savedPlaces {
-                if (savedPlace.name != place.name) {
-                    self.savePlace(place: place)
-                    return
-                } else {
-                    self.deletePlace(name: place.name)
-                    return
+                if (savedPlace.name == place.name) {
+                    check = true
                 }
+            }
+            if check {
+                self.deletePlace(id: place.id)
+                return
+            } else {
+                self.savePlace(place: place)
+                return
             }
         }
     }
 }
-
-//TODO: add prefetching, infintie scrolling
 

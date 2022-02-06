@@ -35,10 +35,10 @@ class StorageManager {
         }
     }
     
-    func addPlace(name: String, address: String, zip: String, imageLink: String, rating: Double, type: [String], placeDescription: String, openingHours: String, wantToGo: Bool) {
+    func addPlace(id: Int16, name: String, address: String, zip: String, imageLink: String, rating: Double, type: [String], openingHours: String, wantToGo: Bool) {
         let managedContext = StorageManager.sharedManager.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "SavedPlaces")
-        fetchRequest.predicate = NSPredicate(format: "name == %@" ,name)
+        fetchRequest.predicate = NSPredicate(format: "id == %@" ,id)
         
         do {
             let item = try managedContext.fetch(fetchRequest)
@@ -52,13 +52,13 @@ class StorageManager {
         let entity = NSEntityDescription.entity(forEntityName: "SavedPlaces", in: managedContext)!
         let place = NSManagedObject(entity: entity, insertInto: managedContext)
         
+        place.setValue(id, forKeyPath: "id")
         place.setValue(name, forKeyPath: "name")
         place.setValue(address, forKeyPath: "address")
         place.setValue(zip, forKey: "zip")
         place.setValue(imageLink, forKey: "imageLink")
         place.setValue(rating, forKey: "rating")
         place.setValue(type, forKey: "type")
-        place.setValue(placeDescription, forKey: "placeDescription")
         place.setValue(openingHours, forKey: "openingHours")
         place.setValue(wantToGo, forKey: "wantToGo")
         
@@ -112,8 +112,8 @@ class StorageManager {
         var placesCafe: [Cafe] = [Cafe]()
         if let places = self.fetchAllSavedPlaces() {
             for place in places {
-                placesCafe.append(Cafe(name: place.name!, address: place.address!, zip: place.zip!,
-                                       imageLink: place.imageLink!, type: place.type!, rating: place.rating, placeDescription: place.placeDescription!, openingHours: place.openingHours!))
+                placesCafe.append(Cafe(id: place.id, name: place.name!, address: place.address!, zip: place.zip!,
+                                       imageLink: place.imageLink!, type: place.type!, rating: place.rating, openingHours: place.openingHours!))
             }
             return placesCafe
         } else {
@@ -121,18 +121,19 @@ class StorageManager {
         }
     }
     
-    func delete(name: String) {
+    func delete(id: Int16) {
         
         let managedContext = StorageManager.sharedManager.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "SavedPlaces")
         
-        fetchRequest.predicate = NSPredicate(format: "name == %@" ,name)
+        fetchRequest.predicate = NSPredicate(format: "id == %@" ,id)
         do {
             let item = try managedContext.fetch(fetchRequest)
             //var arrRemovedPlace = [SavedPlaces]()
             for i in item {
                 managedContext.delete(i)
                 try managedContext.save()
+                print("deleted!")
                 //arrRemovedPlace.append(i as! SavedPlaces)
             }
             //return arrRemovedPlace
@@ -143,11 +144,11 @@ class StorageManager {
         }
     }
     
-    func find(name: String) -> SavedPlaces? {
+    func find(id: Int16) -> SavedPlaces? {
         let managedContext = StorageManager.sharedManager.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "SavedPlaces")
         
-        fetchRequest.predicate = NSPredicate(format: "name == %@" ,name)
+        fetchRequest.predicate = NSPredicate(format: "id == %@" ,id)
         do {
             let item = try managedContext.fetch(fetchRequest)
             var foundPlaces = [SavedPlaces]()
@@ -155,12 +156,6 @@ class StorageManager {
                 foundPlaces.append(i as! SavedPlaces)
             }
             return foundPlaces.first
-            
-            /*if !item.isEmpty {
-                return true
-            } else {
-                return false
-            }*/
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
             return nil

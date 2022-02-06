@@ -14,33 +14,35 @@ class DetailedViewController: UIViewController {
     var firebasePlace: Cafe!
     var placeImage: UIImage!
     var checkButton = true
+    let defaults = UserDefaults.standard
+    private var userTypes: [String] = [String]()
     
     @IBOutlet weak var mainImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var openingHoursLabel: UILabel!
     @IBOutlet weak var tagList: TagListView!
-    @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        userTypes.append(contentsOf: (defaults.array(forKey: "PlaceTypeList") as! [String]))
+        
         mainImage.image = placeImage
         
         if let savedPlace = savedPlace {
-            firebasePlace = Cafe(name: savedPlace.name!, address: savedPlace.address!, zip: savedPlace.zip!, imageLink: savedPlace.imageLink!, type: savedPlace.type!, rating: savedPlace.rating, placeDescription: savedPlace.placeDescription!, openingHours: savedPlace.openingHours!)
+            firebasePlace = Cafe(id: savedPlace.id, name: savedPlace.name!, address: savedPlace.address!, zip: savedPlace.zip!, imageLink: savedPlace.imageLink!, type: savedPlace.type!, rating: savedPlace.rating, openingHours: savedPlace.openingHours!)
         }
         
         titleLabel.text = firebasePlace.name
         addressLabel.text = firebasePlace.address
         openingHoursLabel.text = firebasePlace.openingHours.replacingOccurrences(of: ", ", with: "\n")
-        descriptionLabel.text = firebasePlace.placeDescription
         tagList.textFont = UIFont.systemFont(ofSize: 15, weight: .regular)
         tagList.addTags(firebasePlace.type)
         
-        if findPlace(name: firebasePlace!.name) != nil {
+        if findPlace(id: firebasePlace!.id) != nil {
             saveButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
             self.checkButton = false
         } else {
@@ -59,6 +61,8 @@ class DetailedViewController: UIViewController {
                 sender.setImage(UIImage(systemName: "heart.fill"), for: .normal)
             }, completion: {_ in
                 self.savePlace(place: self.firebasePlace)
+                self.userTypes.append(contentsOf: self.firebasePlace.type)
+                self.defaults.set(Array(Set(self.userTypes)), forKey: "PlaceTypeList")
             })
             checkButton = false
         } else {
@@ -66,7 +70,8 @@ class DetailedViewController: UIViewController {
             UIView.transition(with: sender, duration: 0.5, options: .curveEaseIn, animations: {
                 sender.setImage(UIImage(systemName: "heart"), for: .normal)
             }, completion: {_ in
-                self.deletePlace(name: self.firebasePlace!.name)
+                self.deletePlace(id: self.firebasePlace!.id)
+                self.userTypes.removeLast(self.firebasePlace.type.count)
             })
             checkButton = true
         }
@@ -74,40 +79,17 @@ class DetailedViewController: UIViewController {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "savedPlaceChangeValue"), object: nil)
     }
     
-    func checkSavedPlace() -> Bool {
-        if let place = firebasePlace {
-            if let savedPlaces = loadAllSavedPlaces() {
-                if savedPlaces.isEmpty {
-                    //self.savePlace(place: place)
-                    self.checkButton = false
-                    return false
-                }
-                
-                for savedPlace in savedPlaces {
-                    if (savedPlace.name != place.name) {
-                        self.checkButton = false
-                        return false
-                    } else {
-                        self.checkButton = true
-                        return true
-                    }
-                }
-            }
-        }
-        return false
-    }
-    
     func savePlace(place: Cafe) {
-        StorageManager.sharedManager.addPlace(name: place.name, address: place.address, zip: place.zip,
-                                              imageLink: place.imageLink, rating: place.rating, type: place.type, placeDescription: place.placeDescription, openingHours: place.openingHours, wantToGo: false)
+        StorageManager.sharedManager.addPlace(id: place.id, name: place.name, address: place.address, zip: place.zip,
+                                              imageLink: place.imageLink, rating: place.rating, type: place.type, openingHours: place.openingHours, wantToGo: false)
     }
     
-    func deletePlace(name: String) {
-        StorageManager.sharedManager.delete(name: name)
+    func deletePlace(id: Int16) {
+        StorageManager.sharedManager.delete(id: id)
     }
     
-    func findPlace(name: String) -> SavedPlaces? {
-        return StorageManager.sharedManager.find(name: name)
+    func findPlace(id: Int16) -> SavedPlaces? {
+        return StorageManager.sharedManager.find(id: id)
     }
     
     func loadAllSavedPlaces() -> [Cafe]? {

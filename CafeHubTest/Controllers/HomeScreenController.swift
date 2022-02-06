@@ -117,7 +117,7 @@ class HomeScreenController: UIViewController {
                     } else {
                         for document in querySnapshot!.documents {
                             let place = document.data()
-                            self.places[0].append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, placeDescription: place["description"] as! String, openingHours: place["openingHours"] as! String))
+                            self.places[0].append(Cafe(id: place["id"] as! Int16, name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, openingHours: place["openingHours"] as! String))
                         }
                         DispatchQueue.main.async {
                             self.tableView.reloadData()
@@ -235,9 +235,10 @@ extension HomeScreenController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 2 {
+        switch section {
+        case 2:
             return addHeaderViewWithButton(for: section)
-        } else {
+        default:
             return nil
         }
     }
@@ -347,15 +348,9 @@ extension HomeScreenController: UICollectionViewDataSource {
         cell.titleLabel.text = cafe.name
         cell.zipLabel.text = cafe.zip
         
-        /*for index in 0...1 {
-            cell.tagListView.addTag(cafe.type[index])
-        }
-        
-        if(cell.tagListView.intrinsicContentSize.height>20) {
-            cell.tagListView.removeTag(cafe.type[0])
-        }*/
         cell.tagListView.addTag(cafe.type[0])
         cell.ratingView.rating = cafe.rating
+        cell.matchLabel.text = "Match: \(cafe.calculateMatch())%"
         
         return cell
     }

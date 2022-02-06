@@ -40,28 +40,29 @@ import CoreLocation
 
 
 class Cafe {
+    let id: Int16
     let name: String
     let address: String
     let zip: String
     let imageLink: String
     let type: [String]
     let rating: Double
-    let placeDescription: String
     let openingHours: String
     var location: CLLocation?
     
-    init(name: String, address: String, zip: String, imageLink: String, type: [String], rating: Double, placeDescription: String, openingHours: String) {
+    let defaults = UserDefaults.standard
+    
+    init(id: Int16, name: String, address: String, zip: String, imageLink: String, type: [String], rating: Double, openingHours: String) {
+        self.id = id
         self.name = name
         self.address = address
         self.zip = zip
         self.imageLink = imageLink
         self.type = type
         self.rating = rating
-        self.placeDescription = placeDescription
         self.openingHours = openingHours
     }
     
-    //TODO: func for fetching rating from Google Maps?
     func getCoordinate(completionHandler: @escaping(CLLocation, NSError?) -> Void ) {
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(address) { (placemarks, error) in
@@ -75,6 +76,23 @@ class Cafe {
         }
     }
     //TODO: function for calculating "match"
-    //func calculateMatch(input??) -> Int {}
+    func calculateMatch() -> Int {
+        if let savedTypes = (defaults.array(forKey: "PlaceTypeList") as? [String]) {
+            var count: Int = 0
+            
+            type.forEach { typeName in
+                if savedTypes.contains(typeName) {
+                    count += 1
+                }
+            }
+            if count == 0 {
+                return 0
+            } else {
+                return (count/type.count)*100
+            }
+        } else {
+            return 0
+        }
+    }
 }
 
