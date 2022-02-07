@@ -13,9 +13,8 @@ class OnboardingPageViewController: UIPageViewController {
         let storyboard = UIStoryboard.onboarding
         let firstVC = storyboard.instantiateViewController(withIdentifier: "FirstOnboardingVC")
         let secondVC = storyboard.instantiateViewController(withIdentifier: "SecondOnboardingVC")
-        let thirdVC = storyboard.instantiateViewController(withIdentifier: "ThirdOnboardingVC")
         
-        return [firstVC, secondVC, thirdVC]
+        return [firstVC, secondVC]
     }()
     
     private var currentIndex = 0

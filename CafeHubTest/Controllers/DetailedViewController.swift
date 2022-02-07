@@ -7,12 +7,15 @@
 
 import UIKit
 import TagListView
+import SDWebImage
+import FirebaseStorage
 
 class DetailedViewController: UIViewController {
-
+    let storage = Storage.storage()
+    
     var savedPlace: SavedPlaces?
     var firebasePlace: Cafe!
-    var placeImage: UIImage!
+    var placeImage: UIImage?
     var checkButton = true
     let defaults = UserDefaults.standard
     private var userTypes: [String] = [String]()
@@ -28,12 +31,28 @@ class DetailedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        userTypes.append(contentsOf: (defaults.array(forKey: "PlaceTypeList") as! [String]))
-        
-        mainImage.image = placeImage
+        if let types = (defaults.array(forKey: "PlaceTypeList") as? [String]) {
+            userTypes.append(contentsOf: types)
+        }
         
         if let savedPlace = savedPlace {
             firebasePlace = Cafe(id: savedPlace.id, name: savedPlace.name!, address: savedPlace.address!, zip: savedPlace.zip!, imageLink: savedPlace.imageLink!, type: savedPlace.type!, rating: savedPlace.rating, openingHours: savedPlace.openingHours!)
+        }
+        
+        if let image = placeImage {
+            mainImage.image = image
+        } else {
+            self.mainImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
+            self.mainImage.sd_imageIndicator?.startAnimatingIndicator()
+            let imageRef = storage.reference(forURL: firebasePlace.imageLink)
+            imageRef.downloadURL { url, err in
+                if let err = err {
+                    print("Failed generating url: \(err)")
+                } else {
+                    self.mainImage.sd_imageIndicator?.stopAnimatingIndicator()
+                    self.mainImage.sd_setImage(with: url, placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground)
+                }
+            }
         }
         
         titleLabel.text = firebasePlace.name

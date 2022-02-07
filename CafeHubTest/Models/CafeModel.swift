@@ -78,17 +78,18 @@ class Cafe {
     //TODO: function for calculating "match"
     func calculateMatch() -> Int {
         if let savedTypes = (defaults.array(forKey: "PlaceTypeList") as? [String]) {
-            var count: Int = 0
+            var count: Double = 0
             
             type.forEach { typeName in
                 if savedTypes.contains(typeName) {
                     count += 1
                 }
             }
+            
             if count == 0 {
                 return 0
             } else {
-                return (count/type.count)*100
+                return Int((count/Double(type.count))*100)
             }
         } else {
             return 0

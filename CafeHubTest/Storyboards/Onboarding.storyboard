@@ -17,64 +17,18 @@
             </objects>
             <point key="canvasLocation" x="-749" y="72"/>
         </scene>
-        <!--First Onboarding View Controller-->
-        <scene sceneID="lNr-AY-W2c">
-            <objects>
-                <viewController storyboardIdentifier="FirstOnboardingVC" id="vQQ-m6-QlG" customClass="FirstOnboardingViewController" customModule="CafeHubTest" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="BXo-AF-LpU">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yXm-ka-wTs">
-                                <rect key="frame" x="190.5" y="437.5" width="33.5" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kd8-aP-giU">
-                                <rect key="frame" x="68" y="765" width="278" height="47"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="278" id="Ms3-T8-MLz"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button" cornerStyle="medium" buttonSize="large">
-                                    <backgroundConfiguration key="background">
-                                        <color key="backgroundColor" name="AccentColor"/>
-                                        <color key="strokeColor" name="AccentColor"/>
-                                    </backgroundConfiguration>
-                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="buttonPressed:" destination="vQQ-m6-QlG" eventType="touchUpInside" id="eVc-6s-4e2"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="lLt-Lg-GmG"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="lLt-Lg-GmG" firstAttribute="bottom" secondItem="Kd8-aP-giU" secondAttribute="bottom" constant="50" id="V3G-vH-T87"/>
-                            <constraint firstItem="Kd8-aP-giU" firstAttribute="centerX" secondItem="BXo-AF-LpU" secondAttribute="centerX" id="cHH-Rc-cna"/>
-                            <constraint firstItem="yXm-ka-wTs" firstAttribute="centerX" secondItem="BXo-AF-LpU" secondAttribute="centerX" id="egh-eP-LPA"/>
-                            <constraint firstItem="yXm-ka-wTs" firstAttribute="centerY" secondItem="BXo-AF-LpU" secondAttribute="centerY" id="zCH-e5-GaQ"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="caY-gZ-sIp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="47.826086956521742" y="71.651785714285708"/>
-        </scene>
         <!--Main-->
         <scene sceneID="jEZ-HC-vh4">
             <objects>
                 <viewControllerPlaceholder storyboardName="Main" id="2Ka-j6-gvb" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="duf-Cq-TGw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1480" y="462"/>
+            <point key="canvasLocation" x="714" y="461"/>
         </scene>
-        <!--Second Onboarding View Controller-->
+        <!--First Onboarding View Controller-->
         <scene sceneID="445-Yo-WTb">
             <objects>
-                <viewController storyboardIdentifier="SecondOnboardingVC" id="ZGr-8S-k60" customClass="SecondOnboardingViewController" customModule="CafeHubTest" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FirstOnboardingVC" id="ZGr-8S-k60" customClass="FirstOnboardingViewController" customModule="CafeHubTest" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9XB-gw-d1x">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -128,12 +82,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KcR-8I-eXs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750.72463768115949" y="71.651785714285708"/>
+            <point key="canvasLocation" x="-14" y="72"/>
         </scene>
-        <!--Third Onboarding View Controller-->
+        <!--Second Onboarding View Controller-->
         <scene sceneID="gXY-BJ-Ozy">
             <objects>
-                <viewController storyboardIdentifier="ThirdOnboardingVC" id="bk1-5V-iqB" customClass="ThirdOnboardingViewController" customModule="CafeHubTest" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SecondOnboardingVC" id="bk1-5V-iqB" customClass="SecondOnboardingViewController" customModule="CafeHubTest" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="inb-5P-Jju">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -222,9 +176,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GRz-Pi-Sxx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1478.2608695652175" y="71.651785714285708"/>
+            <point key="canvasLocation" x="713" y="72"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="Wgb-7F-KxH">
+            <size key="intrinsicContentSize" width="374" height="24"/>
+        </designable>
+    </designables>
     <resources>
         <namedColor name="AccentColor">
             <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

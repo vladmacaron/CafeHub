@@ -7,8 +7,10 @@
 
 import UIKit
 import MapKit
+import FirebaseFirestore
 
 class MapViewController: UIViewController {
+    let db = Firestore.firestore()
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var savedPlacesButton: UIButton!
@@ -84,13 +86,20 @@ class MapViewController: UIViewController {
     func fetchAddressesOnMap(_ places: [Cafe]) {
         
         for place in places {
-            let annotations = MKPointAnnotation()
-            annotations.title = place.name
+            /*let annotations = MKPointAnnotation()
+            
+            annotations.title = "\(place.name)+\(place.id)"
+            annotations.subtitle = place.openingHours
+            
             self.getCoordinate(addressString: place.address) { coordinates, err in
                 annotations.coordinate = coordinates
             }
             
-            mapView.addAnnotation(annotations)
+            mapView.addAnnotation(annotations)*/
+            self.getCoordinate(addressString: place.address) { coordinates, err in
+                let annotation = CustomAnnotation(id: place.id, title: place.name, subtitle: place.openingHours, coordinate: coordinates)
+                self.mapView.addAnnotation(annotation)
+            }
         }
     }
     
@@ -130,7 +139,48 @@ class MapViewController: UIViewController {
 }
 
 extension MapViewController: MKMapViewDelegate {
-
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation {
+            return nil
+        }
+        
+        if let annotation = annotation as? CustomAnnotation {
+            let view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "PlaceMarker")
+            view.tag = Int(annotation.id)
+            view.canShowCallout = true
+            view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+            
+            return view
+        } else {
+            return nil
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        presentDetailedViewController(with: view.tag)
+    }
+    
+    func presentDetailedViewController(with id: Int) {
+        let secondViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailedViewController") as! DetailedViewController
+        secondViewController.modalPresentationStyle = .popover
+        
+        db.collection("places").whereField("id", isEqualTo: id).getDocuments { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    let place = document.data()
+                    let data = Cafe(id: place["id"] as! Int16, name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, openingHours: place["openingHours"] as! String)
+                    secondViewController.firebasePlace = data
+                }
+            }
+            DispatchQueue.main.async {
+                self.present(secondViewController, animated: true)
+            }
+            
+        }
+        
+    }
 }
 
 private extension MKMapView {

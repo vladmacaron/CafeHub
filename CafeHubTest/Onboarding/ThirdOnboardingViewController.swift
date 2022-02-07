@@ -9,7 +9,7 @@ import UIKit
 import TagListView
 import FirebaseFirestore
 
-class ThirdOnboardingViewController: UIViewController {
+class SecondOnboardingViewController: UIViewController {
 
     let db = Firestore.firestore()
     let defaults = UserDefaults.standard
@@ -46,7 +46,7 @@ class ThirdOnboardingViewController: UIViewController {
     
 }
 
-extension ThirdOnboardingViewController: TagListViewDelegate {
+extension SecondOnboardingViewController: TagListViewDelegate {
     func tagPressed(_ title: String, tagView: TagView, sender: TagListView) {
         tagView.isSelected = !tagView.isSelected
         guard let tagName = tagView.titleLabel?.text else {

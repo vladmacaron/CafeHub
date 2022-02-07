@@ -93,17 +93,23 @@ class HomeScreenController: UIViewController {
             }
         }
     }
+    
+    func sortPlacesByMatch() {
+        self.places[1].sort { lhs, rhs in
+            lhs.calculateMatch() > rhs.calculateMatch()
+        }
+    }
 
     func loadData() {
         DispatchQueue.main.async {
             self.places[1].append(contentsOf: self.sharedPlaces.places)
+            self.sortPlacesByMatch()
             self.places[2].append(contentsOf: self.sharedPlaces.places)
             self.sortPlacesByLocation()
-            //self.tableView.reloadSections(IndexSet(integersIn: 0...1), with: .fade)
             self.tableView.reloadData()
         }
         
-        
+        //loading new/trending places
         let trendingList = db.collection("categories").document("trending")
         trendingList.getDocument { document, err in
             if let document = document, document.exists {
