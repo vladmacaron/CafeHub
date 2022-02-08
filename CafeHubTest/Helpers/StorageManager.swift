@@ -108,6 +108,21 @@ class StorageManager {
         }
     }
     
+    func fetchAllPlacesToGoAsCafe() -> [Cafe]? {
+        var placesCafe: [Cafe] = [Cafe]()
+        if let places = self.fetchAllSavedPlaces() {
+            for place in places {
+                if place.wantToGo {
+                    placesCafe.append(Cafe(id: place.id, name: place.name!, address: place.address!, zip: place.zip!,
+                                       imageLink: place.imageLink!, type: place.type!, rating: place.rating, openingHours: place.openingHours!))
+                }
+            }
+            return placesCafe
+        } else {
+            return nil
+        }
+    }
+    
     func fetchAllSavedPlacesAsCafe() -> [Cafe]? {
         var placesCafe: [Cafe] = [Cafe]()
         if let places = self.fetchAllSavedPlaces() {

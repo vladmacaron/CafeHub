@@ -164,7 +164,10 @@ extension SavedPlacesController: UITableViewDataSource {
         case 0:
             let addAction = UIContextualAction(style: .normal, title: nil, handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
                 self.changeValueWantToGo(wantToGo: true, place: self.mainData[indexPath.row])
-                self.toGoPlaces.append(self.mainData[indexPath.row])
+                if !self.toGoPlaces.contains(self.mainData[indexPath.row]) {
+                    self.toGoPlaces.append(self.mainData[indexPath.row])
+                }
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "toGoPlaceChangeValue"), object: nil)
                 success(true)
             })
             addAction.image = UIImage(systemName: "plus.square.on.square")
@@ -208,6 +211,7 @@ extension SavedPlacesController: UITableViewDataSource {
                 } else {
                     self.tableView.deleteRows(at: [indexPath], with: .none)
                 }
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "toGoPlaceChangeValue"), object: nil)
                 success(true)
             })
             deleteAction.image = UIImage(systemName: "trash")

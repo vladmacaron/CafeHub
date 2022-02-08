@@ -19,9 +19,8 @@ class HomeScreenController: UIViewController {
     let locationManager = CLLocationManager()
     let sharedPlaces = PlaceManager.shared
 
-    var places: [[Cafe]] = [[], [], []]
+    var places: [[Cafe]] = [[], [], [], []]
     var trendingList: [String] = []
-    private var count = 0
     
     static let tableCellID: String = "tableViewCellID_section_#"
     @IBOutlet weak var tableView: UITableView!
@@ -50,12 +49,23 @@ class HomeScreenController: UIViewController {
         locationManager.delegate = self
         //self.loadData()
         
-        spinner.startAnimating()
-        tableView.isHidden = true
+        //spinner.startAnimating()
+        //tableView.isHidden = true
         
         //self.loadTrendingPlaces()
         //self.loadPlaces()
         self.loadData()
+        self.loadSavedPlaces()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(ReloadData), name: NSNotification.Name(rawValue: "toGoPlaceChangeValue"), object: nil)
+    }
+    
+    @objc func ReloadData(notification: NSNotification) {
+        DispatchQueue.main.async {
+            self.places[3].removeAll()
+            self.loadSavedPlaces()
+            self.tableView.reloadData()
+        }
     }
     
     func checkLocationServices() {
@@ -138,6 +148,12 @@ class HomeScreenController: UIViewController {
         
     }
     
+    func loadSavedPlaces() {
+        if let savedPlaces = StorageManager.sharedManager.fetchAllPlacesToGoAsCafe() {
+            self.places[3].append(contentsOf: savedPlaces)
+        }
+    }
+    
     func presentDetailedViewController(with data: Cafe, image: UIImage) {
         let secondViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailedViewController") as! DetailedViewController
 
@@ -164,7 +180,11 @@ class HomeScreenController: UIViewController {
 extension HomeScreenController: UITableViewDataSource {
     
     func numberOfSections(in _: UITableView) -> Int {
-        return places.count
+        if places[3].count == 0 {
+            return places.count-1
+        } else {
+            return places.count
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -335,16 +355,8 @@ extension HomeScreenController: UICollectionViewDataSource {
                 cell.imageView.sd_imageIndicator?.stopAnimatingIndicator()
                 cell.imageView.sd_setImage(with: url, placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground) {
                     _,_,_,_ in
-                    //check if the first row finished downloading to present the table view
-                    //TODO: improve
-                    self.count += 1
-                    //print(self.count)
-                    //print(self.places.flatMap({ $0 }).count-self.places.count)
-                    if self.count == self.places.flatMap({ $0 }).count-self.places.count {
-                        self.spinner.stopAnimating()
-                        self.tableView.isHidden = false
-                    }
-                    
+                    //self.spinner.stopAnimating()
+                    //self.tableView.isHidden = false
                 }
             }
         }
