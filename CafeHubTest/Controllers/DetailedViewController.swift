@@ -9,6 +9,7 @@ import UIKit
 import TagListView
 import SDWebImage
 import FirebaseStorage
+import MapKit
 
 class DetailedViewController: UIViewController {
     let storage = Storage.storage()
@@ -30,6 +31,10 @@ class DetailedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(DetailedViewController.didPressAddress))
+        addressLabel.isUserInteractionEnabled = true
+        addressLabel.addGestureRecognizer(tap)
         
         if let types = (defaults.array(forKey: "PlaceTypeList") as? [String]) {
             userTypes.append(contentsOf: types)
@@ -96,6 +101,40 @@ class DetailedViewController: UIViewController {
         }
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "savedPlaceChangeValue"), object: nil)
+    }
+    
+    //action when pressing on address label to show it in Apple Maps or Google Maps
+    @IBAction func didPressAddress(sender: UITapGestureRecognizer) {
+        openMapButtonAction()
+    }
+    
+    func openMapButtonAction() {
+
+        firebasePlace.getCoordinate { coordinates, err in
+            let latitude = coordinates.coordinate.latitude
+            let longitude = coordinates.coordinate.longitude
+            
+            let appleURL = "http://maps.apple.com/?daddr=\(latitude),\(longitude)"
+            let googleURL = "comgooglemaps://?daddr=\(latitude),\(longitude)&directionsmode=driving"
+            
+            let googleItem = ("Google Map", URL(string:googleURL)!)
+            var installedNavigationApps = [("Apple Maps", URL(string:appleURL)!)]
+            
+            if UIApplication.shared.canOpenURL(googleItem.1) {
+                installedNavigationApps.append(googleItem)
+            }
+            
+            let alert = UIAlertController(title: "Choose App for Map", message: "Select Navigation App", preferredStyle: .actionSheet)
+            for app in installedNavigationApps {
+                let button = UIAlertAction(title: app.0, style: .default, handler: { _ in
+                    UIApplication.shared.open(app.1, options: [:], completionHandler: nil)
+                })
+                alert.addAction(button)
+            }
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alert.addAction(cancel)
+            self.present(alert, animated: true)
+        }
     }
     
     func savePlace(place: Cafe) {

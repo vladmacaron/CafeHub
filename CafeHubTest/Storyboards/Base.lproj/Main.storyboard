@@ -133,7 +133,7 @@
                                 <rect key="frame" x="344" y="64" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="OBO-2X-Uh7"/>
-                                    <constraint firstAttribute="width" constant="50" id="x1E-X1-GvY"/>
+                                    <constraint firstAttribute="width" priority="999" constant="50" id="agN-CT-i79"/>
                                 </constraints>
                                 <color key="tintColor" name="AccentColor"/>
                                 <state key="normal" title="Button"/>
@@ -239,10 +239,10 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleAspectFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="zIj-5d-gsQ">
-                                <rect key="frame" x="20" y="392.5" width="374" height="48.5"/>
+                                <rect key="frame" x="20" y="392.5" width="374" height="50"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cWF-R2-cju" customClass="TagListView" customModule="TagListView">
-                                        <rect key="frame" x="0.0" y="0.0" width="182" height="48.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="182" height="50"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -254,16 +254,16 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="eho-0L-pYf">
-                                        <rect key="frame" x="192" y="0.0" width="182" height="48.5"/>
+                                        <rect key="frame" x="192" y="0.0" width="182" height="50"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Opening Hours:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JyO-5V-MfC">
-                                                <rect key="frame" x="0.0" y="0.0" width="119.5" height="20.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="119.5" height="22"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hours" textAlignment="natural" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="USD-ya-JFt">
-                                                <rect key="frame" x="0.0" y="30.5" width="41" height="18"/>
+                                                <rect key="frame" x="0.0" y="32" width="41" height="18"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -325,11 +325,6 @@
             <point key="canvasLocation" x="1660.8695652173915" y="-572.54464285714278"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="cWF-R2-cju">
-            <size key="intrinsicContentSize" width="182" height="16"/>
-        </designable>
-    </designables>
     <resources>
         <image name="heart" catalog="system" width="128" height="109"/>
         <image name="heart.fill" catalog="system" width="128" height="109"/>
