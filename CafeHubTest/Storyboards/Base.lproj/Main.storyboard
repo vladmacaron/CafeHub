@@ -116,7 +116,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yBK-nu-JcQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1660.8695652173915" y="118.52678571428571"/>
+            <point key="canvasLocation" x="2455" y="119"/>
         </scene>
         <!--Map-->
         <scene sceneID="Vjs-fh-mDW">
@@ -132,8 +132,8 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="COc-1k-fSH">
                                 <rect key="frame" x="344" y="64" width="50" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="OBO-2X-Uh7"/>
-                                    <constraint firstAttribute="width" priority="999" constant="50" id="agN-CT-i79"/>
+                                    <constraint firstAttribute="height" constant="50" id="QtU-qe-4z5"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="50" id="agN-CT-i79"/>
                                 </constraints>
                                 <color key="tintColor" name="AccentColor"/>
                                 <state key="normal" title="Button"/>
@@ -167,7 +167,46 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6aZ-IQ-hnO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2421.739130434783" y="118.52678571428571"/>
+            <point key="canvasLocation" x="3214" y="119"/>
+        </scene>
+        <!--Search-->
+        <scene sceneID="Cuk-Zx-4uV">
+            <objects>
+                <viewController id="BE9-MC-hiE" customClass="SearchViewController" customModule="CafeHubTest" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="eAj-Gj-cLq">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="GiX-7B-goe">
+                                <rect key="frame" x="0.0" y="105" width="414" height="708"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="2UY-C5-yFQ">
+                                <rect key="frame" x="0.0" y="49" width="414" height="51"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="SvP-rh-NVd"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="2UY-C5-yFQ" firstAttribute="top" secondItem="SvP-rh-NVd" secondAttribute="top" constant="5" id="1fb-XM-lSP"/>
+                            <constraint firstItem="2UY-C5-yFQ" firstAttribute="leading" secondItem="SvP-rh-NVd" secondAttribute="leading" id="DfY-ad-TUo"/>
+                            <constraint firstItem="GiX-7B-goe" firstAttribute="top" secondItem="2UY-C5-yFQ" secondAttribute="bottom" constant="5" id="R5b-sB-drc"/>
+                            <constraint firstItem="SvP-rh-NVd" firstAttribute="trailing" secondItem="GiX-7B-goe" secondAttribute="trailing" id="Rl6-ER-Q1k"/>
+                            <constraint firstItem="GiX-7B-goe" firstAttribute="leading" secondItem="SvP-rh-NVd" secondAttribute="leading" id="VZ8-dl-Rq5"/>
+                            <constraint firstItem="SvP-rh-NVd" firstAttribute="bottom" secondItem="GiX-7B-goe" secondAttribute="bottom" id="ri8-aT-Jcz"/>
+                            <constraint firstItem="2UY-C5-yFQ" firstAttribute="trailing" secondItem="SvP-rh-NVd" secondAttribute="trailing" id="slA-Ud-9Cd"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Search" image="magnifyingglass.circle.fill" catalog="system" id="hqd-ea-7qn"/>
+                    <connections>
+                        <outlet property="searchBar" destination="2UY-C5-yFQ" id="PiY-QF-W2z"/>
+                        <outlet property="tableView" destination="GiX-7B-goe" id="7th-lZ-OrK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RHA-Kk-y41" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1680" y="119"/>
         </scene>
         <!--Tab View Controller-->
         <scene sceneID="ltP-gN-45A">
@@ -181,8 +220,9 @@
                     </tabBar>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="3iY-Ky-8t6"/>
-                        <segue destination="OAP-kL-41H" kind="relationship" relationship="viewControllers" id="xS0-Ku-c9P"/>
-                        <segue destination="28H-X2-2w5" kind="relationship" relationship="viewControllers" id="slT-QC-V4b"/>
+                        <segue destination="BE9-MC-hiE" kind="relationship" relationship="viewControllers" id="zLd-m1-Stx"/>
+                        <segue destination="OAP-kL-41H" kind="relationship" relationship="viewControllers" id="23S-Dg-FBU"/>
+                        <segue destination="28H-X2-2w5" kind="relationship" relationship="viewControllers" id="NrB-nY-9nR"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="brT-2V-Oll" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -239,10 +279,10 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleAspectFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="zIj-5d-gsQ">
-                                <rect key="frame" x="20" y="392.5" width="374" height="50"/>
+                                <rect key="frame" x="20" y="392.5" width="374" height="48.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cWF-R2-cju" customClass="TagListView" customModule="TagListView">
-                                        <rect key="frame" x="0.0" y="0.0" width="182" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="182" height="48.5"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -254,16 +294,16 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="eho-0L-pYf">
-                                        <rect key="frame" x="192" y="0.0" width="182" height="50"/>
+                                        <rect key="frame" x="192" y="0.0" width="182" height="48.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Opening Hours:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JyO-5V-MfC">
-                                                <rect key="frame" x="0.0" y="0.0" width="119.5" height="22"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="119.5" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hours" textAlignment="natural" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="USD-ya-JFt">
-                                                <rect key="frame" x="0.0" y="32" width="41" height="18"/>
+                                                <rect key="frame" x="0.0" y="30.5" width="41" height="18"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -325,10 +365,16 @@
             <point key="canvasLocation" x="1660.8695652173915" y="-572.54464285714278"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="cWF-R2-cju">
+            <size key="intrinsicContentSize" width="182" height="16"/>
+        </designable>
+    </designables>
     <resources>
         <image name="heart" catalog="system" width="128" height="109"/>
         <image name="heart.fill" catalog="system" width="128" height="109"/>
         <image name="house.fill" catalog="system" width="128" height="106"/>
+        <image name="magnifyingglass.circle.fill" catalog="system" width="128" height="121"/>
         <image name="map.fill" catalog="system" width="128" height="110"/>
         <image name="xmark.app" catalog="system" width="128" height="114"/>
         <namedColor name="AccentColor">

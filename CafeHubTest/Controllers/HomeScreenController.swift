@@ -20,7 +20,7 @@ class HomeScreenController: UIViewController {
     let sharedPlaces = PlaceManager.shared
 
     var places: [[Cafe]] = [[], [], [], []]
-    var trendingList: [String] = []
+    var trendingList: [Int] = []
     
     static let tableCellID: String = "tableViewCellID_section_#"
     @IBOutlet weak var tableView: UITableView!
@@ -56,6 +56,7 @@ class HomeScreenController: UIViewController {
         //self.loadPlaces()
         self.loadData()
         self.loadSavedPlaces()
+        self.loadBackgroundData()
         
         NotificationCenter.default.addObserver(self, selector: #selector(ReloadData), name: NSNotification.Name(rawValue: "toGoPlaceChangeValue"), object: nil)
     }
@@ -112,9 +113,9 @@ class HomeScreenController: UIViewController {
 
     func loadData() {
         DispatchQueue.main.async {
-            self.places[1].append(contentsOf: self.sharedPlaces.places)
+            self.places[1].append(contentsOf: self.sharedPlaces.places[0..<10])
             self.sortPlacesByMatch()
-            self.places[2].append(contentsOf: self.sharedPlaces.places)
+            self.places[2].append(contentsOf: self.sharedPlaces.places[0..<10])
             self.sortPlacesByLocation()
             self.tableView.reloadData()
         }
@@ -125,9 +126,9 @@ class HomeScreenController: UIViewController {
             if let document = document, document.exists {
                 let trendingPlaces = document.data()!["placesID"] as? [Any]
                 for place in trendingPlaces! {
-                    self.trendingList.append(place as! String)
+                    self.trendingList.append(place as! Int)
                 }
-                self.db.collection("places").whereField(FieldPath.documentID(), in: self.trendingList).getDocuments { querySnapshot, err in
+                self.db.collection("places").whereField("id", in: self.trendingList).getDocuments { querySnapshot, err in
                     if let err = err {
                         print("Error getting documents: \(err)")
                     } else {
@@ -145,7 +146,40 @@ class HomeScreenController: UIViewController {
                 print("Trending document does not exist")
             }
         }
+    }
+    
+    func loadBackgroundData() {
+        var sharedPlacesID : [Int16] = []
+        sharedPlaces.places.forEach { place in
+            sharedPlacesID.append(place.id)
+        }
         
+        db.collection("places")
+            .whereField("id", notIn: sharedPlacesID)
+            .getDocuments { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        let place = document.data()
+                        //DispatchQueue.main.async {
+                        self.sharedPlaces.places.append(Cafe(id: place["id"] as! Int16, name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, openingHours: place["openingHours"] as! String))
+                        //}
+                    }
+                    
+                    
+                }
+            }
+        DispatchQueue.main.async {
+        self.sharedPlaces.places.forEach { cafe in
+            print("CHECK_LOCATION")
+            if cafe.location == nil {
+                cafe.getCoordinate { locationCL, err in
+                    cafe.location = locationCL
+                }
+            }
+        }
+        }
     }
     
     func loadSavedPlaces() {
@@ -315,7 +349,7 @@ extension HomeScreenController: UITableViewDelegate {
     }
     
     @objc func buttonTapped(_ sender: UIButton) {
-        self.tabBarController?.selectedIndex = 2
+        self.tabBarController?.selectedIndex = 3
     }
    
 }
@@ -347,8 +381,8 @@ extension HomeScreenController: UICollectionViewDataSource {
         
         cell.imageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
         cell.imageView.sd_imageIndicator?.startAnimatingIndicator()
-        let imageRef = storage.reference(forURL: cafe.imageLink)
-        imageRef.downloadURL { url, err in
+        //let imageRef = storage.reference(forURL: cafe.imageLink)
+        /*imageRef.downloadURL { url, err in
             if let err = err {
                 print("Failed generating url: \(err)")
             } else {
@@ -359,6 +393,12 @@ extension HomeScreenController: UICollectionViewDataSource {
                     //self.tableView.isHidden = false
                 }
             }
+        }*/
+        cell.imageView.sd_setImage(with: URL(string: cafe.imageLink), placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground) {
+            _,_,_,_ in
+            //self.spinner.stopAnimating()
+            //self.tableView.isHidden = false
+            cell.imageView.sd_imageIndicator?.stopAnimatingIndicator()
         }
         
         //TODO: add every label

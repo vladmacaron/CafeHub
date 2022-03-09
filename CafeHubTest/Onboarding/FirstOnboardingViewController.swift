@@ -65,7 +65,7 @@ class FirstOnboardingViewController: UIViewController {
     }*/
     
     func loadPlaces(with limit: Int) {
-        db.collection("places").limit(to: limit).addSnapshotListener { (querySnapshot, err) in
+        db.collection("places").limit(to: limit).getDocuments { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -160,11 +160,12 @@ extension FirstOnboardingViewController: UITableViewDelegate {
 }
 
 extension FirstOnboardingViewController: UITableViewDataSourcePrefetching {
+    
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         if let lastDocument = self.lastDocument {
             self.db.collection("places")
                 .limit(to: indexPaths.count)
-                .start(afterDocument: lastDocument).addSnapshotListener { (querySnapshot, err) in
+                .start(afterDocument: lastDocument).getDocuments { (querySnapshot, err) in
                     if let err = err {
                         print("Error getting documents: \(err)")
                     } else {
@@ -182,6 +183,7 @@ extension FirstOnboardingViewController: UITableViewDataSourcePrefetching {
         }
         
     }
+    
 }
 
 extension FirstOnboardingViewController: UISearchBarDelegate {

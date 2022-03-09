@@ -94,8 +94,8 @@ class MapViewController: UIViewController {
             self.getCoordinate(addressString: place.address) { coordinates, err in
                 annotations.coordinate = coordinates
             }
-            
-            mapView.addAnnotation(annotations)*/
+             
+             mapView.addAnnotation(annotations)*/
             self.getCoordinate(addressString: place.address) { coordinates, err in
                 let annotation = CustomAnnotation(id: place.id, title: place.name, subtitle: place.openingHours, coordinate: coordinates)
                 self.mapView.addAnnotation(annotation)
@@ -121,10 +121,10 @@ class MapViewController: UIViewController {
     }
     
     func loadPlaces() {
-        allPlacesLocation.append(contentsOf: sharedPlaces.places)
-        DispatchQueue.main.async {
+        self.allPlacesLocation.append(contentsOf: self.sharedPlaces.places)
+        //DispatchQueue.main.async {
             self.fetchAddressesOnMap(self.allPlacesLocation)
-        }
+        //}
     }
     
     func loadAllSavedPlaces() {
@@ -163,8 +163,10 @@ extension MapViewController: MKMapViewDelegate {
     func presentDetailedViewController(with id: Int) {
         let secondViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailedViewController") as! DetailedViewController
         secondViewController.modalPresentationStyle = .popover
-        
-        db.collection("places").whereField("id", isEqualTo: id).getDocuments { (querySnapshot, err) in
+        secondViewController.firebasePlace = sharedPlaces.places.first(where: { place in
+            place.id == id
+        })
+        /*db.collection("places").whereField("id", isEqualTo: id).getDocuments { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -178,8 +180,8 @@ extension MapViewController: MKMapViewDelegate {
                 self.present(secondViewController, animated: true)
             }
             
-        }
-        
+        }*/
+        self.present(secondViewController, animated: true)
     }
 }
 

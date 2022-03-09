@@ -49,14 +49,9 @@ class DetailedViewController: UIViewController {
         } else {
             self.mainImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
             self.mainImage.sd_imageIndicator?.startAnimatingIndicator()
-            let imageRef = storage.reference(forURL: firebasePlace.imageLink)
-            imageRef.downloadURL { url, err in
-                if let err = err {
-                    print("Failed generating url: \(err)")
-                } else {
-                    self.mainImage.sd_imageIndicator?.stopAnimatingIndicator()
-                    self.mainImage.sd_setImage(with: url, placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground)
-                }
+            self.mainImage.sd_setImage(with: URL(string: firebasePlace.imageLink), placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground) {
+                _,_,_,_ in
+                self.mainImage.sd_imageIndicator?.stopAnimatingIndicator()
             }
         }
         

@@ -55,7 +55,7 @@ class PlaceTableViewCell: UITableViewCell {
         
         placeImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
         placeImage.sd_imageIndicator?.startAnimatingIndicator()
-        let imageRef = storage.reference(forURL: place.imageLink)
+        /*let imageRef = storage.reference(forURL: place.imageLink)
         imageRef.downloadURL { url, err in
             if let err = err {
                 print("Failed generating url: \(err)")
@@ -65,6 +65,10 @@ class PlaceTableViewCell: UITableViewCell {
                 self.placeImage.sd_setImage(with: url, placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground)
                 //}
             }
+        }*/
+        placeImage.sd_setImage(with: URL(string: place.imageLink), placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground) {
+            _,_,_,_ in
+            self.placeImage.sd_imageIndicator?.stopAnimatingIndicator()
         }
     }
     
@@ -77,7 +81,7 @@ class PlaceTableViewCell: UITableViewCell {
         
         placeImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
         placeImage.sd_imageIndicator?.startAnimatingIndicator()
-        let imageRef = storage.reference(forURL: place.imageLink!)
+        /*let imageRef = storage.reference(forURL: place.imageLink!)
         imageRef.downloadURL { url, err in
             if let err = err {
                 print("Failed generating url: \(err)")
@@ -87,6 +91,10 @@ class PlaceTableViewCell: UITableViewCell {
                 self.placeImage.sd_setImage(with: url, placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground)
                 //}
             }
+        }*/
+        placeImage.sd_setImage(with: URL(string: place.imageLink!), placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground) {
+            _,_,_,_ in
+            self.placeImage.sd_imageIndicator?.stopAnimatingIndicator()
         }
     }
 

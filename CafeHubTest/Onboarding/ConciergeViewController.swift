@@ -14,6 +14,8 @@ class ConciergeViewController: UIViewController {
     let db = Firestore.firestore()
     let sharedPlaces = PlaceManager.shared
     
+    var randomArr: [Int] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,9 +33,14 @@ class ConciergeViewController: UIViewController {
     }
     
     func loadData() {
-        //needs limit?
+        for _ in 1...10 {
+            randomArr.append(Int.random(in: 1..<535))
+        }
+        print("CHECK \(randomArr)")
         let group = DispatchGroup()
-        db.collection("places").getDocuments { (querySnapshot, err) in
+        db.collection("places")
+            .whereField("id", in: randomArr)
+            .limit(to: 10).getDocuments { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -53,11 +60,6 @@ class ConciergeViewController: UIViewController {
             group.notify(queue: .main) {
                 self.performSegue(withIdentifier: "toMain", sender: nil)
             }
-            
-            /*DispatchQueue.main.async {
-                self.performSegue(withIdentifier: "toMain", sender: nil)
-            }*/
-                
         }
         
     }
