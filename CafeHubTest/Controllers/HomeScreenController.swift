@@ -172,7 +172,6 @@ class HomeScreenController: UIViewController {
             }
         DispatchQueue.main.async {
         self.sharedPlaces.places.forEach { cafe in
-            print("CHECK_LOCATION")
             if cafe.location == nil {
                 cafe.getCoordinate { locationCL, err in
                     cafe.location = locationCL

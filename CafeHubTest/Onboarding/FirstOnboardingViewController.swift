@@ -135,16 +135,9 @@ extension FirstOnboardingViewController: UITableViewDataSource {
         
         cell.placeImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
         cell.placeImage.sd_imageIndicator?.startAnimatingIndicator()
-        let imageRef = storage.reference(forURL: place.imageLink)
-        imageRef.downloadURL { url, err in
-            if let err = err {
-                print("Failed generating url: \(err)")
-            } else {
-                if cell.tag == indexPath.row {
-                    cell.placeImage.sd_imageIndicator?.stopAnimatingIndicator()
-                    cell.placeImage.sd_setImage(with: url, placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground)
-                }
-            }
+        cell.placeImage.sd_setImage(with: URL(string: place.imageLink), placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground) {
+            _,_,_,_ in
+            cell.placeImage.sd_imageIndicator?.stopAnimatingIndicator()
         }
         
         

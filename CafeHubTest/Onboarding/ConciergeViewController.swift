@@ -36,7 +36,7 @@ class ConciergeViewController: UIViewController {
         for _ in 1...10 {
             randomArr.append(Int.random(in: 1..<535))
         }
-        print("CHECK \(randomArr)")
+        
         let group = DispatchGroup()
         db.collection("places")
             .whereField("id", in: randomArr)
