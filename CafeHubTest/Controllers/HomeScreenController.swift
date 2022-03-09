@@ -170,15 +170,14 @@ class HomeScreenController: UIViewController {
                     
                 }
             }
-        DispatchQueue.main.async {
-        self.sharedPlaces.places.forEach { cafe in
+        
+        /*self.sharedPlaces.places.forEach { cafe in
             if cafe.location == nil {
                 cafe.getCoordinate { locationCL, err in
                     cafe.location = locationCL
                 }
             }
-        }
-        }
+        }*/
     }
     
     func loadSavedPlaces() {

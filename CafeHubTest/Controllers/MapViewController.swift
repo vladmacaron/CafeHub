@@ -21,8 +21,12 @@ class MapViewController: UIViewController {
     var allPlacesLocation: [Cafe] = [Cafe]()
     var savedPlacesLocation: [Cafe] = [Cafe]()
     
+    var count = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        mapView.delegate = self
         
         checkLocationServices()
         loadPlaces()
@@ -38,8 +42,6 @@ class MapViewController: UIViewController {
         let region = MKCoordinateRegion(center: locationManager.location!.coordinate, latitudinalMeters: 25000, longitudinalMeters: 25000)
         mapView.setCameraBoundary(MKMapView.CameraBoundary(coordinateRegion: region), animated: true)
         
-        mapView.showAnnotations(mapView.annotations, animated: true)
-        mapView.delegate = self
         //locationManager.delegate = self
     }
     
@@ -84,36 +86,32 @@ class MapViewController: UIViewController {
     }
     
     func fetchAddressesOnMap(_ places: [Cafe]) {
-        
         for place in places {
-            /*let annotations = MKPointAnnotation()
-            
-            annotations.title = "\(place.name)+\(place.id)"
-            annotations.subtitle = place.openingHours
-            
             self.getCoordinate(addressString: place.address) { coordinates, err in
-                annotations.coordinate = coordinates
-            }
-             
-             mapView.addAnnotation(annotations)*/
-            self.getCoordinate(addressString: place.address) { coordinates, err in
+                print(place.id)
+                print(coordinates)
                 let annotation = CustomAnnotation(id: place.id, title: place.name, subtitle: place.openingHours, coordinate: coordinates)
                 self.mapView.addAnnotation(annotation)
             }
+            //geocodeAddressString has a limit of calls to its API
+            //therefore adding necessary time delay in a loop
+            sleep(1)
         }
     }
     
-    func getCoordinate( addressString : String,
-            completionHandler: @escaping(CLLocationCoordinate2D, NSError?) -> Void ) {
+    func getCoordinate( addressString : String, completionHandler: @escaping(CLLocationCoordinate2D, NSError?) -> Void ) {
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(addressString) { (placemarks, error) in
             if error == nil {
                 if let placemark = placemarks?[0] {
                     let location = placemark.location!
-                        
+                    
                     completionHandler(location.coordinate, nil)
                     return
+                } else {
+                    print("ERROR")
                 }
+                
             }
             
             completionHandler(kCLLocationCoordinate2DInvalid, error as NSError?)
@@ -121,18 +119,14 @@ class MapViewController: UIViewController {
     }
     
     func loadPlaces() {
-        self.allPlacesLocation.append(contentsOf: self.sharedPlaces.places)
-        //DispatchQueue.main.async {
-            self.fetchAddressesOnMap(self.allPlacesLocation)
-        //}
+        self.fetchAddressesOnMap(self.sharedPlaces.places)
+        
     }
     
     func loadAllSavedPlaces() {
         if let places = StorageManager.sharedManager.fetchAllSavedPlacesAsCafe() {
             savedPlacesLocation = places
-            DispatchQueue.main.async {
-                self.fetchAddressesOnMap(self.savedPlacesLocation)
-            }
+            self.fetchAddressesOnMap(self.savedPlacesLocation)
         }
     }
     
@@ -149,6 +143,21 @@ extension MapViewController: MKMapViewDelegate {
             view.tag = Int(annotation.id)
             view.canShowCallout = true
             view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+            view.markerTintColor = UIColor(named: "AccentColor")
+            let placeType = sharedPlaces.places.first(where: {$0.id == annotation.id})?.type[0]
+            switch placeType {
+            case "Bars":
+                view.glyphImage = UIImage(named: "Bar")
+                break
+            case "Restaurants":
+                view.glyphImage = UIImage(named: "Restaurant")
+                break
+            case "Cafés":
+                view.glyphImage = UIImage(named: "Cafe")
+                break
+            default:
+                view.glyphImage = UIImage(named: "Restaurant")
+            }
             
             return view
         } else {
@@ -166,21 +175,6 @@ extension MapViewController: MKMapViewDelegate {
         secondViewController.firebasePlace = sharedPlaces.places.first(where: { place in
             place.id == id
         })
-        /*db.collection("places").whereField("id", isEqualTo: id).getDocuments { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    let place = document.data()
-                    let data = Cafe(id: place["id"] as! Int16, name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, openingHours: place["openingHours"] as! String)
-                    secondViewController.firebasePlace = data
-                }
-            }
-            DispatchQueue.main.async {
-                self.present(secondViewController, animated: true)
-            }
-            
-        }*/
         self.present(secondViewController, animated: true)
     }
 }
