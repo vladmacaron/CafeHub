@@ -1,8 +1,8 @@
 # CafeHub
 iOS app for finding places in Vienna powered by Goodnight.at Lokalführer database.
 
-App is not finished and some bugs could persist (i.e. geocodeAddressString from human readable address to CLLocation with the help of MapKit has it's limits
-to the API and could not sometimes get timedout)
+App is not finished and some bugs could persist, for example: geocodeAddressString from human readable address to CLLocation with the help of MapKit has it's
+limits to the API and could not sometimes get timedout; Firebase free quota is only 50k reads per day
 
 # What was used
 
