@@ -57,6 +57,7 @@ class SavedPlacesController: UIViewController {
         let secondViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailedViewController") as! DetailedViewController
 
         //secondViewController.transitioningDelegate = self
+        secondViewController.sheetPresentationController?.detents = [.medium(), .large()]
         secondViewController.modalPresentationStyle = .popover
         secondViewController.savedPlace = data
         secondViewController.placeImage = image

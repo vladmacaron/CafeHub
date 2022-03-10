@@ -66,7 +66,9 @@ class PlaceTableViewCell: UITableViewCell {
     func configureCellforOnboardingController(place: Cafe) {
         //saveButton.setImage(UIImage(systemName: "heart"), for: .normal)
         titleLabel.text = place.name
-        tagList.addTags(place.type)
+        if let placeTag = place.type.first {
+            tagList.addTag(placeTag)
+        }
         zipLabel.text = place.zip
         
         placeImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
@@ -81,7 +83,9 @@ class PlaceTableViewCell: UITableViewCell {
         saveButton.isHidden = true
         
         titleLabel.text = place.name
-        tagList.addTags(place.type!)
+        if let placeTag = place.type?.first {
+            tagList.addTag(placeTag)
+        }
         zipLabel.text = place.zip
         
         placeImage.sd_imageIndicator = SDWebImageActivityIndicator.gray

@@ -13,7 +13,7 @@ class SecondOnboardingViewController: UIViewController {
 
     let db = Firestore.firestore()
     let defaults = UserDefaults.standard
-    private var tags: [String] = [String]()
+    var tags: [String] = [String]()
     var selectedTags: [String] = [String]()
     
     @IBOutlet weak var tagList: TagListView!
@@ -25,23 +25,13 @@ class SecondOnboardingViewController: UIViewController {
         tagList.delegate = self
     
         loadTags()
-        
     }
     
     func loadTags() {
-        db.collection("places").order(by: "name").getDocuments { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    let place = document.data()
-                    self.tags.append(contentsOf: place["type"] as! [String])
-                }
-                DispatchQueue.main.async {
-                    self.tagList.addTags(Array(Set(self.tags)))
-                }
-            }
+        if let pageController = parent as? OnboardingPageViewController {
+            tags.append(contentsOf: pageController.tags)
         }
+        self.tagList.addTags(tags)
     }
     
 }

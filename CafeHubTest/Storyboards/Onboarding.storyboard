@@ -39,7 +39,7 @@
                                     <constraint firstAttribute="width" constant="278" id="bim-UJ-3YE"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button" cornerStyle="medium" buttonSize="large">
+                                <buttonConfiguration key="configuration" style="plain" title="Next" cornerStyle="medium" buttonSize="large">
                                     <backgroundConfiguration key="background">
                                         <color key="backgroundColor" name="AccentColor"/>
                                         <color key="strokeColor" name="AccentColor"/>
@@ -92,13 +92,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose Your Types:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Moy-94-UZ7">
+                                <rect key="frame" x="20" y="54" width="374" height="36"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7MD-Q0-U4r">
                                 <rect key="frame" x="68" y="785" width="278" height="47"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="47" id="TRv-HG-4ff"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button" cornerStyle="medium" buttonSize="large">
+                                <buttonConfiguration key="configuration" style="plain" title="Finish" cornerStyle="medium" buttonSize="large">
                                     <backgroundConfiguration key="background">
                                         <color key="backgroundColor" name="AccentColor"/>
                                         <color key="strokeColor" name="AccentColor"/>
@@ -109,11 +115,11 @@
                                     <segue destination="2Ka-j6-gvb" kind="presentation" modalPresentationStyle="fullScreen" id="dKp-ag-6Wj"/>
                                 </connections>
                             </button>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZNK-bb-IBH">
-                                <rect key="frame" x="20" y="64" width="374" height="701"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZNK-bb-IBH">
+                                <rect key="frame" x="20" y="98" width="374" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wgb-7F-KxH" customClass="TagListView" customModule="TagListView">
-                                        <rect key="frame" x="0.0" y="10" width="374" height="1201"/>
+                                        <rect key="frame" x="0.0" y="10" width="374" height="24"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="tagBackgroundColor">
@@ -152,7 +158,6 @@
                                     <constraint firstItem="FYU-xh-aJA" firstAttribute="trailing" secondItem="Wgb-7F-KxH" secondAttribute="trailing" id="QOR-oP-k97"/>
                                     <constraint firstItem="FYU-xh-aJA" firstAttribute="bottom" secondItem="Wgb-7F-KxH" secondAttribute="bottom" constant="10" id="ajt-27-qpM"/>
                                     <constraint firstItem="Wgb-7F-KxH" firstAttribute="top" secondItem="FYU-xh-aJA" secondAttribute="top" constant="10" id="pri-B5-Dai"/>
-                                    <constraint firstItem="Wgb-7F-KxH" firstAttribute="height" secondItem="8VI-JR-AVf" secondAttribute="height" priority="999" constant="500" id="wgJ-Qk-GyP"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="FYU-xh-aJA"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="8VI-JR-AVf"/>
@@ -162,10 +167,13 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="uDn-ns-JrU" firstAttribute="trailing" secondItem="ZNK-bb-IBH" secondAttribute="trailing" constant="20" id="9jW-tg-Zvv"/>
-                            <constraint firstItem="ZNK-bb-IBH" firstAttribute="top" secondItem="uDn-ns-JrU" secondAttribute="top" constant="20" id="VqD-7F-it6"/>
+                            <constraint firstItem="uDn-ns-JrU" firstAttribute="trailing" secondItem="Moy-94-UZ7" secondAttribute="trailing" constant="20" id="QnA-4N-q2I"/>
+                            <constraint firstItem="Moy-94-UZ7" firstAttribute="top" secondItem="uDn-ns-JrU" secondAttribute="top" constant="10" id="RGZ-lI-6Sj"/>
+                            <constraint firstItem="ZNK-bb-IBH" firstAttribute="top" secondItem="Moy-94-UZ7" secondAttribute="top" constant="50" id="VqD-7F-it6"/>
                             <constraint firstItem="7MD-Q0-U4r" firstAttribute="leading" secondItem="uDn-ns-JrU" secondAttribute="leading" constant="68" id="aVx-Qe-RCG"/>
                             <constraint firstItem="uDn-ns-JrU" firstAttribute="trailing" secondItem="7MD-Q0-U4r" secondAttribute="trailing" constant="68" id="eEN-8o-xd6"/>
                             <constraint firstItem="7MD-Q0-U4r" firstAttribute="top" secondItem="ZNK-bb-IBH" secondAttribute="bottom" constant="20" id="g7H-3u-ovj"/>
+                            <constraint firstItem="Moy-94-UZ7" firstAttribute="leading" secondItem="uDn-ns-JrU" secondAttribute="leading" constant="20" id="qYz-Ab-v0r"/>
                             <constraint firstItem="uDn-ns-JrU" firstAttribute="bottom" secondItem="7MD-Q0-U4r" secondAttribute="bottom" constant="30" id="ro6-J7-VaL"/>
                             <constraint firstItem="ZNK-bb-IBH" firstAttribute="leading" secondItem="uDn-ns-JrU" secondAttribute="leading" constant="20" id="xuE-iF-UxA"/>
                         </constraints>
@@ -176,9 +184,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GRz-Pi-Sxx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="713" y="72"/>
+            <point key="canvasLocation" x="711.59420289855075" y="71.651785714285708"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="Wgb-7F-KxH">
+            <size key="intrinsicContentSize" width="374" height="24"/>
+        </designable>
+    </designables>
     <resources>
         <namedColor name="AccentColor">
             <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

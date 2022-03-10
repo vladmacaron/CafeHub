@@ -9,6 +9,8 @@ import UIKit
 
 class OnboardingPageViewController: UIPageViewController {
 
+    var tags: [String] = [String]()
+    
     private var viewControllerList: [UIViewController] = {
         let storyboard = UIStoryboard.onboarding
         let firstVC = storyboard.instantiateViewController(withIdentifier: "FirstOnboardingVC")

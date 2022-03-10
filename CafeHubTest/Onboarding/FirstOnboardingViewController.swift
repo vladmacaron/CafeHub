@@ -14,6 +14,7 @@ import FirebaseStorage
 class FirstOnboardingViewController: UIViewController {
     let db = Firestore.firestore()
     let storage = Storage.storage()
+    let sharedPlaces = PlaceManager.shared
     var lastDocument: QueryDocumentSnapshot?
 
     private var initialPlaces: [Cafe] = [Cafe]()
@@ -21,6 +22,7 @@ class FirstOnboardingViewController: UIViewController {
     private var placesNames: [String] = [String]()
     private var filterPlacesNames: [String] = [String]()
     private var imageURLsArray: [URL] = [URL]()
+    var tags: [String] = [String]()
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
@@ -32,9 +34,9 @@ class FirstOnboardingViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.prefetchDataSource = self
+        //tableView.prefetchDataSource = self
         
-        self.loadPlaces(with: 10)
+        self.loadPlaces()
         self.loadPlacesNames()
 
         tableView.reloadData()
@@ -43,6 +45,7 @@ class FirstOnboardingViewController: UIViewController {
     
     @IBAction func buttonPressed(_ sender: UIButton) {
         if let pageController = parent as? OnboardingPageViewController {
+            pageController.tags = Array(Set(self.tags))
             pageController.pushNext()
         }
     }
@@ -64,8 +67,8 @@ class FirstOnboardingViewController: UIViewController {
         }
     }*/
     
-    func loadPlaces(with limit: Int) {
-        db.collection("places").limit(to: limit).getDocuments { (querySnapshot, err) in
+    func loadPlaces() {
+        db.collection("places").getDocuments { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -74,7 +77,8 @@ class FirstOnboardingViewController: UIViewController {
                 for document in querySnapshot!.documents {
                     let place = document.data()
                     self.filterPlaces.append(Cafe(id: place["id"] as! Int16, name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, openingHours: place["openingHours"] as! String))
-                    /*self.initialPlaces.append(Cafe(name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double))*/
+                    self.sharedPlaces.places.append(Cafe(id: place["id"] as! Int16, name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, openingHours: place["openingHours"] as! String))
+                    self.tags.append(contentsOf: place["type"] as! [String])
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
                     }
@@ -93,6 +97,13 @@ class FirstOnboardingViewController: UIViewController {
                     self.placesNames.append(place["name"] as! String)
                 }
             }
+        }
+    }
+    
+    func loadLocalData() {
+        filterPlaces.append(contentsOf: sharedPlaces.places)
+        filterPlaces.sort { c1, c2 in
+            c1.name<c2.name
         }
     }
 
@@ -128,18 +139,6 @@ extension FirstOnboardingViewController: UITableViewDataSource {
         
         cell.configureCellforOnboardingController(place: place)
         
-        /*cell.titleLabel.text = place.name
-        cell.tagList.addTags(place.type)
-        cell.zipLabel.text = place.zip
-        
-        cell.placeImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
-        cell.placeImage.sd_imageIndicator?.startAnimatingIndicator()
-        cell.placeImage.sd_setImage(with: URL(string: place.imageLink), placeholderImage: UIImage(named: "Cafe_Placeholder"), options: .continueInBackground) {
-            _,_,_,_ in
-            cell.placeImage.sd_imageIndicator?.stopAnimatingIndicator()
-        }*/
-        
-        
         return cell
     }
     
@@ -151,7 +150,7 @@ extension FirstOnboardingViewController: UITableViewDelegate {
     }
 }
 
-extension FirstOnboardingViewController: UITableViewDataSourcePrefetching {
+/*extension FirstOnboardingViewController: UITableViewDataSourcePrefetching {
     
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         if let lastDocument = self.lastDocument {
@@ -176,15 +175,41 @@ extension FirstOnboardingViewController: UITableViewDataSourcePrefetching {
         
     }
     
-}
+}*/
 
 extension FirstOnboardingViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     
         if(searchText.isEmpty) {
             filterPlacesNames = placesNames
+            loadLocalData()
+            self.tableView.reloadData()
+        } else {
+            filterPlacesNames = placesNames.filter({ (dataString: String) -> Bool in
+                if dataString.range(of: searchText, options: .caseInsensitive) != nil {
+                    return true
+                } else {
+                    return false
+                }
+            })
+            
+            if !filterPlacesNames.isEmpty {
+                self.filterPlaces.removeAll()
+                print(filterPlacesNames)
+                for name in filterPlacesNames {
+                    if let place = self.sharedPlaces.places.first(where: {$0.name==name}) {
+                        
+                        self.filterPlaces.append(place)
+                    }
+                }
+                self.tableView.reloadData()
+            }
+        }
+        
+        /*if(searchText.isEmpty) {
+            filterPlacesNames = placesNames
             //filterPlaces = initialPlaces
-            loadPlaces(with: 4)
+            loadPlaces()
             //self.tableView.reloadData()
         } else {
             filterPlacesNames = placesNames.filter({ (dataString: String) -> Bool in
@@ -211,7 +236,8 @@ extension FirstOnboardingViewController: UISearchBarDelegate {
                     }
                 }
             }
-        }
+        }*/
+        
     }
     
     func savePlace(place: Cafe) {

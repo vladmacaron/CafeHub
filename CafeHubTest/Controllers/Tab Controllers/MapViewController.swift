@@ -86,16 +86,18 @@ class MapViewController: UIViewController {
     }
     
     func fetchAddressesOnMap(_ places: [Cafe]) {
+        var i = 0.0
         for place in places {
-            self.getCoordinate(addressString: place.address) { coordinates, err in
-                print(place.id)
-                print(coordinates)
-                let annotation = CustomAnnotation(id: place.id, title: place.name, subtitle: place.openingHours, coordinate: coordinates)
-                self.mapView.addAnnotation(annotation)
-            }
             //geocodeAddressString has a limit of calls to its API
             //therefore adding necessary time delay in a loop
-            sleep(1)
+            Timer.scheduledTimer(withTimeInterval: 0.1 * i, repeats: false) { (timer) in
+                self.getCoordinate(addressString: place.address) { coordinates, err in
+                    let annotation = CustomAnnotation(id: place.id, title: place.name, subtitle: place.openingHours, coordinate: coordinates)
+                    self.mapView.addAnnotation(annotation)
+                }
+                
+            }
+            i += 1
         }
     }
     
@@ -173,6 +175,7 @@ extension MapViewController: MKMapViewDelegate {
     
     func presentDetailedViewController(with id: Int) {
         let secondViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailedViewController") as! DetailedViewController
+        secondViewController.sheetPresentationController?.detents = [.medium(), .large()]
         secondViewController.modalPresentationStyle = .popover
         secondViewController.firebasePlace = sharedPlaces.places.first(where: { place in
             place.id == id

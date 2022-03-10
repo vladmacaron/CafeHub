@@ -38,6 +38,19 @@ class SearchViewController: UIViewController {
         tableView.reloadData()
     }
     
+    func loadData() {
+        filterPlaces.append(contentsOf: sharedPlaces.places)
+        filterPlaces.sort { c1, c2 in
+            c1.name<c2.name
+        }
+    }
+    
+    func loadNames() {
+        filterPlaces.forEach { place in
+            placesNames.append(place.name)
+        }
+    }
+    
 }
 
 extension SearchViewController: UITableViewDataSource {
@@ -61,19 +74,6 @@ extension SearchViewController: UITableViewDataSource {
         return cell
     }
     
-    func loadData() {
-        filterPlaces.append(contentsOf: sharedPlaces.places)
-        filterPlaces.sort { c1, c2 in
-            c1.name<c2.name
-        }
-    }
-    
-    func loadNames() {
-        filterPlaces.forEach { place in
-            placesNames.append(place.name)
-        }
-    }
-    
 }
 
 
@@ -91,6 +91,7 @@ extension SearchViewController: UITableViewDelegate {
         let secondViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailedViewController") as! DetailedViewController
 
         //secondViewController.transitioningDelegate = self
+        secondViewController.sheetPresentationController?.detents = [.medium(), .large()]
         secondViewController.modalPresentationStyle = .popover
         secondViewController.firebasePlace = data
         secondViewController.placeImage = image

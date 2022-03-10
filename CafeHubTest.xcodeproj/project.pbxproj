@@ -171,12 +171,9 @@
 			isa = PBXGroup;
 			children = (
 				8645924027382CDF00222B6D /* CollectionTableViewCell.swift */,
-				86459244273834BB00222B6D /* IndexedCollectionViewCell.swift */,
-				86459245273834BB00222B6D /* IndexedCollectionViewCell.xib */,
-				8651D803278F1A8A0004FE8D /* PlaceTableViewCell.swift */,
-				8651D804278F1A8A0004FE8D /* PlaceTableViewCell.xib */,
-				86721C5827AC24DA0019157E /* EmptyTableViewCell.swift */,
-				86721C5927AC24DA0019157E /* EmptyTableViewCell.xib */,
+				86D68CD127DA49770053BECF /* CollectionView Cell */,
+				86D68CD027DA49650053BECF /* Place TableView Cell */,
+				86D68CCF27DA49510053BECF /* Empty TableView Cell */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -184,10 +181,8 @@
 		864592482739B24300222B6D /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				86D68CD227DA49980053BECF /* Managers */,
 				86DAB96227B168D700EA0D2E /* CustomAnnotation.swift */,
-				8651D7FE278DECB50004FE8D /* StorageManager.swift */,
-				86721C5627A1A91E0019157E /* PlaceManager.swift */,
-				8651D7F3278C9F430004FE8D /* LandscapeManager.swift */,
 				8651D7F5278CA1AE0004FE8D /* Storyboard+Ext.swift */,
 				86721C522799E9110019157E /* TransitionAnimator.swift */,
 			);
@@ -206,7 +201,6 @@
 		8651D7FD278CA8650004FE8D /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				8651D7F1278C9DA60004FE8D /* ConciergeViewController.swift */,
 				8651D7ED278C98330004FE8D /* OnboardingPageViewController.swift */,
 				86DAB95E27B036ED00EA0D2E /* FirstOnboardingViewController.swift */,
 				8651D7F9278CA2CC0004FE8D /* SecondOnboardingViewController.swift */,
@@ -217,12 +211,9 @@
 		868DF1DA27909D1E00AB4598 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				86721C4E2799D0340019157E /* TabViewController.swift */,
-				8645923A27381E3F00222B6D /* HomeScreenController.swift */,
-				868DF1DB27909DD100AB4598 /* SavedPlacesController.swift */,
-				86721C5427A0714F0019157E /* MapViewController.swift */,
+				86D68CCE27DA493C0053BECF /* Tab Controllers */,
+				8651D7F1278C9DA60004FE8D /* ConciergeViewController.swift */,
 				86721C502799E2840019157E /* DetailedViewController.swift */,
-				86DAB96627B2F46A00EA0D2E /* SearchViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -235,6 +226,55 @@
 				864592312738059300222B6D /* LaunchScreen.storyboard */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		86D68CCE27DA493C0053BECF /* Tab Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				86721C4E2799D0340019157E /* TabViewController.swift */,
+				8645923A27381E3F00222B6D /* HomeScreenController.swift */,
+				868DF1DB27909DD100AB4598 /* SavedPlacesController.swift */,
+				86721C5427A0714F0019157E /* MapViewController.swift */,
+				86DAB96627B2F46A00EA0D2E /* SearchViewController.swift */,
+			);
+			path = "Tab Controllers";
+			sourceTree = "<group>";
+		};
+		86D68CCF27DA49510053BECF /* Empty TableView Cell */ = {
+			isa = PBXGroup;
+			children = (
+				86721C5827AC24DA0019157E /* EmptyTableViewCell.swift */,
+				86721C5927AC24DA0019157E /* EmptyTableViewCell.xib */,
+			);
+			path = "Empty TableView Cell";
+			sourceTree = "<group>";
+		};
+		86D68CD027DA49650053BECF /* Place TableView Cell */ = {
+			isa = PBXGroup;
+			children = (
+				8651D803278F1A8A0004FE8D /* PlaceTableViewCell.swift */,
+				8651D804278F1A8A0004FE8D /* PlaceTableViewCell.xib */,
+			);
+			path = "Place TableView Cell";
+			sourceTree = "<group>";
+		};
+		86D68CD127DA49770053BECF /* CollectionView Cell */ = {
+			isa = PBXGroup;
+			children = (
+				86459244273834BB00222B6D /* IndexedCollectionViewCell.swift */,
+				86459245273834BB00222B6D /* IndexedCollectionViewCell.xib */,
+			);
+			path = "CollectionView Cell";
+			sourceTree = "<group>";
+		};
+		86D68CD227DA49980053BECF /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				8651D7FE278DECB50004FE8D /* StorageManager.swift */,
+				8651D7F3278C9F430004FE8D /* LandscapeManager.swift */,
+				86721C5627A1A91E0019157E /* PlaceManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -114,11 +114,21 @@ class HomeScreenController: UIViewController {
 
     func loadData() {
         DispatchQueue.main.async {
-            self.places[1].append(contentsOf: self.sharedPlaces.places[0..<10])
+            self.sharedPlaces.places.forEach { place in
+                self.places[1].append(place)
+            }
+            self.sortPlacesByMatch()
+            self.sharedPlaces.places.forEach { place in
+                self.places[2].append(place)
+            }
+            self.sortPlacesByLocation()
+            self.tableView.reloadData()
+            
+            /*self.places[1].append(contentsOf: self.sharedPlaces.places[0..<10])
             self.sortPlacesByMatch()
             self.places[2].append(contentsOf: self.sharedPlaces.places[0..<10])
             self.sortPlacesByLocation()
-            self.tableView.reloadData()
+            self.tableView.reloadData()*/
         }
     }
     
@@ -151,27 +161,27 @@ class HomeScreenController: UIViewController {
     }
     
     func loadBackgroundData() {
-        var sharedPlacesID : [Int16] = []
-        sharedPlaces.places.forEach { place in
-            sharedPlacesID.append(place.id)
-        }
-        
-        db.collection("places")
-            .whereField("id", notIn: sharedPlacesID)
-            .getDocuments { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        let place = document.data()
-                        //DispatchQueue.main.async {
-                        self.sharedPlaces.places.append(Cafe(id: place["id"] as! Int16, name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, openingHours: place["openingHours"] as! String))
-                        //}
-                    }
-                    
-                    
-                }
+        if sharedPlaces.places.count < 11 {
+            var sharedPlacesID : [Int16] = []
+            sharedPlaces.places.forEach { place in
+                sharedPlacesID.append(place.id)
             }
+            
+            db.collection("places")
+                .whereField("id", notIn: sharedPlacesID)
+                .getDocuments { (querySnapshot, err) in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        for document in querySnapshot!.documents {
+                            let place = document.data()
+                            self.sharedPlaces.places.append(Cafe(id: place["id"] as! Int16, name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, openingHours: place["openingHours"] as! String))
+                        }
+                        
+                        
+                    }
+                }
+        }
     }
     
     func loadSavedPlaces() {
