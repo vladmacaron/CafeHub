@@ -126,19 +126,18 @@ extension FirstOnboardingViewController: UITableViewDataSource {
             }
         }
         
+        cell.configureCellforOnboardingController(place: place)
         
-        //cell.configureCellForOnboardingController(place: place)
-        
-        cell.titleLabel.text = place.name
+        /*cell.titleLabel.text = place.name
         cell.tagList.addTags(place.type)
         cell.zipLabel.text = place.zip
         
         cell.placeImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
         cell.placeImage.sd_imageIndicator?.startAnimatingIndicator()
-        cell.placeImage.sd_setImage(with: URL(string: place.imageLink), placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground) {
+        cell.placeImage.sd_setImage(with: URL(string: place.imageLink), placeholderImage: UIImage(named: "Cafe_Placeholder"), options: .continueInBackground) {
             _,_,_,_ in
             cell.placeImage.sd_imageIndicator?.stopAnimatingIndicator()
-        }
+        }*/
         
         
         return cell

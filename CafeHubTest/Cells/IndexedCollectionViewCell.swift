@@ -41,6 +41,26 @@ class IndexedCollectionViewCell: UICollectionViewCell {
         
         titleLabel.textColor = .white
     }
+    
+    func configureCollectionViewCell(place: Cafe) {
+        imageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
+        imageView.sd_imageIndicator?.startAnimatingIndicator()
+        imageView.sd_setImage(with: URL(string: place.imageLink), placeholderImage: UIImage(named: "Cafe_Placeholder"), options: .continueInBackground) {
+            _,_,_,_ in
+            //self.spinner.stopAnimating()
+            //self.tableView.isHidden = false
+            self.imageView.sd_imageIndicator?.stopAnimatingIndicator()
+        }
+        
+        //TODO: add every label
+        imageView.backgroundColor = .gray
+        titleLabel.text = place.name
+        zipLabel.text = place.zip
+        
+        tagListView.addTag(place.type[0])
+        ratingView.rating = place.rating
+        matchLabel.text = "Match: \(place.calculateMatch())%"
+    }
 
     override func prepareForReuse() {
         tagListView.removeAllTags()

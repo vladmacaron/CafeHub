@@ -132,6 +132,8 @@ class MapViewController: UIViewController {
     
 }
 
+//MARK: - MapView Delegate
+
 extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
@@ -178,6 +180,8 @@ extension MapViewController: MKMapViewDelegate {
         self.present(secondViewController, animated: true)
     }
 }
+
+//MARK: - MapView map centering
 
 private extension MKMapView {
     func centerToLocation(_ location: CLLocation, regionRadius: CLLocationDistance = 1500) {

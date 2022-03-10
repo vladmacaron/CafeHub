@@ -36,6 +36,11 @@ class DetailedViewController: UIViewController {
         addressLabel.isUserInteractionEnabled = true
         addressLabel.addGestureRecognizer(tap)
         
+        configureView()
+    }
+    
+    func configureView() {
+        
         if let types = (defaults.array(forKey: "PlaceTypeList") as? [String]) {
             userTypes.append(contentsOf: types)
         }
@@ -49,7 +54,7 @@ class DetailedViewController: UIViewController {
         } else {
             self.mainImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
             self.mainImage.sd_imageIndicator?.startAnimatingIndicator()
-            self.mainImage.sd_setImage(with: URL(string: firebasePlace.imageLink), placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground) {
+            self.mainImage.sd_setImage(with: URL(string: firebasePlace.imageLink), placeholderImage: UIImage(named: "Cafe_Placeholder"), options: .continueInBackground) {
                 _,_,_,_ in
                 self.mainImage.sd_imageIndicator?.stopAnimatingIndicator()
             }
@@ -67,7 +72,6 @@ class DetailedViewController: UIViewController {
         } else {
             saveButton.setImage(UIImage(systemName: "heart"), for: .normal)
         }
-        
     }
     
     @IBAction func closeView(_ sender: UIButton) {

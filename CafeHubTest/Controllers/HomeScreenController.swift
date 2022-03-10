@@ -55,6 +55,7 @@ class HomeScreenController: UIViewController {
         //self.loadTrendingPlaces()
         //self.loadPlaces()
         self.loadData()
+        self.loadTrendingPlaces()
         self.loadSavedPlaces()
         self.loadBackgroundData()
         
@@ -119,8 +120,9 @@ class HomeScreenController: UIViewController {
             self.sortPlacesByLocation()
             self.tableView.reloadData()
         }
-        
-        //loading new/trending places
+    }
+    
+    func loadTrendingPlaces() {
         let trendingList = db.collection("categories").document("trending")
         trendingList.getDocument { document, err in
             if let document = document, document.exists {
@@ -170,14 +172,6 @@ class HomeScreenController: UIViewController {
                     
                 }
             }
-        
-        /*self.sharedPlaces.places.forEach { cafe in
-            if cafe.location == nil {
-                cafe.getCoordinate { locationCL, err in
-                    cafe.location = locationCL
-                }
-            }
-        }*/
     }
     
     func loadSavedPlaces() {
@@ -188,26 +182,18 @@ class HomeScreenController: UIViewController {
     
     func presentDetailedViewController(with data: Cafe, image: UIImage) {
         let secondViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailedViewController") as! DetailedViewController
-
+        
         //secondViewController.transitioningDelegate = self
-
+        secondViewController.sheetPresentationController?.detents = [.medium(), .large()]
         secondViewController.modalPresentationStyle = .popover
         secondViewController.firebasePlace = data
         secondViewController.placeImage = image
         present(secondViewController, animated: true)
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
+
+//MARK: - TableView Data Source
 
 extension HomeScreenController: UITableViewDataSource {
     
@@ -269,6 +255,8 @@ extension HomeScreenController: UITableViewDataSource {
         }
     }
 }
+
+//MARK: - TableView Delegate
 
 extension HomeScreenController: UITableViewDelegate {
     
@@ -352,6 +340,8 @@ extension HomeScreenController: UITableViewDelegate {
    
 }
 
+//MARK: - CollectionView Data Source
+
 extension HomeScreenController: UICollectionViewDataSource {
     
     func numberOfSections(in _: UICollectionView) -> Int {
@@ -377,41 +367,14 @@ extension HomeScreenController: UICollectionViewDataSource {
         
         let cafe = places[indexedCollectionView.indexPath.section][indexPath.row]
         
-        cell.imageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
-        cell.imageView.sd_imageIndicator?.startAnimatingIndicator()
-        //let imageRef = storage.reference(forURL: cafe.imageLink)
-        /*imageRef.downloadURL { url, err in
-            if let err = err {
-                print("Failed generating url: \(err)")
-            } else {
-                cell.imageView.sd_imageIndicator?.stopAnimatingIndicator()
-                cell.imageView.sd_setImage(with: url, placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground) {
-                    _,_,_,_ in
-                    //self.spinner.stopAnimating()
-                    //self.tableView.isHidden = false
-                }
-            }
-        }*/
-        cell.imageView.sd_setImage(with: URL(string: cafe.imageLink), placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground) {
-            _,_,_,_ in
-            //self.spinner.stopAnimating()
-            //self.tableView.isHidden = false
-            cell.imageView.sd_imageIndicator?.stopAnimatingIndicator()
-        }
-        
-        //TODO: add every label
-        cell.imageView.backgroundColor = .gray
-        cell.titleLabel.text = cafe.name
-        cell.zipLabel.text = cafe.zip
-        
-        cell.tagListView.addTag(cafe.type[0])
-        cell.ratingView.rating = cafe.rating
-        cell.matchLabel.text = "Match: \(cafe.calculateMatch())%"
+        cell.configureCollectionViewCell(place: cafe)
         
         return cell
     }
     
 }
+
+//MARK: - CollectionView Delegate FlowLayout
 
 extension HomeScreenController: UICollectionViewDelegateFlowLayout {
 
@@ -439,6 +402,8 @@ extension HomeScreenController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+//MARK: - CollectionView Delegate
+
 extension HomeScreenController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -449,6 +414,8 @@ extension HomeScreenController: UICollectionViewDelegate {
         presentDetailedViewController(with: places[indexedCollectionView.indexPath.section][indexPath.row], image: (selectedCell?.imageView.image)!)
     }
 }
+
+//MARK: - CLLocation Delegate
 
 extension HomeScreenController: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {

@@ -47,7 +47,6 @@ class PlaceTableViewCell: UITableViewCell {
     }
     
     func configureCellForSearchViewController(place: Cafe) {
-        //saveButton.setImage(UIImage(systemName: "heart"), for: .normal)
         saveButton.isHidden = true
         
         titleLabel.text = place.name
@@ -58,18 +57,21 @@ class PlaceTableViewCell: UITableViewCell {
         
         placeImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
         placeImage.sd_imageIndicator?.startAnimatingIndicator()
-        /*let imageRef = storage.reference(forURL: place.imageLink)
-        imageRef.downloadURL { url, err in
-            if let err = err {
-                print("Failed generating url: \(err)")
-            } else {
-                //if cell.tag == indexPath.row {
-                self.placeImage.sd_imageIndicator?.stopAnimatingIndicator()
-                self.placeImage.sd_setImage(with: url, placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground)
-                //}
-            }
-        }*/
-        placeImage.sd_setImage(with: URL(string: place.imageLink), placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground) {
+        placeImage.sd_setImage(with: URL(string: place.imageLink), placeholderImage: UIImage(named: "Cafe_Placeholder"), options: .continueInBackground) {
+            _,_,_,_ in
+            self.placeImage.sd_imageIndicator?.stopAnimatingIndicator()
+        }
+    }
+    
+    func configureCellforOnboardingController(place: Cafe) {
+        //saveButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        titleLabel.text = place.name
+        tagList.addTags(place.type)
+        zipLabel.text = place.zip
+        
+        placeImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
+        placeImage.sd_imageIndicator?.startAnimatingIndicator()
+        placeImage.sd_setImage(with: URL(string: place.imageLink), placeholderImage: UIImage(named: "Cafe_Placeholder"), options: .continueInBackground) {
             _,_,_,_ in
             self.placeImage.sd_imageIndicator?.stopAnimatingIndicator()
         }
@@ -84,18 +86,7 @@ class PlaceTableViewCell: UITableViewCell {
         
         placeImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
         placeImage.sd_imageIndicator?.startAnimatingIndicator()
-        /*let imageRef = storage.reference(forURL: place.imageLink!)
-        imageRef.downloadURL { url, err in
-            if let err = err {
-                print("Failed generating url: \(err)")
-            } else {
-                //if cell.tag == indexPath.row {
-                self.placeImage.sd_imageIndicator?.stopAnimatingIndicator()
-                self.placeImage.sd_setImage(with: url, placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground)
-                //}
-            }
-        }*/
-        placeImage.sd_setImage(with: URL(string: place.imageLink!), placeholderImage: UIImage(named: "Cafe_Menta_index"), options: .continueInBackground) {
+        placeImage.sd_setImage(with: URL(string: place.imageLink!), placeholderImage: UIImage(named: "Cafe_Placeholder"), options: .continueInBackground) {
             _,_,_,_ in
             self.placeImage.sd_imageIndicator?.stopAnimatingIndicator()
         }
