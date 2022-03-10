@@ -12,6 +12,7 @@ limits to the API and could not sometimes get timedout; Firebase free quota is o
 * **CoreData**: persistance storage of the saved places
 * **MapKit**: showing each place and short info about it on the Map Controller under Tab Bar. 
     Additionally for getting CLLocation out of the place address and calculating distance to the user location
+* Additionally database of places was scrapped from goodnight.at with the help of Octoparse
 
 # Functionality
 
