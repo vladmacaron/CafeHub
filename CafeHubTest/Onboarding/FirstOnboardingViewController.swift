@@ -206,38 +206,10 @@ extension FirstOnboardingViewController: UISearchBarDelegate {
             }
         }
         
-        /*if(searchText.isEmpty) {
-            filterPlacesNames = placesNames
-            //filterPlaces = initialPlaces
-            loadPlaces()
-            //self.tableView.reloadData()
-        } else {
-            filterPlacesNames = placesNames.filter({ (dataString: String) -> Bool in
-                if dataString.range(of: searchText, options: .caseInsensitive) != nil {
-                    return true
-                } else {
-                    return false
-                }
-            })
-            
-            if !filterPlacesNames.isEmpty {
-                db.collection("places").whereField("name", in: filterPlacesNames).getDocuments { (querySnapshot, err) in
-                    if let err = err {
-                        print("Error getting documents: \(err)")
-                    } else {
-                        self.filterPlaces.removeAll()
-                        for document in querySnapshot!.documents {
-                            let place = document.data()
-                            self.filterPlaces.append(Cafe(id: place["id"] as! Int16, name: place["name"] as! String, address: place["address"] as! String, zip: place["zip"] as! String, imageLink: place["imageLink"] as! String, type: place["type"] as! [String], rating: place["rating"] as! Double, openingHours: place["openingHours"] as! String))
-                            DispatchQueue.main.async {
-                                self.tableView.reloadData()
-                            }
-                        }
-                    }
-                }
-            }
-        }*/
-        
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
     
     func savePlace(place: Cafe) {
