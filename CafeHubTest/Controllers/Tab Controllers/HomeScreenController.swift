@@ -253,7 +253,7 @@ extension HomeScreenController: UITableViewDataSource {
     func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
-            return "New Places in the City:"
+            return "New Places:"
         case 1:
             return "You may like:"
         case 2:
